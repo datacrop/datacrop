@@ -99,7 +99,7 @@
   },"14": {
     "doc": "Home",
     "title": "Links:",
-    "content": ". | Contact DataCROP | Report Issues/Problems | DataCROP Forum | Website (under construction :construction:) | DataCROP@DockerHub | Stats@OpenHUB | . ",
+    "content": ". | Contact DataCROP | Report Issues/Problems | DataCROP Forum | Website (under construction) | DataCROP@DockerHub | Stats@OpenHUB | . ",
     "url": "/datacrop/home/#links",
     
     "relUrl": "/home/#links"
