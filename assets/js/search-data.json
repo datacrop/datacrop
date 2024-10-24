@@ -13,50 +13,50 @@
     
     "relUrl": "/Setup/"
   },"2": {
-    "doc": "1. Airflow Setup",
+    "doc": "2. Airflow Setup",
     "title": "DataCROP Maize Airflow Processing Engine Deployment",
     "content": "This is a demo deployment instance for the Maize DataCROP version. It deploys the Airflow web server responsible for managing tasks within the DataCROP Workflow Management Engine infrastructure. The deployment consists of six containers. ",
     "url": "/datacrop/airflow/#datacrop-maize-airflow-processing-engine-deployment",
     
     "relUrl": "/airflow/#datacrop-maize-airflow-processing-engine-deployment"
   },"3": {
-    "doc": "1. Airflow Setup",
+    "doc": "2. Airflow Setup",
     "title": "Overview",
     "content": "The DataCROP Maize Airflow Processing Engine is a critical component of the DataCROP Workflow Management Engine. This engine is responsible for orchestrating and managing the execution of various tasks (DAGs) within the DataCROP infrastructure, providing an interface to monitor and manage workflows through the Airflow webserver. ",
     "url": "/datacrop/airflow/#overview",
     
     "relUrl": "/airflow/#overview"
   },"4": {
-    "doc": "1. Airflow Setup",
+    "doc": "2. Airflow Setup",
     "title": "Requirements",
     "content": ". | Docker-CE | . ",
     "url": "/datacrop/airflow/#requirements",
     
     "relUrl": "/airflow/#requirements"
   },"5": {
-    "doc": "1. Airflow Setup",
+    "doc": "2. Airflow Setup",
     "title": "Prerequisites",
     "content": "Before proceeding with the deployment, make sure to complete the following steps: . | Update Configuration Files: . | .env File: . | Navigate to the .env file and update the following parameters: . | HOST_IP: Set this to the IP address of the host machine where the Airflow infrastructure is deployed. | CELERY_WEB_UNAME: Set this to your desired username for accessing the Celery Flower dashboard. | CELERY_WEB_PSSWD: Set this to your desired password for the Celery Flower dashboard. | . | . | Docker Compose File: . | Navigate to the docker-compose.yml file and update the following: . | In the extra_hosts section, change the IP address of remote_worker01 to the IP address of your remote worker machine. | If your worker has a different name, replace remote_worker01 with the correct name of your worker. | . | . | . | SSH Configuration: . | Ensure that SSH keys are generated on all machines that are part of this infrastructure. | Add the SSH keys from each machine to the authorized_keys file on all other machines in the infrastructure to allow passwordless SSH access. | . | . Once these steps are completed, you can proceed with the deployment process. Start The Application. | Navigate to the source directory containing the docker-compose.yml file. | Run the following command: . docker compose up -d . | . Verify that everything is up and running . Wait for the services to start, then run the following commands: . | Check if the container is running (change worker_name with the actual name that you specified in the .env file): . docker ps --filter name=airflow --format \"table {{.Image}}\\t{{.Names}}\" . You should see the following output: . IMAGE NAMES airflow-airflow-triggerer airflow-airflow-triggerer-1 airflow-airflow-webserver airflow-airflow-webserver-1 airflow-flower airflow-flower-1 airflow-airflow-scheduler airflow-airflow-scheduler-1 postgres:13 airflow-postgres-1 redis:7.2 airflow-redis-1 . | . Make Sure Everything Works . | Access the Flower Web App: . | Open a browser and navigate to http://{Your IP}:5555/workers. | Log in using the celery credentials you provided in the .env file. | After successful authentication, you should be redirected to the workers page, confirming that Celery was set up correctly. | . | Access the Airflow Web App: . | Open a browser and go to http://{Your IP}:8080/home. | Log in using the credentials provided by your organization for Airflow. | You should see all the available DAGs listed, confirming that your DAGs folder is properly configured. | . | . Stop everything. Navigate to the source directory and run the following command. docker-compose down . ",
     "url": "/datacrop/airflow/#prerequisites",
     
     "relUrl": "/airflow/#prerequisites"
   },"6": {
-    "doc": "1. Airflow Setup",
-    "title": "1. Airflow Setup",
+    "doc": "2. Airflow Setup",
+    "title": "2. Airflow Setup",
     "content": " ",
     "url": "/datacrop/airflow/",
     
     "relUrl": "/airflow/"
   },"7": {
-    "doc": "4. Workflow Editor Setup",
+    "doc": "5. Workflow Editor Setup",
     "title": "DataCROP Maize Workflow Management Editor Deployment",
     "content": "This is a demo deployment instance for the Maize DataCROP version. It deploys the DataCROP Workflow Management Engine web application for creating and managing workflows. The deployment consists of a single container. Prerequisites . Before proceeding, ensure you have completed the setup instructions for the Maize Model Repository. After completing the setup, follow these steps: . | Navigate to the .env file in the ui directory. | Update the file with the correct IP address of the host used for the model repository infrastructure by filling in the following parameters: . VITE_API_URL=http://&lt;YOUR_HOST_IP&gt;:9090 VITE_BACKEND_IP=&lt;YOUR_HOST_IP&gt; VITE_AIRFLOW_IP=&lt;YOUR_HOST_IP&gt; . Replace &lt;YOUR_HOST_IP&gt; with the actual IP address of the machine hosting your Maize Model Repository infrastructure. | . Once these parameters are correctly set, you can proceed with the deployment. REQUIREMENTS . | Docker-CE | . Start The Application. | Clone the repository and navigate to the source directory containing the docker-compose.yml file. | Run the following command: . docker compose up -d . | . Verify that everything is up and running . Wait for the services to start, then run the following commands: . | Check if the container is running: . docker ps --filter name=wme-ui --format \"table {{.Image}}\\t{{.Names}}\" . You should see the following output: . IMAGE NAMES node:lts-alpine wme-ui . | Check if the network is set up correctly: . docker network ls --filter name=\"maze-workflow-management-editor_wme-network\" --format \"table {{.Name}}\\t{{.Driver}}\\t{{.Scope}}\" . Ensure the output matches the following: . NAME DRIVER SCOPE maze-workflow-management-editor_wme-network bridge local . | . Make Sure Everything Works . | Open a browser and navigate to the web application. | You will be redirected to the Keycloak authentication page. Enter the credentials provided by your organization. | After successful authentication, you will be redirected to the main page of the workflow management engine, where you can begin creating and managing workflows. | . Stop everything. Navigate to the source directory and run the following command. docker-compose down . ",
     "url": "/datacrop/editor/#datacrop-maize-workflow-management-editor-deployment",
     
     "relUrl": "/editor/#datacrop-maize-workflow-management-editor-deployment"
   },"8": {
-    "doc": "4. Workflow Editor Setup",
-    "title": "4. Workflow Editor Setup",
+    "doc": "5. Workflow Editor Setup",
+    "title": "5. Workflow Editor Setup",
     "content": " ",
     "url": "/datacrop/editor/",
     
@@ -111,50 +111,78 @@
     
     "relUrl": "/home/"
   },"16": {
-    "doc": "3. Model Repository Setup",
+    "doc": "1. Keycloak Setup",
+    "title": "Keycloak Authentication Setup",
+    "content": "This page will guide you through the steps required to set up Keycloak for the entire service. You will need to configure three Keycloak clients: one for the frontend, one for the backend, and one for the wrapper. Ensure you have administrator access to Keycloak to follow these steps. ",
+    "url": "/datacrop/keycloak/#keycloak-authentication-setup",
+    
+    "relUrl": "/keycloak/#keycloak-authentication-setup"
+  },"17": {
+    "doc": "1. Keycloak Setup",
+    "title": "Prerequisites",
+    "content": "Before starting, ensure you have: . | Access to the Keycloak Administrator UI. | Administrator privileges to create and configure realms, clients, and roles. | . ",
+    "url": "/datacrop/keycloak/#prerequisites",
+    
+    "relUrl": "/keycloak/#prerequisites"
+  },"18": {
+    "doc": "1. Keycloak Setup",
+    "title": "Steps",
+    "content": "1. Log in as an Administrator . | Access your Keycloak instance through the administrator URL. | Log in using your administrator credentials. | . 2. Create a New Realm . | In the Keycloak UI, select Add Realm. | Provide a name for your realm (e.g., my-realm). | Save the new realm. | . 3. Configure the Frontend Client . | Create a Client: . | Navigate to Clients &gt; Create. | Name the client (e.g., frontend-client). | In the Root URL, Admin URL, and Base URL, replace the IP 195.201.222.205 with your own machine’s IP: \"rootUrl\": \"http://YOUR_IP\", \"adminUrl\": \"http://YOUR_IP\", \"baseUrl\": \"http://YOUR_IP\", . | Update the Redirect URIs: \"redirectUris\": [ \"http://YOUR_IP:5173/MainPage\", \"http://YOUR_IP:5173/login\", \"http://YOUR_IP:5173/*\", \"http://YOUR_IP:5114/*\", \"http://YOUR_IP:5173/MainPage/Lab\" ] . | Update the Web Origins: \"webOrigins\": [ \"/*\", \"http://YOUR_IP:5173\", \"http://YOUR_IP:5173/*\", \"http://YOUR_IP:5114/*\" ] . | For Post Logout Redirect URIs, use: \"post.logout.redirect.uris\": \"http://YOUR_IP:5173/*##http://YOUR_IP:5173/login##http://YOUR_IP:5114/*\" . | . | Configure Client Settings: . | Disable Client Authentication and Authorization. | Enable Standard Flow and Direct Access Grants. | . | Assign Roles: . | Go to the Roles tab and add admin and user roles. | . | Create a Frontend-Dedicated Client Scope: . | Navigate to Client Scopes and ensure there is a frontend-dedicated scope. | . | . 4. Configure the Backend Client . | Create a Client: . | Name the client (e.g., backend-client). | In the Authenticator Type, choose Client-Secret. | Save the generated secret for later use. | . | Configure URLs: . | Set the following URLs for the backend: \"rootUrl\": \"http://YOUR_IP:9090\", \"adminUrl\": \"\", \"baseUrl\": \"http://YOUR_IP:9090\", \"redirectUris\": [ \"http://YOUR_IP:9090/*\" ], \"webOrigins\": [ \"\" ] . | . | Configure Client Settings: . | Enable Client Authentication and Authorization. | Enable Standard Flow, Implicit Flow, and Direct Access Grants. | . | Assign Roles: . | Go to the Roles tab and add admin and user roles. | . | Create a Backend-Dedicated Client Scope: . | Navigate to Client Scopes and ensure there is a backend-dedicated scope. | . | . 5. Configure the Wrapper Client . | Create a Client: . | Name the client (e.g., wrapper-client). | No need to configure any URLs for this client. | . | Configure Client Settings: . | Enable Client Authentication. | Enable Standard Flow, Direct Access Grants, and Service Accounts Roles. | . | Assign Roles: . | Add admin roles to the client. | . | Create a Wrapper-Dedicated Client Scope: . | Ensure there is a wrapper-dedicated client scope. | . | . 6. Configure Realm Roles . | Verify Default Roles: . | Go to the Roles section of the realm. | Ensure that there is a role named default-roles. | . | . 7. Create the Admins Group . | Create a Group: . | Navigate to the Groups section. | Create a group named admins. | . | Assign Roles to the Admins Group: . | In the Role Mappings tab of the group, assign roles related to the frontend and backend services. | . | . 8. Create Users and Assign Roles . | Create a User: . | Navigate to the Users section. | Create a new user, providing the required information. | . | Set Password: . | After creating the user, navigate to the Credentials tab. | Set a password for the user. | . | Assign Roles to the User: . | In the Role Mappings tab of the user, assign the default-roles role. | . | Add User to Admins Group: . | Go to the Groups tab and make the user join the admins group. | . | . 9. Adjust Realm Settings . | Session and Token Settings: . | Navigate to the Realm Settings section. | Adjust session duration settings and token settings according to the service’s security requirements. | . | . Final Steps . | After configuring all clients, ensure that each client is properly assigned its dedicated scope and roles. | You can verify the configuration by testing the login and authentication flows for the frontend, backend, and wrapper components. | . ",
+    "url": "/datacrop/keycloak/#steps",
+    
+    "relUrl": "/keycloak/#steps"
+  },"19": {
+    "doc": "1. Keycloak Setup",
+    "title": "1. Keycloak Setup",
+    "content": " ",
+    "url": "/datacrop/keycloak/",
+    
+    "relUrl": "/keycloak/"
+  },"20": {
+    "doc": "4. Model Repository Setup",
     "title": "DataCROP Maize Model Repository Deployment",
     "content": "This is a demo deployment instance for the Maize DataCROP version. It deploys the DataCROP Model Repository infrastructure, consisting of two containers. Requirements . | Docker-CE | . Prerequisites . Before proceeding, make sure you have completed the following steps: . | Airflow Setup: . | Ensure that you have followed the setup instructions for both the Airflow Processing Engine and the Processing Engine Worker. These components need to be properly configured and running before deploying the Maize DataCROP Model Repository. | . | Configuration Adjustments: . | Clone the repository and navigate to the application.properties file and review the following parameters. Adjust them as necessary to match your environment: . | VM.wme.ip: Set the IP address of the WME (Workflow Management Engine). | VM.worker.ip: Set the IP address of the Processing Engine Worker. | remote.host.wme: Specify the remote host address for the WME. | remote.host.worker: Specify the remote host address for the Processing Engine Worker. | webserver.dags.folder: Path to the DAGs folder on the web server. | worker.dags.folder: Path to the DAGs folder on the worker. | spring.data.mongodb.host: Specify the IP adress of the machine that hosts mongodb. | spring.kafka.bootstrap-servers: Specify the IP adress of the kafka bootstrap server. | . | Also, it’s recommended to review the docker-compose.yml file. Modify any parameters as needed to ensure compatibility with your specific setup. | . | SSH Key Configuration: . | Make sure that all the machines participating in this infrastructure have SSH keys generated. Each machine should have the public SSH keys of all other machines added to its ~/.ssh/authorized_keys file. This is essential for secure and seamless communication between the components. | . | . Once these prerequisites are met, you can proceed with the deployment steps. Starting the Application . | Navigate to the source directory containing the Dockerfile and docker-compose.yml files. | Run the following commands: . docker build -t wme . docker compose up -d . | . Verifying the Deployment . Wait for the services to start, then run the following commands: . | Check if the WME container is running: . docker ps --filter name=wme-container --format \"table {{.Image}}\\t{{.Names}}\" . You should see the following output: . IMAGE NAMES wme wme-container . | Check if the MongoDB container is running: . docker ps --filter name=mongo --format \"table {{.Image}}\\t{{.Names}}\" . You should see the following output: . IMAGE NAMES mongo:latest mongodb-container . | . Stopping the Application . To stop the containers, run the following command: . docker-compose down . Clean everything up. Run the following command (at your own risk). docker-compose down --volumes --remove-orphans . ",
     "url": "/datacrop/model-repo/#datacrop-maize-model-repository-deployment",
     
     "relUrl": "/model-repo/#datacrop-maize-model-repository-deployment"
-  },"17": {
-    "doc": "3. Model Repository Setup",
-    "title": "3. Model Repository Setup",
+  },"21": {
+    "doc": "4. Model Repository Setup",
+    "title": "4. Model Repository Setup",
     "content": " ",
     "url": "/datacrop/model-repo/",
     
     "relUrl": "/model-repo/"
-  },"18": {
-    "doc": "2. Worker Setup",
+  },"22": {
+    "doc": "3. Worker Setup",
     "title": "DataCROP Maize Processing Engine Worker Deployment",
     "content": "This is a demo deployment instance for the Maize DataCROP version. It deploys a Worker responsible for handling tasks within the DataCROP Workflow Management Engine. The deployment consists of a single container. ",
     "url": "/datacrop/worker/#datacrop-maize-processing-engine-worker-deployment",
     
     "relUrl": "/worker/#datacrop-maize-processing-engine-worker-deployment"
-  },"19": {
-    "doc": "2. Worker Setup",
+  },"23": {
+    "doc": "3. Worker Setup",
     "title": "Overview",
     "content": "The deployment utilizes Apache Airflow and CeleryExecutor for distributed task execution within the DataCROP system. Below is an explanation of the different components and configurations defined in the docker-compose.yml file. ",
     "url": "/datacrop/worker/#overview",
     
     "relUrl": "/worker/#overview"
-  },"20": {
-    "doc": "2. Worker Setup",
+  },"24": {
+    "doc": "3. Worker Setup",
     "title": "Airflow Worker Setup",
     "content": ". | The airflow-worker service is set up using Airflow’s CeleryExecutor to manage distributed task execution. | The worker communicates with: . | Redis: Used as the message broker for Celery. | PostgreSQL: Used as the backend for storing task results. | . | . ",
     "url": "/datacrop/worker/#airflow-worker-setup",
     
     "relUrl": "/worker/#airflow-worker-setup"
-  },"21": {
-    "doc": "2. Worker Setup",
+  },"25": {
+    "doc": "3. Worker Setup",
     "title": "Volumes",
     "content": "The following directories are mounted into the Airflow worker container to persist data and provide necessary resources: . | DAGs: Task definitions are stored in the ./dags folder. | Logs: Logs generated by Airflow are stored in the ./logs folder. | Data: Input and output data for tasks are stored in the ./data folder. | Models: Model data is stored in the ./models folder. | Plugins: Airflow plugins can be added via the ./plugins folder. | .env: The .env file is used to handle dynamic environment variables. | . REQUIREMENTS . | Docker-CE | . PREREQUISITES . Before proceeding, ensure that you have followed the setup instructions for the airflow processing engine. | Clone the repository and navigate to the .env file and ensure that all necessary environment variables are set correctly for your deployment. The most important variables to update are: . | WORKER_NAME: The display name of your worker. | AIRFLOW_IP: The IP address of the host running Airflow. | HOST_IP: The IP address of the host machine. | . Make sure to review and adjust any other variables in the .env file based on your specific setup. | Open the docker-compose.yml file and locate the airflow-worker section. Under the extra_hosts field, update the following IP addresses: . | Redis: Set the correct IP address for your Redis instance. | PostgreSQL: Set the correct IP address for your PostgreSQL database. | . These changes are necessary to ensure proper communication between the Airflow worker, Redis, and PostgreSQL services. | . Start The Application. | Navigate to the source directory containing the docker-compose.yml file. | Run the following command: . docker compose up -d . | . Verify that everything is up and running . Wait for the services to start, then run the following commands: . | Check if the container is running (change worker_name with the actual name that you specified in the .env file): . docker ps --filter name=[worker_name] --format \"table {{.Image}}\\t{{.Names}}\" . You should see the following output: . IMAGE NAMES [worker_name]-airflow-worker [worker_name] . | . Make Sure Everything Works . | Open a browser and navigate to the flower web app (http://{Your IP}:5555/workers). | Enter the credentials provided by your organization for celery. | After successful authentication, you will be redirected to the workers page, where the newly created worker should appear in the workers table. If its status is marked as online, the setup was completed successfully. | . Stop everything. Navigate to the source directory and run the following command. docker-compose down . ",
     "url": "/datacrop/worker/#volumes",
     
     "relUrl": "/worker/#volumes"
-  },"22": {
-    "doc": "2. Worker Setup",
-    "title": "2. Worker Setup",
+  },"26": {
+    "doc": "3. Worker Setup",
+    "title": "3. Worker Setup",
     "content": " ",
     "url": "/datacrop/worker/",
     
