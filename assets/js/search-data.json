@@ -139,22 +139,22 @@
     
     "relUrl": "/editor/"
   },"20": {
-    "doc": "1. Overview",
+    "doc": "1. Getting Started",
     "title": "Getting Started",
     "content": " ",
     "url": "/overview/#getting-started",
     
     "relUrl": "/overview/#getting-started"
   },"21": {
-    "doc": "1. Overview",
+    "doc": "1. Getting Started",
     "title": "Accessing the Workflow Editor",
     "content": "To access the Workflow Editor, you need to log in using Keycloak. You can authenticate in one of two ways: . | Using credentials you already have. | Using Single Sign-On (SSO) with your GitHub account. | . ",
     "url": "/overview/#accessing-the-workflow-editor",
     
     "relUrl": "/overview/#accessing-the-workflow-editor"
   },"22": {
-    "doc": "1. Overview",
-    "title": "1. Overview",
+    "doc": "1. Getting Started",
+    "title": "1. Getting Started",
     "content": " ",
     "url": "/overview/",
     
