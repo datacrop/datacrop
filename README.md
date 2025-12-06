@@ -5,9 +5,9 @@
 ### Static Site Generation
 ![Jekyll](https://img.shields.io/badge/Jekyll-4.3+-CC0000?style=for-the-badge&logo=jekyll&logoColor=white)
 ![Just the Docs](https://img.shields.io/badge/Theme-Just_the_Docs-0D2538?style=for-the-badge)
+![Ruby](https://img.shields.io/badge/Ruby-3.3+-CC342D?style=for-the-badge&logo=ruby&logoColor=white)
 
 ### Language & Tooling
-![Ruby](https://img.shields.io/badge/Ruby-3.3+-CC342D?style=for-the-badge&logo=ruby&logoColor=white)
 ![Vue.js](https://img.shields.io/badge/Frontend-Vue.js-42b883?style=for-the-badge&logo=vuedotjs&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Backend-Spring_Boot-6db33f?style=for-the-badge&logo=springboot&logoColor=white)
 
