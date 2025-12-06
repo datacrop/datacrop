@@ -11,7 +11,7 @@
  AIRFLOW_FERNET_KEY=[REDACTED – keep existing value in your .env]
 
  # HOST              ||  DC.C
- HOST_IP=167.235.128.77
+ HOST_IP=&lt;HOST_IP&gt;
  # WORKER_NAME=worker01
 
  # REDIS             ||  DC.C
@@ -36,8 +36,8 @@
  CELERY_FLOWER_KEY=/security/flower/flower-key.pem
  CELERY_FLOWER_CA_CERT=/security/ca/rootCA.pem
 
- REMOTE_WORKER_NAME=remote_worker01
- REMOTE_WORKER_IP=167.235.128.77
+ REMOTE_WORKER_NAME=&lt;REMOTE_WORKER_NAME&gt;
+ REMOTE_WORKER_IP=&lt;REMOTE_WORKER_IP&gt;
 </code></pre></div> </div> <p>Sensitive secrets are redacted above; ensure your <code class="language-plaintext highlighter-rouge">.env</code> retains the real values currently configured.</p> </li> </ol> <p>Once these parameters are correctly set, you can proceed with the deployment.</p> <h3 id="start-the-application"> <a href="#start-the-application" class="anchor-heading" aria-labelledby="start-the-application"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Start The Application. </h3> <ol> <li>Navigate to the source directory containing the <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file.</li> <li> <p>Run the following command:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker compose up <span class="nt">-d</span>
 </code></pre></div> </div> </li> </ol> <h3 id="verify-that-everything-is-up-and-running"> <a href="#verify-that-everything-is-up-and-running" class="anchor-heading" aria-labelledby="verify-that-everything-is-up-and-running"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Verify that everything is up and running </h3> <p>Wait for the services to start, then run the following commands:</p> <ul> <li> <p>Check if the container is running (change <code class="language-plaintext highlighter-rouge">worker_name</code> with the actual name that you specified in the .env file):</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  docker ps <span class="nt">--filter</span> <span class="nv">name</span><span class="o">=</span>airflow <span class="nt">--format</span> <span class="s2">"table {{.Image}}</span><span class="se">\t</span><span class="s2">{{.Names}}"</span>
 </code></pre></div> </div> <p>You should see the following output:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  IMAGE                            NAMES

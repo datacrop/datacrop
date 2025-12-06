@@ -6,12 +6,12 @@
  # Workflow Management Engine
  VM_WME_IP=&lt;YOUR_IP&gt;
  VM_WORKER_IP=&lt;YOUR_IP&gt;
- WEBSERVER_DAGS_FOLDER=/home/itampaki/maze-processing-engine-airflow/dags
+ WEBSERVER_DAGS_FOLDER=/path/to/maze-processing-engine-airflow/dags
  WORKER_API_PORT=8090
 
  # Harbor
- HARBOR_URL=harbor.modul4r.rid-intrasoft.eu/
- HARBOR_USERNAME=giannistbsnet
+ HARBOR_URL=harbor.example.com/
+ HARBOR_USERNAME=&lt;HARBOR_USERNAME&gt;
  HARBOR_TOKEN=[REDACTED – keep existing value in your .env]
 
  # MongoDB
@@ -21,25 +21,25 @@
  MONGO_PASSWORD=[REDACTED – keep existing value in your .env]
  MONGO_DATABASE=registry
  MONGO_PORT=27017
- MONGO_HOST=167.235.128.77
+ MONGO_HOST=&lt;MONGO_HOST&gt;
 
  # Kafka
  KAFKA_ENABLED=false
- KAFKA_BOOTSTRAP_SERVERS=167.235.128.77:9092
+ KAFKA_BOOTSTRAP_SERVERS=&lt;KAFKA_BOOTSTRAP_SERVERS&gt;
 
  # Logstash
  LOGSTASH_CONFIG_FOLDER=/app/logstash/config/
  LOGSTASH_PIPELINE_FOLDER=/app/logstash/pipeline/
 
  # Keycloak
- KEYCLOAK_ISSUER_URI=https://keycloak.modul4r.rid-intrasoft.eu/realms/MODUL4R-Platform
- KEYCLOAK_PROVIDER=MODUL4R-Platform
- KEYCLOAK_CLIENT_NAME=modul4r-back
- KEYCLOAK_CLIENT_ID=modul4r-back
+ KEYCLOAK_ISSUER_URI=https://keycloak.example.com/realms/YOUR-REALM
+ KEYCLOAK_PROVIDER=&lt;KEYCLOAK_PROVIDER&gt;
+ KEYCLOAK_CLIENT_NAME=&lt;KEYCLOAK_CLIENT_NAME&gt;
+ KEYCLOAK_CLIENT_ID=&lt;KEYCLOAK_CLIENT_ID&gt;
  KEYCLOAK_CLIENT_SECRET=[REDACTED – keep existing value in your .env]
  KEYCLOAK_SCOPE=openid,offline_access,profile,roles
  KEYCLOAK_USER_NAME_ATTR=preferred_username
- KEYCLOAK_JWK_SET_URI=https://keycloak.modul4r.rid-intrasoft.eu/realms/MODUL4R-Platform/protocol/openid-connect/certs
+ KEYCLOAK_JWK_SET_URI=https://keycloak.example.com/realms/YOUR-REALM/protocol/openid-connect/certs
 
  # Elastic Stack
  ELASTIC_VERSION=8.15.3
@@ -53,8 +53,8 @@
  BEATS_SYSTEM_PASSWORD=[REDACTED – keep existing value in your .env]
 
  # Airflow (WME integration)
- AIRFLOW_BASE_URL=http://167.235.128.77:8080/api/v1
- AIRFLOW_USERNAME=airflow
+ AIRFLOW_BASE_URL=http://&lt;AIRFLOW_HOST&gt;:8080/api/v1
+ AIRFLOW_USERNAME=&lt;AIRFLOW_USERNAME&gt;
  AIRFLOW_PASSWORD=[REDACTED – keep existing value in your .env]
 </code></pre></div> </div> <p>Sensitive secrets are redacted above; ensure your <code class="language-plaintext highlighter-rouge">.env</code> retains the real values currently configured.</p> </li> </ol> <p>Once these parameters are correctly set, you can proceed with the deployment.</p> <ol> <li><strong>Configuration Adjustments</strong>: <ul> <li>Clone the repository and navigate to the <a href="maize-model-repository/model-repository-server/src/main/resources/application.properties">application.properties</a> file and review the following parameters. Adjust them as necessary to match your environment: <ul> <li><code class="language-plaintext highlighter-rouge">VM.wme.ip</code>: Set the IP address of the WME (Workflow Management Engine).</li> <li><code class="language-plaintext highlighter-rouge">VM.worker.ip</code>: Set the IP address of the Processing Engine Worker.</li> <li><code class="language-plaintext highlighter-rouge">remote.host.wme</code>: Specify the remote host address for the WME.</li> <li><code class="language-plaintext highlighter-rouge">remote.host.worker</code>: Specify the remote host address for the Processing Engine Worker.</li> <li><code class="language-plaintext highlighter-rouge">webserver.dags.folder</code>: Path to the DAGs folder on the web server.</li> <li><code class="language-plaintext highlighter-rouge">worker.dags.folder</code>: Path to the DAGs folder on the worker.</li> <li><code class="language-plaintext highlighter-rouge">spring.data.mongodb.host</code>: Specify the IP address of the machine that hosts mongodb.</li> <li><code class="language-plaintext highlighter-rouge">spring.kafka.bootstrap-servers</code>: Specify the IP address of the kafka bootstrap server.</li> </ul> </li> <li>Also, it’s recommended to review the <a href="maize-model-repository/docker-compose.yml">docker-compose.yml</a> file. Modify any parameters as needed to ensure compatibility with your specific setup.</li> </ul> </li> <li><strong>SSH Key Configuration</strong>: <ul> <li>Make sure that all the machines participating in this infrastructure have SSH keys generated. Each machine should have the public SSH keys of all other machines added to its <code class="language-plaintext highlighter-rouge">~/.ssh/authorized_keys</code> file. This is essential for secure and seamless communication between the components.</li> </ul> </li> </ol> <p>Once these prerequisites are met, you can proceed with the deployment steps.</p> <h3 id="starting-the-application"> <a href="#starting-the-application" class="anchor-heading" aria-labelledby="starting-the-application"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Starting the Application </h3> <ol> <li>Navigate to the source directory containing the <code class="language-plaintext highlighter-rouge">Dockerfile</code> and <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> files.</li> <li> <p>Run the following commands:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker build <span class="nt">-t</span> wme <span class="nb">.</span>
     
