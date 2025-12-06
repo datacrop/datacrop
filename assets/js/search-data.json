@@ -1,359 +1,359 @@
 {"0": {
-    "doc": "Maize Setup",
-    "title": "DataCROP Maize Workflow Management Engine Deployment",
-    "content": "This is a demo deployment instance for the Maize DataCROP version . In the sections below, you will find detailed instructions on setting up the various components of the DataCROP Maize system. It is important to follow the deployment steps in the order presented to ensure proper integration. Start with the DataCROP Maize Airflow Processing Engine, which manages workflow tasks, followed by the Processing Engine Worker, responsible for executing these tasks. Afterward, deploy the Model Repository, which provides the infrastructure for managing models. Finally, set up the Workflow Management Editor, which allows you to create and manage workflows through the web application. ",
-    "url": "/Setup/#datacrop-maize-workflow-management-engine-deployment",
-    
-    "relUrl": "/Setup/#datacrop-maize-workflow-management-engine-deployment"
-  },"1": {
-    "doc": "Maize Setup",
-    "title": "Maize Setup",
-    "content": " ",
-    "url": "/Setup/",
-    
-    "relUrl": "/Setup/"
-  },"2": {
-    "doc": "4. Airflow",
-    "title": "Airflow",
-    "content": ". For all the workflows we create, two DAGs (Directed Acyclic Graphs) are generated in Airflow: . | Deployment DAG: Responsible for deploying all the processors in the workflow. | Undeployment DAG: Responsible for undeploying all the processors in the workflow. | . This is why there is an Airflow icon in the sidebar, which contains an iframe that takes you directly to the Airflow web page. Additionally, each workflow in the Lab page has an Airflow tab to inspect the corresponding Airflow DAG. ",
-    "url": "/airflow-note/#airflow",
-    
-    "relUrl": "/airflow-note/#airflow"
-  },"3": {
-    "doc": "4. Airflow",
-    "title": "4. Airflow",
-    "content": " ",
-    "url": "/airflow-note/",
-    
-    "relUrl": "/airflow-note/"
-  },"4": {
     "doc": "2. Airflow Setup",
     "title": "DataCROP Maize Airflow Processing Engine Deployment",
     "content": "This is a demo deployment instance for the Maize DataCROP version. It deploys the Airflow web server responsible for managing tasks within the DataCROP Workflow Management Engine infrastructure. The deployment consists of six containers. ",
     "url": "/airflow/#datacrop-maize-airflow-processing-engine-deployment",
     
     "relUrl": "/airflow/#datacrop-maize-airflow-processing-engine-deployment"
-  },"5": {
+  },"1": {
     "doc": "2. Airflow Setup",
     "title": "Overview",
     "content": "The DataCROP Maize Airflow Processing Engine is a critical component of the DataCROP Workflow Management Engine. This engine is responsible for orchestrating and managing the execution of various tasks (DAGs) within the DataCROP infrastructure, providing an interface to monitor and manage workflows through the Airflow webserver. ",
     "url": "/airflow/#overview",
     
     "relUrl": "/airflow/#overview"
-  },"6": {
+  },"2": {
     "doc": "2. Airflow Setup",
     "title": "Requirements",
     "content": ". | Docker-CE | . ",
     "url": "/airflow/#requirements",
     
     "relUrl": "/airflow/#requirements"
-  },"7": {
+  },"3": {
     "doc": "2. Airflow Setup",
     "title": "Prerequisites",
     "content": "Before proceeding with the deployment, make sure to complete the following steps: . After completing the setup, follow these steps to configure your environment variables: . | Navigate to the .env file and ensure that all necessary environment variables are set correctly for your deployment. Current values from maze-processing-engine-airflow/.env are shown below; sensitive secrets are redacted—keep using the real values already present in your .env. # AIRFLOW USERS || DC.C AIRFLOW_UID=1002 DOCKER_GID=988 AIRFLOW_WEB_PORT=8080 AIRFLOW_WWW_UNAME_USERNAME='airflow' AIRFLOW_WEB_PSSWD=[REDACTED – keep existing value in your .env] AIRFLOW_WEB_SSL_CERT=/security/airflow/airflow.pem AIRFLOW_WEB_SSL_KEY=/security/airflow/airflow-key.pem AIRFLOW_CA_CERT=/security/ca/rootCA.pem AIRFLOW_WEB_SECRET_KEY=[REDACTED – keep existing value in your .env] AIRFLOW_FERNET_KEY=[REDACTED – keep existing value in your .env] # HOST || DC.C HOST_IP=&lt;HOST_IP&gt; # WORKER_NAME=worker01 # REDIS || DC.C REDIS_TLS_PORT=6379 REDIS_TLS_CERT_FILE=/security/redis/redis.pem REDIS_TLS_KEY_FILE=/security/redis/redis-key.pem REDIS_TLS_CA_CERT_FILE=/security/ca/rootCA.pem REDIS_TLS_CLIENT_CERT_FILE=/security/redis/redis-client.pem REDIS_TLS_CLIENT_KEY_FILE=/security/redis/redis-client-key.pem # POSTGRES || DC.C POSTGRES_PORT=5432 POSTGRES_SSL_CERT_FILE=/security/postgres/postgres.pem POSTGRES_SSL_KEY_FILE=/security/postgres/postgres-key.pem POSTGRES_SSL_CA_FILE=/security/ca/rootCA.pem # Celery || DC.C CELERY_WEB_UNAME=[REDACTED – keep existing value in your .env] CELERY_WEB_PSSWD=[REDACTED – keep existing value in your .env] CELERY_FLOWER_PORT=5555 CELERY_FLOWER_CERT=/security/flower/flower.pem CELERY_FLOWER_KEY=/security/flower/flower-key.pem CELERY_FLOWER_CA_CERT=/security/ca/rootCA.pem REMOTE_WORKER_NAME=&lt;REMOTE_WORKER_NAME&gt; REMOTE_WORKER_IP=&lt;REMOTE_WORKER_IP&gt; . Sensitive secrets are redacted above; ensure your .env retains the real values currently configured. | . Once these parameters are correctly set, you can proceed with the deployment. Start The Application. | Navigate to the source directory containing the docker-compose.yml file. | Run the following command: . docker compose up -d . | . Verify that everything is up and running . Wait for the services to start, then run the following commands: . | Check if the container is running (change worker_name with the actual name that you specified in the .env file): . docker ps --filter name=airflow --format \"table {{.Image}}\\t{{.Names}}\" . You should see the following output: . IMAGE NAMES airflow-airflow-triggerer airflow-airflow-triggerer-1 airflow-airflow-webserver airflow-airflow-webserver-1 airflow-flower airflow-flower-1 airflow-airflow-scheduler airflow-airflow-scheduler-1 postgres:13 airflow-postgres-1 redis:7.2 airflow-redis-1 . | . Make Sure Everything Works . | Access the Flower Web App: . | Open a browser and navigate to http://{Your IP}:5555/workers. | Log in using the celery credentials you provided in the .env file. | After successful authentication, you should be redirected to the workers page, confirming that Celery was set up correctly. | . | Access the Airflow Web App: . | Open a browser and go to http://{Your IP}:8080/home. | Log in using the credentials provided by your organization for Airflow. | You should see all the available DAGs listed, confirming that your DAGs folder is properly configured. | . | . Stop everything. Navigate to the source directory and run the following command. docker-compose down . ",
     "url": "/airflow/#prerequisites",
     
     "relUrl": "/airflow/#prerequisites"
-  },"8": {
+  },"4": {
     "doc": "2. Airflow Setup",
     "title": "2. Airflow Setup",
     "content": " ",
     "url": "/airflow/",
     
     "relUrl": "/airflow/"
-  },"9": {
-    "doc": "2. Creating Data Models",
-    "title": "Creating Data Models",
-    "content": " ",
-    "url": "/creating-data-models/#creating-data-models",
-    
-    "relUrl": "/creating-data-models/#creating-data-models"
-  },"10": {
-    "doc": "2. Creating Data Models",
-    "title": "Warehouse Tab",
-    "content": "My Workflows . Description: This section displays a list of workflows you have created. Features: . | View Workflows: Browse your existing workflows. | Create Workflow: Redirects you to the Lab tab for creating a new workflow. | . My Digital Resources . Description: The Digital Resource entity represents the instantiation of a data source within the system. Purpose: Provides a context and connection interface for accessing and utilizing data. Key Attributes: . | assetID: Identifies the asset. | dataKindID: Links to the type of data the resource manages. | . Functionality: Links physical or digital assets to their operational data within DataCROP. My Workers . Description: This section allows you to view and create worker assets. Purpose: Worker assets are responsible for executing processors within workflows. Features: . | Define worker specifications. | Assign workers to processors for deployment. | . My Data Kinds . Description: The Data Kind entity defines the type of data managed in the system. Purpose: Provides metadata about data structure, format, and type. Key Attributes: . | modelType: Specifies the data’s structural type (e.g., simple or complex). | format: Indicates the format (e.g., JSON, XML). | quantityKind: Defines whether the data is quantitative or qualitative. | . Functionality: Facilitates precise processing and analysis of data. ",
-    "url": "/creating-data-models/#warehouse-tab",
-    
-    "relUrl": "/creating-data-models/#warehouse-tab"
-  },"11": {
-    "doc": "2. Creating Data Models",
-    "title": "2. Creating Data Models",
-    "content": " ",
-    "url": "/creating-data-models/",
-    
-    "relUrl": "/creating-data-models/"
-  },"12": {
-    "doc": "3. Creating Workflows",
-    "title": "Creating Workflows",
-    "content": " ",
-    "url": "/creating-workflows/#creating-workflows",
-    
-    "relUrl": "/creating-workflows/#creating-workflows"
-  },"13": {
-    "doc": "3. Creating Workflows",
-    "title": "Lab Tab",
-    "content": "Creating Workflows . Workflow Specifications Page . Overview: The starting point for creating workflows. Workflow Specifications: . | Name | Description | Configuration: Define the DAG (Directed Acyclic Graph) that represents the workflow in Airflow. | . Flow Creator . Overview: An interactive interface for designing workflows using nodes and edges. Features: . | Add Node: Use the “Add Node” button to add processors to your workflow. | View Workflow: Nodes are displayed in a 2D representation and can be connected using edges. | . Processors . Processor Configuration . | Define the Processor Type and it’s parameters. | Choose a Worker for deployment. | Assign Data Input and Data Output using digital resources. | . Note: Before creating a processor in the Flow Creator, ensure that you have already created the data models you plan to use with it. This includes the worker asset and the digital resources that will represent the data input and output you plan to add. Basic Processor Types Supported: . | Streamhandler: Deploys a full Kafka cluster. | Logstash: Creates a pipeline that transfers data from one digital resource to another. | Kibana: Creates a Logstash pipeline that takes input from a digital resource and transfers it to Elasticsearch for visualization through the workflow editor. | Logstash -&gt; Observation: Creates a Logstash pipeline that takes data from the input digital resource, converts it into an observation, and saves it in a predefined collection. | . ",
-    "url": "/creating-workflows/#lab-tab",
-    
-    "relUrl": "/creating-workflows/#lab-tab"
-  },"14": {
-    "doc": "3. Creating Workflows",
-    "title": "3. Creating Workflows",
-    "content": " ",
-    "url": "/creating-workflows/",
-    
-    "relUrl": "/creating-workflows/"
-  },"15": {
-    "doc": "Developer Guide",
-    "title": "DataCROP Maize Workflow Management Engine Developer Guide",
-    "content": " ",
-    "url": "/dev-guide/#datacrop-maize-workflow-management-engine-developer-guide",
-    
-    "relUrl": "/dev-guide/#datacrop-maize-workflow-management-engine-developer-guide"
-  },"16": {
-    "doc": "Developer Guide",
-    "title": "Overview",
-    "content": "The Workflow Management Engine application is designed to facilitate efficient creation and management of workflows through four primary tabs in the sidebar: Warehouse, Lab, Airflow, and Kibana. Each tab serves a distinct purpose within the application. | Warehouse: A repository for creating and managing the data models that are used in workflows. | Lab: A dedicated space for designing and configuring workflows, leveraging the data models from the Warehouse. | Airflow: For monitoring the deployment of components. | Kibana: For data visualization. | . ",
-    "url": "/dev-guide/#overview",
-    
-    "relUrl": "/dev-guide/#overview"
-  },"17": {
-    "doc": "Developer Guide",
-    "title": "Developer Guide",
-    "content": " ",
-    "url": "/dev-guide/",
-    
-    "relUrl": "/dev-guide/"
-  },"18": {
+  },"5": {
     "doc": "5. Workflow Editor Setup",
     "title": "DataCROP Maize Workflow Management Editor Deployment",
     "content": "This is a demo deployment instance for the Maize DataCROP version. It deploys the DataCROP Workflow Management Engine web application for creating and managing workflows. The deployment consists of a single container. Prerequisites . Before proceeding, ensure you have completed the setup instructions for the Maize Model Repository. After completing the setup, follow these steps to configure your environment variables: . | Navigate to the .env file in the ui directory. | Update the file with the correct values for your infrastructure. Current values from maze-workflow-management-editor/.env are: . VITE_API_URL=http://167.235.128.77:9090 VITE_BACKEND_IP=167.235.128.77 VITE_AIRFLOW_IP=167.235.128.77 VITE_KEYCLOAK_URL=https://keycloak.modul4r.rid-intrasoft.eu/ VITE_KEYCLOAK_REALM=MODUL4R-Platform VITE_KEYCLOAK_CLIENT_ID=modul4r-front VITE_PROJECT_NAME=MODUL4R VITE_DEFAULT_PRIMARY_COLOR=#DA3333 . Adjust the above values only if your deployment differs (e.g., different host IP or Keycloak realm). No secrets are stored in this file. | . Once these parameters are correctly set, you can proceed with the deployment. REQUIREMENTS . | Docker-CE | . Start The Application. | Clone the repository and navigate to the source directory containing the docker-compose.yml file. | Run the following command: . docker compose up -d . | . Verify that everything is up and running . Wait for the services to start, then run the following commands: . | Check if the container is running: . docker ps --filter name=wme-ui --format \"table {{.Image}}\\t{{.Names}}\" . You should see the following output: . IMAGE NAMES node:lts-alpine wme-ui . | Check if the network is set up correctly: . docker network ls --filter name=\"maze-workflow-management-editor_wme-network\" --format \"table {{.Name}}\\t{{.Driver}}\\t{{.Scope}}\" . Ensure the output matches the following: . NAME DRIVER SCOPE maze-workflow-management-editor_wme-network bridge local . | . Make Sure Everything Works . | Open a browser and navigate to the web application. | You will be redirected to the Keycloak authentication page. Enter the credentials provided by your organization. | After successful authentication, you will be redirected to the main page of the workflow management engine, where you can begin creating and managing workflows. | . Stop everything. Navigate to the source directory and run the following command. docker-compose down . ",
     "url": "/editor/#datacrop-maize-workflow-management-editor-deployment",
     
     "relUrl": "/editor/#datacrop-maize-workflow-management-editor-deployment"
-  },"19": {
+  },"6": {
     "doc": "5. Workflow Editor Setup",
     "title": "5. Workflow Editor Setup",
     "content": " ",
     "url": "/editor/",
     
     "relUrl": "/editor/"
-  },"20": {
-    "doc": "Home",
-    "title": "DataCROP™ Information",
-    "content": "DataCROP™ (Data Collection Routing &amp; Processing) is a Data collection framework which provides the specifications and relevant implementation to enable a real time data collection, transformation, filtering, and management service to facilitate data consumers (i.e., analytic algorithms). The framework can be applied in IoT environments supporting solutions in various domains (e.g., Industrial, Cybersecurity, etch.). For example, the solution may be used to collect security related data (e.g., network, system, solution proprietary, etch.) from monitored IoT systems and store them to detect patterns of abnormal behaviour by applying simple (i.e., filtering and pre-processing) or more elaborated mechanisms (i.e., AI algorithms). The design of the framework is driven by configurability, extensibility, dynamic setup, stream handling capabilities and Blockchain (Ledger) support. One of the key features of the framework is that it is detached from the underlying infrastructure by employing a specialized data model for modelling the solution’s Data Sources, Processors and Results which facilitates the data interoperability discoverability and configurability of the offered solution. ",
-    "url": "/home/#datacrop-information",
+  },"7": {
+    "doc": "Maize Setup",
+    "title": "DataCROP Maize Workflow Management Engine Deployment",
+    "content": "This is a demo deployment instance for the Maize DataCROP version . In the sections below, you will find detailed instructions on setting up the various components of the DataCROP Maize system. It is important to follow the deployment steps in the order presented to ensure proper integration. Start with the DataCROP Maize Airflow Processing Engine, which manages workflow tasks, followed by the Processing Engine Worker, responsible for executing these tasks. Afterward, deploy the Model Repository, which provides the infrastructure for managing models. Finally, set up the Workflow Management Editor, which allows you to create and manage workflows through the web application. ",
+    "url": "/Setup/#datacrop-maize-workflow-management-engine-deployment",
     
-    "relUrl": "/home/#datacrop-information"
-  },"21": {
-    "doc": "Home",
-    "title": "Demonstrator",
-    "content": "A DataCROP™ Farro version demo infrastracture instance, which can be deployed locally, can be found at the farro-demo-deployment-scripts repository. ",
-    "url": "/home/#demonstrator",
-    
-    "relUrl": "/home/#demonstrator"
-  },"22": {
-    "doc": "Home",
-    "title": "Technologies/Framework",
-    "content": "DataCROP has been developed and applied in various iterations, within the context of various EU projects, with different dependencies . DataCROP™ Barley (v1.0) Outcome of FAR-EDGE EU Project . | MongoDB | Apache Kafka (Inter-Data Bus) | RabitMQ (Data Input interface) | Kafka Streams (Stream Processing) | NodeJS (Component Implementation) | React (UI) | Hyperledger Fabric (optional Blockchain support) | . DataCROP™ Farro (v2.0) Outcome of Barley version and PROPHESY EU project . | MongoDB | Apache Kafka (Inter-Data Bus communication &amp; input/output interface) | RabbitMQ (Data Input interface) | Algorithms: ** Java Algorithms (Qarma) ** Python Algorithms (RUL feature extraction &amp; Health Index Calculation) ** R Algorithms | NodeJS (Component Implementation) | React (UI) | . DataCROP™ Maize :corn: (V3.0) - (under construction :construction:) Outcome of Farro version and SecureIoT, IoTAC EU projects . | MongoDB | Apache Kafka (Inter-Data Bus) | ELK Stack | Additional to be included as developments evolves | . ",
-    "url": "/home/#technologiesframework",
-    
-    "relUrl": "/home/#technologiesframework"
-  },"23": {
-    "doc": "Home",
-    "title": "Maturity Level / Active years",
-    "content": "V1.0 - TRL 6 Designed/Developed and demonstrated under the FAR-EDGE (2016-2019) project . V2.0 - TRL6 Designed/Developed and demonstrated under the H2020 PROPHESY (2017-2020) project. Demonstrated under the QU4LITY (2019-2022) project . V3.0 – TRL4 (Under design/Development) Designed/Developed under the SecureIoT (2018-2021) project, IoTAC (2020-2023), STAR (2020-2023) . ",
-    "url": "/home/#maturity-level--active-years",
-    
-    "relUrl": "/home/#maturity-level--active-years"
-  },"24": {
-    "doc": "Home",
-    "title": "Future/ Interest Steps",
-    "content": ". | Intergrade the design/data models/components into one platform/infrastructure independent solution. | Support additional data collection, data processing and data offering services. | Offer an intuitive and user-friendly configuration toolbox (UI). | Offer data visualization mechanisms (UI). | Blockchain (Hyperledger Fabric) integration supporting the configurations and results of the solution. | . ",
-    "url": "/home/#future-interest-steps",
-    
-    "relUrl": "/home/#future-interest-steps"
-  },"25": {
-    "doc": "Home",
-    "title": "Links:",
-    "content": ". | Contact DataCROP | Report Issues/Problems | DataCROP Forum | Website (under construction) | DataCROP@DockerHub | Stats@OpenHUB | . ",
-    "url": "/home/#links",
-    
-    "relUrl": "/home/#links"
-  },"26": {
-    "doc": "Home",
-    "title": "Home",
+    "relUrl": "/Setup/#datacrop-maize-workflow-management-engine-deployment"
+  },"8": {
+    "doc": "Maize Setup",
+    "title": "Maize Setup",
     "content": " ",
-    "url": "/home/",
+    "url": "/Setup/",
     
-    "relUrl": "/home/"
-  },"27": {
-    "doc": "Index",
-    "title": "DataCROP™ Information",
-    "content": "DataCROP™ (Data Collection Routing &amp; Processing) is a Data collection framework which provides the specifications and relevant implementation to enable a real time data collection, transformation, filtering, and management service to facilitate data consumers (i.e., analytic algorithms). The framework can be applied in IoT environments supporting solutions in various domains (e.g., Industrial, Cybersecurity, etch.). For example, the solution may be used to collect security related data (e.g., network, system, solution proprietary, etch.) from monitored IoT systems and store them to detect patterns of abnormal behaviour by applying simple (i.e., filtering and pre-processing) or more elaborated mechanisms (i.e., AI algorithms). The design of the framework is driven by configurability, extensibility, dynamic setup, stream handling capabilities and Blockchain (Ledger) support. One of the key features of the framework is that it is detached from the underlying infrastructure by employing a specialized data model for modelling the solution’s Data Sources, Processors and Results which facilitates the data interoperability discoverability and configurability of the offered solution. ",
-    "url": "/#datacrop-information",
-    
-    "relUrl": "/#datacrop-information"
-  },"28": {
-    "doc": "Index",
-    "title": "Demonstrator",
-    "content": "A DataCROP™ Farro version demo infrastracture instance, which can be deployed locally, can be found at the farro-demo-deployment-scripts repository. ",
-    "url": "/#demonstrator",
-    
-    "relUrl": "/#demonstrator"
-  },"29": {
-    "doc": "Index",
-    "title": "Technologies/Framework",
-    "content": "DataCROP has been developed and applied in various iterations, within the context of various EU projects, with different dependencies . DataCROP™ Barley (v1.0) Outcome of FAR-EDGE EU Project . | MongoDB | Apache Kafka (Inter-Data Bus) | RabitMQ (Data Input interface) | Kafka Streams (Stream Processing) | NodeJS (Component Implementation) | React (UI) | Hyperledger Fabric (optional Blockchain support) | . DataCROP™ Farro (v2.0) Outcome of Barley version and PROPHESY EU project . | MongoDB | Apache Kafka (Inter-Data Bus communication &amp; input/output interface) | RabbitMQ (Data Input interface) | Algorithms: ** Java Algorithms (Qarma) ** Python Algorithms (RUL feature extraction &amp; Health Index Calculation) ** R Algorithms | NodeJS (Component Implementation) | React (UI) | . DataCROP™ Maize :corn: (V3.0) - (under construction :construction:) Outcome of Farro version and SecureIoT, IoTAC EU projects . | MongoDB | Apache Kafka (Inter-Data Bus) | ELK Stack | Additional to be included as developments evolves | . ",
-    "url": "/#technologiesframework",
-    
-    "relUrl": "/#technologiesframework"
-  },"30": {
-    "doc": "Index",
-    "title": "Maturity Level / Active years",
-    "content": "V1.0 - TRL 6 Designed/Developed and demonstrated under the FAR-EDGE (2016-2019) project . V2.0 - TRL6 Designed/Developed and demonstrated under the H2020 PROPHESY (2017-2020) project. Demonstrated under the QU4LITY (2019-2022) project . V3.0 – TRL4 (Under design/Development) Designed/Developed under the SecureIoT (2018-2021) project, IoTAC (2020-2023), STAR (2020-2023) . ",
-    "url": "/#maturity-level--active-years",
-    
-    "relUrl": "/#maturity-level--active-years"
-  },"31": {
-    "doc": "Index",
-    "title": "Future/ Interest Steps",
-    "content": ". | Intergrade the design/data models/components into one platform/infrastructure independent solution. | Support additional data collection, data processing and data offering services. | Offer an intuitive and user-friendly configuration toolbox (UI). | Offer data visualization mechanisms (UI). | Blockchain (Hyperledger Fabric) integration supporting the configurations and results of the solution. | . ",
-    "url": "/#future-interest-steps",
-    
-    "relUrl": "/#future-interest-steps"
-  },"32": {
-    "doc": "Index",
-    "title": "Links:",
-    "content": ". | Contact DataCROP | Report Issues/Problems | DataCROP Forum | Website (under construction :construction:) | DataCROP@DockerHub | Stats@OpenHUB | . ",
-    "url": "/#links",
-    
-    "relUrl": "/#links"
-  },"33": {
-    "doc": "Index",
-    "title": "Index",
-    "content": " ",
-    "url": "/",
-    
-    "relUrl": "/"
-  },"34": {
+    "relUrl": "/Setup/"
+  },"9": {
     "doc": "1. Keycloak Setup",
     "title": "Keycloak Authentication Setup",
     "content": "This page will guide you through the steps required to set up Keycloak for the entire service. You will need to configure three Keycloak clients: one for the frontend, one for the backend, and one for the wrapper. Ensure you have administrator access to Keycloak to follow these steps. ",
     "url": "/keycloak/#keycloak-authentication-setup",
     
     "relUrl": "/keycloak/#keycloak-authentication-setup"
-  },"35": {
+  },"10": {
     "doc": "1. Keycloak Setup",
     "title": "Prerequisites",
     "content": "Before starting, ensure you have: . | Access to the Keycloak Administrator UI. | Administrator privileges to create and configure realms, clients, and roles. | . ",
     "url": "/keycloak/#prerequisites",
     
     "relUrl": "/keycloak/#prerequisites"
-  },"36": {
+  },"11": {
     "doc": "1. Keycloak Setup",
     "title": "Steps",
     "content": "1. Log in as an Administrator . | Access your Keycloak instance through the administrator URL. | Log in using your administrator credentials. | . 2. Create a New Realm . | In the Keycloak UI, select Add Realm. | Provide a name for your realm (e.g., my-realm). | Save the new realm. | . 3. Configure the Frontend Client . | Create a Client: . | Navigate to Clients &gt; Create. | Name the client (e.g., frontend-client). | In the Root URL, Admin URL, and Base URL, replace the IP 195.201.222.205 with your own machine’s IP: \"rootUrl\": \"http://YOUR_IP\", \"adminUrl\": \"http://YOUR_IP\", \"baseUrl\": \"http://YOUR_IP\", . | Update the Redirect URIs: \"redirectUris\": [ \"http://YOUR_IP:5173/MainPage\", \"http://YOUR_IP:5173/login\", \"http://YOUR_IP:5173/*\", \"http://YOUR_IP:5114/*\", \"http://YOUR_IP:5173/MainPage/Lab\" ] . | Update the Web Origins: \"webOrigins\": [ \"/*\", \"http://YOUR_IP:5173\", \"http://YOUR_IP:5173/*\", \"http://YOUR_IP:5114/*\" ] . | For Post Logout Redirect URIs, use: \"post.logout.redirect.uris\": \"http://YOUR_IP:5173/*##http://YOUR_IP:5173/login##http://YOUR_IP:5114/*\" . | . | Configure Client Settings: . | Disable Client Authentication and Authorization. | Enable Standard Flow and Direct Access Grants. | . | Assign Roles: . | Go to the Roles tab and add admin and user roles. | . | Create a Frontend-Dedicated Client Scope: . | Navigate to Client Scopes and ensure there is a frontend-dedicated scope. | . | . 4. Configure the Backend Client . | Create a Client: . | Name the client (e.g., backend-client). | In the Authenticator Type, choose Client-Secret. | Save the generated secret for later use. | . | Configure URLs: . | Set the following URLs for the backend: \"rootUrl\": \"http://YOUR_IP:9090\", \"adminUrl\": \"\", \"baseUrl\": \"http://YOUR_IP:9090\", \"redirectUris\": [ \"http://YOUR_IP:9090/*\" ], \"webOrigins\": [ \"\" ] . | . | Configure Client Settings: . | Enable Client Authentication and Authorization. | Enable Standard Flow, Implicit Flow, and Direct Access Grants. | . | Assign Roles: . | Go to the Roles tab and add admin and user roles. | . | Create a Backend-Dedicated Client Scope: . | Navigate to Client Scopes and ensure there is a backend-dedicated scope. | . | . 5. Configure the Wrapper Client . | Create a Client: . | Name the client (e.g., wrapper-client). | No need to configure any URLs for this client. | . | Configure Client Settings: . | Enable Client Authentication. | Enable Standard Flow, Direct Access Grants, and Service Accounts Roles. | . | Assign Roles: . | Add admin roles to the client. | . | Create a Wrapper-Dedicated Client Scope: . | Ensure there is a wrapper-dedicated client scope. | . | . 6. Configure Realm Roles . | Verify Default Roles: . | Go to the Roles section of the realm. | Ensure that there is a role named default-roles. | . | . 7. Create the Admins Group . | Create a Group: . | Navigate to the Groups section. | Create a group named admins. | . | Assign Roles to the Admins Group: . | In the Role Mappings tab of the group, assign roles related to the frontend and backend services. | . | . 8. Create Users and Assign Roles . | Create a User: . | Navigate to the Users section. | Create a new user, providing the required information. | . | Set Password: . | After creating the user, navigate to the Credentials tab. | Set a password for the user. | . | Assign Roles to the User: . | In the Role Mappings tab of the user, assign the default-roles role. | . | Add User to Admins Group: . | Go to the Groups tab and make the user join the admins group. | . | . 9. Adjust Realm Settings . | Session and Token Settings: . | Navigate to the Realm Settings section. | Adjust session duration settings and token settings according to the service’s security requirements. | . | . Final Steps . | After configuring all clients, ensure that each client is properly assigned its dedicated scope and roles. | You can verify the configuration by testing the login and authentication flows for the frontend, backend, and wrapper components. | . ",
     "url": "/keycloak/#steps",
     
     "relUrl": "/keycloak/#steps"
-  },"37": {
+  },"12": {
     "doc": "1. Keycloak Setup",
     "title": "1. Keycloak Setup",
     "content": " ",
     "url": "/keycloak/",
     
     "relUrl": "/keycloak/"
-  },"38": {
+  },"13": {
     "doc": "4. Model Repository Setup",
     "title": "DataCROP Maize Model Repository Deployment",
     "content": "This is a demo deployment instance for the Maize DataCROP version. It deploys the DataCROP Model Repository infrastructure, consisting of two containers. Requirements . | Docker-CE | . Prerequisites . Before proceeding, make sure you have completed the following steps: . | Airflow Setup: . | Ensure that you have followed the setup instructions for both the Airflow Processing Engine and the Processing Engine Worker. These components need to be properly configured and running before deploying the Maize DataCROP Model Repository. | . | . After completing the setup, follow these steps to configure your environment variables: . | Navigate to your environment variable file (e.g., .env or the relevant configuration file for your deployment). | Update the file with the correct values for your infrastructure. Below are the current values from maize-model-repository/.env and docker-compose.yml; sensitive secrets are redacted—keep using the real values already present in your .env. # Application SERVER_PORT=9090 MAX_FILE_SIZE=200MB MAX_REQUEST_SIZE=500MB # Workflow Management Engine VM_WME_IP=&lt;YOUR_IP&gt; VM_WORKER_IP=&lt;YOUR_IP&gt; WEBSERVER_DAGS_FOLDER=/path/to/maze-processing-engine-airflow/dags WORKER_API_PORT=8090 # Harbor HARBOR_URL=harbor.example.com/ HARBOR_USERNAME=&lt;HARBOR_USERNAME&gt; HARBOR_TOKEN=[REDACTED – keep existing value in your .env] # MongoDB MONGO_INITDB_ROOT_USERNAME=root MONGO_INITDB_ROOT_PASSWORD=[REDACTED – keep existing value in your .env] MONGO_USERNAME=root MONGO_PASSWORD=[REDACTED – keep existing value in your .env] MONGO_DATABASE=registry MONGO_PORT=27017 MONGO_HOST=&lt;MONGO_HOST&gt; # Kafka KAFKA_ENABLED=false KAFKA_BOOTSTRAP_SERVERS=&lt;KAFKA_BOOTSTRAP_SERVERS&gt; # Logstash LOGSTASH_CONFIG_FOLDER=/app/logstash/config/ LOGSTASH_PIPELINE_FOLDER=/app/logstash/pipeline/ # Keycloak KEYCLOAK_ISSUER_URI=https://keycloak.example.com/realms/YOUR-REALM KEYCLOAK_PROVIDER=&lt;KEYCLOAK_PROVIDER&gt; KEYCLOAK_CLIENT_NAME=&lt;KEYCLOAK_CLIENT_NAME&gt; KEYCLOAK_CLIENT_ID=&lt;KEYCLOAK_CLIENT_ID&gt; KEYCLOAK_CLIENT_SECRET=[REDACTED – keep existing value in your .env] KEYCLOAK_SCOPE=openid,offline_access,profile,roles KEYCLOAK_USER_NAME_ATTR=preferred_username KEYCLOAK_JWK_SET_URI=https://keycloak.example.com/realms/YOUR-REALM/protocol/openid-connect/certs # Elastic Stack ELASTIC_VERSION=8.15.3 ELASTIC_PASSWORD=[REDACTED – keep existing value in your .env] LOGSTASH_INTERNAL_PASSWORD=[REDACTED – keep existing value in your .env] KIBANA_SYSTEM_PASSWORD=[REDACTED – keep existing value in your .env] METRICBEAT_INTERNAL_PASSWORD=[REDACTED – keep existing value in your .env] FILEBEAT_INTERNAL_PASSWORD=[REDACTED – keep existing value in your .env] HEARTBEAT_INTERNAL_PASSWORD=[REDACTED – keep existing value in your .env] MONITORING_INTERNAL_PASSWORD=[REDACTED – keep existing value in your .env] BEATS_SYSTEM_PASSWORD=[REDACTED – keep existing value in your .env] # Airflow (WME integration) AIRFLOW_BASE_URL=http://&lt;AIRFLOW_HOST&gt;:8080/api/v1 AIRFLOW_USERNAME=&lt;AIRFLOW_USERNAME&gt; AIRFLOW_PASSWORD=[REDACTED – keep existing value in your .env] . Sensitive secrets are redacted above; ensure your .env retains the real values currently configured. | . Once these parameters are correctly set, you can proceed with the deployment. | Configuration Adjustments: . | Clone the repository and navigate to the application.properties file and review the following parameters. Adjust them as necessary to match your environment: . | VM.wme.ip: Set the IP address of the WME (Workflow Management Engine). | VM.worker.ip: Set the IP address of the Processing Engine Worker. | remote.host.wme: Specify the remote host address for the WME. | remote.host.worker: Specify the remote host address for the Processing Engine Worker. | webserver.dags.folder: Path to the DAGs folder on the web server. | worker.dags.folder: Path to the DAGs folder on the worker. | spring.data.mongodb.host: Specify the IP address of the machine that hosts mongodb. | spring.kafka.bootstrap-servers: Specify the IP address of the kafka bootstrap server. | . | Also, it’s recommended to review the docker-compose.yml file. Modify any parameters as needed to ensure compatibility with your specific setup. | . | SSH Key Configuration: . | Make sure that all the machines participating in this infrastructure have SSH keys generated. Each machine should have the public SSH keys of all other machines added to its ~/.ssh/authorized_keys file. This is essential for secure and seamless communication between the components. | . | . Once these prerequisites are met, you can proceed with the deployment steps. Starting the Application . | Navigate to the source directory containing the Dockerfile and docker-compose.yml files. | Run the following commands: . docker build -t wme . docker compose up -d . | . Verifying the Deployment . Wait for the services to start, then run the following commands: . | Check if the WME container is running: . docker ps --filter name=wme-container --format \"table {{.Image}}\\t{{.Names}}\" . You should see the following output: . IMAGE NAMES wme wme-container . | Check if the MongoDB container is running: . docker ps --filter name=mongo --format \"table {{.Image}}\\t{{.Names}}\" . You should see the following output: . IMAGE NAMES mongo:latest mongodb-container . | . Stopping the Application . To stop the containers, run the following command: . docker-compose down . Clean everything up. Run the following command (at your own risk). docker-compose down --volumes --remove-orphans . ",
     "url": "/model-repo/#datacrop-maize-model-repository-deployment",
     
     "relUrl": "/model-repo/#datacrop-maize-model-repository-deployment"
-  },"39": {
+  },"14": {
     "doc": "4. Model Repository Setup",
     "title": "4. Model Repository Setup",
     "content": " ",
     "url": "/model-repo/",
     
     "relUrl": "/model-repo/"
-  },"40": {
-    "doc": "1. Getting Started",
-    "title": "Getting Started",
-    "content": " ",
-    "url": "/overview/#getting-started",
-    
-    "relUrl": "/overview/#getting-started"
-  },"41": {
-    "doc": "1. Getting Started",
-    "title": "Accessing the Workflow Editor",
-    "content": "To access the Workflow Editor, you need to log in using Keycloak. You can authenticate in one of two ways: . | Using credentials you already have. | Using Single Sign-On (SSO) with your GitHub account. | . ",
-    "url": "/overview/#accessing-the-workflow-editor",
-    
-    "relUrl": "/overview/#accessing-the-workflow-editor"
-  },"42": {
-    "doc": "1. Getting Started",
-    "title": "1. Getting Started",
-    "content": " ",
-    "url": "/overview/",
-    
-    "relUrl": "/overview/"
-  },"43": {
-    "doc": "User Guide",
-    "title": "DataCROP Maize Workflow Management Engine User Guide",
-    "content": " ",
-    "url": "/user-guide/#datacrop-maize-workflow-management-engine-user-guide",
-    
-    "relUrl": "/user-guide/#datacrop-maize-workflow-management-engine-user-guide"
-  },"44": {
-    "doc": "User Guide",
-    "title": "Overview",
-    "content": "The Workflow Management Engine application is designed to facilitate efficient creation and management of workflows through four primary tabs in the sidebar: Warehouse, Lab, Airflow, and Kibana. Each tab serves a distinct purpose within the application. | Warehouse: A repository for creating and managing the data models that are used in workflows. | Lab: A dedicated space for designing and configuring workflows, leveraging the data models from the Warehouse. | Airflow: For monitoring the deployment of components. | Kibana: For data visualization. | . ",
-    "url": "/user-guide/#overview",
-    
-    "relUrl": "/user-guide/#overview"
-  },"45": {
-    "doc": "User Guide",
-    "title": "User Guide",
-    "content": " ",
-    "url": "/user-guide/",
-    
-    "relUrl": "/user-guide/"
-  },"46": {
+  },"15": {
     "doc": "3. Worker Setup",
     "title": "DataCROP Maize Processing Engine Worker Deployment",
     "content": "This is a demo deployment instance for the Maize DataCROP version. It deploys a Worker responsible for handling tasks within the DataCROP Workflow Management Engine. The deployment consists of a single container. ",
     "url": "/worker/#datacrop-maize-processing-engine-worker-deployment",
     
     "relUrl": "/worker/#datacrop-maize-processing-engine-worker-deployment"
-  },"47": {
+  },"16": {
     "doc": "3. Worker Setup",
     "title": "Overview",
     "content": "The deployment utilizes Apache Airflow and CeleryExecutor for distributed task execution within the DataCROP system. Below is an explanation of the different components and configurations defined in the docker-compose.yml file. ",
     "url": "/worker/#overview",
     
     "relUrl": "/worker/#overview"
-  },"48": {
+  },"17": {
     "doc": "3. Worker Setup",
     "title": "Airflow Worker Setup",
     "content": ". | The airflow-worker service is set up using Airflow’s CeleryExecutor to manage distributed task execution. | The worker communicates with: . | Redis: Used as the message broker for Celery. | PostgreSQL: Used as the backend for storing task results. | . | . ",
     "url": "/worker/#airflow-worker-setup",
     
     "relUrl": "/worker/#airflow-worker-setup"
-  },"49": {
+  },"18": {
     "doc": "3. Worker Setup",
     "title": "Volumes",
     "content": "The following directories are mounted into the Airflow worker container to persist data and provide necessary resources: . | DAGs: Task definitions are stored in the ./dags folder. | Logs: Logs generated by Airflow are stored in the ./logs folder. | Data: Input and output data for tasks are stored in the ./data folder. | Models: Model data is stored in the ./models folder. | Plugins: Airflow plugins can be added via the ./plugins folder. | .env: The .env file is used to handle dynamic environment variables. | . REQUIREMENTS . | Docker-CE | . PREREQUISITES . Before proceeding, ensure that you have followed the setup instructions for the airflow processing engine. After completing the setup, follow these steps to configure your environment variables: . | Navigate to the .env file and ensure that all necessary environment variables are set correctly for your deployment. Current values from maze-processing-engine-worker/.env are shown below; sensitive secrets are redacted—keep using the real values already present in your .env. # HOST || DC.C AIRFLOW_IP=&lt;AIRFLOW_HOST_IP&gt; AIRFLOW_WEB_SECRET_KEY=[REDACTED – keep existing value in your .env] AIRFLOW_FERNET_KEY=[REDACTED – keep existing value in your .env] HOST_IP=&lt;WORKER_HOST_IP&gt; _PIP_ADDITIONAL_REQUIREMENTS='' AIRFLOW_UID=1002 AIRFLOW_GID=0 # WORKER || DC.W WORKER_NAME=&lt;WORKER_NAME&gt; WORKER_SSL_KEY_FILE=/security/${WORKER_NAME}/${WORKER_NAME}-key.pem WORKER_SSL_CERT_FILE=/security/${WORKER_NAME}/${WORKER_NAME}.pem WORKER_SSL_CERT_STORE=/security/ca/rootCA.pem # Please check the GID of the docker group on the host DOCKER_GID=988 # REDIS || DC.C REDIS_TLS_PORT=6379 REDIS_TLS_CERT_FILE=/security/redis/redis.pem REDIS_TLS_KEY_FILE=/security/redis/redis-key.pem REDIS_TLS_CA_CERT_FILE=/security/ca/rootCA.pem REDIS_TLS_CLIENT_CERT_FILE=/security/redis/redis-client.pem REDIS_TLS_CLIENT_KEY_FILE=/security/redis/redis-client-key.pem # CELERY || DC.C CELERY_WEB_UNAME=[REDACTED – keep existing value in your .env] CELERY_WEB_PSSWD=[REDACTED – keep existing value in your .env] . Adjust only if your deployment differs (e.g., different IPs or worker name); do not publish or rotate the redacted secrets already set in your .env. | . Once these parameters are correctly set, you can proceed with the deployment. Start The Application. | Navigate to the source directory containing the docker-compose.yml file. | Run the following command: . docker compose up -d . | . Verify that everything is up and running . Wait for the services to start, then run the following commands: . | Check if the container is running (change worker_name with the actual name that you specified in the .env file): . docker ps --filter name=[worker_name] --format \"table {{.Image}}\\t{{.Names}}\" . You should see the following output: . IMAGE NAMES [worker_name]-airflow-worker [worker_name] . | . Make Sure Everything Works . | Open a browser and navigate to the flower web app (http://{Your IP}:5555/workers). | Enter the credentials provided by your organization for celery. | After successful authentication, you will be redirected to the workers page, where the newly created worker should appear in the workers table. If its status is marked as online, the setup was completed successfully. | . Stop everything. Navigate to the source directory and run the following command. docker-compose down . ",
     "url": "/worker/#volumes",
     
     "relUrl": "/worker/#volumes"
-  },"50": {
+  },"19": {
     "doc": "3. Worker Setup",
     "title": "3. Worker Setup",
     "content": " ",
     "url": "/worker/",
     
     "relUrl": "/worker/"
+  },"20": {
+    "doc": "Developer Guide",
+    "title": "DataCROP Maize Workflow Management Engine Developer Guide",
+    "content": " ",
+    "url": "/dev-guide/#datacrop-maize-workflow-management-engine-developer-guide",
+    
+    "relUrl": "/dev-guide/#datacrop-maize-workflow-management-engine-developer-guide"
+  },"21": {
+    "doc": "Developer Guide",
+    "title": "Overview",
+    "content": "The Workflow Management Engine application is designed to facilitate efficient creation and management of workflows through four primary tabs in the sidebar: Warehouse, Lab, Airflow, and Kibana. Each tab serves a distinct purpose within the application. | Warehouse: A repository for creating and managing the data models that are used in workflows. | Lab: A dedicated space for designing and configuring workflows, leveraging the data models from the Warehouse. | Airflow: For monitoring the deployment of components. | Kibana: For data visualization. | . ",
+    "url": "/dev-guide/#overview",
+    
+    "relUrl": "/dev-guide/#overview"
+  },"22": {
+    "doc": "Developer Guide",
+    "title": "Developer Guide",
+    "content": " ",
+    "url": "/dev-guide/",
+    
+    "relUrl": "/dev-guide/"
+  },"23": {
+    "doc": "Home",
+    "title": "DataCROP™ Information",
+    "content": "DataCROP™ (Data Collection Routing &amp; Processing) is a Data collection framework which provides the specifications and relevant implementation to enable a real time data collection, transformation, filtering, and management service to facilitate data consumers (i.e., analytic algorithms). The framework can be applied in IoT environments supporting solutions in various domains (e.g., Industrial, Cybersecurity, etch.). For example, the solution may be used to collect security related data (e.g., network, system, solution proprietary, etch.) from monitored IoT systems and store them to detect patterns of abnormal behaviour by applying simple (i.e., filtering and pre-processing) or more elaborated mechanisms (i.e., AI algorithms). The design of the framework is driven by configurability, extensibility, dynamic setup, stream handling capabilities and Blockchain (Ledger) support. One of the key features of the framework is that it is detached from the underlying infrastructure by employing a specialized data model for modelling the solution’s Data Sources, Processors and Results which facilitates the data interoperability discoverability and configurability of the offered solution. ",
+    "url": "/home/#datacrop-information",
+    
+    "relUrl": "/home/#datacrop-information"
+  },"24": {
+    "doc": "Home",
+    "title": "Demonstrator",
+    "content": "A DataCROP™ Farro version demo infrastracture instance, which can be deployed locally, can be found at the farro-demo-deployment-scripts repository. ",
+    "url": "/home/#demonstrator",
+    
+    "relUrl": "/home/#demonstrator"
+  },"25": {
+    "doc": "Home",
+    "title": "Technologies/Framework",
+    "content": "DataCROP has been developed and applied in various iterations, within the context of various EU projects, with different dependencies . DataCROP™ Barley (v1.0) Outcome of FAR-EDGE EU Project . | MongoDB | Apache Kafka (Inter-Data Bus) | RabitMQ (Data Input interface) | Kafka Streams (Stream Processing) | NodeJS (Component Implementation) | React (UI) | Hyperledger Fabric (optional Blockchain support) | . DataCROP™ Farro (v2.0) Outcome of Barley version and PROPHESY EU project . | MongoDB | Apache Kafka (Inter-Data Bus communication &amp; input/output interface) | RabbitMQ (Data Input interface) | Algorithms: ** Java Algorithms (Qarma) ** Python Algorithms (RUL feature extraction &amp; Health Index Calculation) ** R Algorithms | NodeJS (Component Implementation) | React (UI) | . DataCROP™ Maize :corn: (V3.0) - (under construction :construction:) Outcome of Farro version and SecureIoT, IoTAC EU projects . | MongoDB | Apache Kafka (Inter-Data Bus) | ELK Stack | Additional to be included as developments evolves | . ",
+    "url": "/home/#technologiesframework",
+    
+    "relUrl": "/home/#technologiesframework"
+  },"26": {
+    "doc": "Home",
+    "title": "Maturity Level / Active years",
+    "content": "V1.0 - TRL 6 Designed/Developed and demonstrated under the FAR-EDGE (2016-2019) project . V2.0 - TRL6 Designed/Developed and demonstrated under the H2020 PROPHESY (2017-2020) project. Demonstrated under the QU4LITY (2019-2022) project . V3.0 – TRL4 (Under design/Development) Designed/Developed under the SecureIoT (2018-2021) project, IoTAC (2020-2023), STAR (2020-2023) . ",
+    "url": "/home/#maturity-level--active-years",
+    
+    "relUrl": "/home/#maturity-level--active-years"
+  },"27": {
+    "doc": "Home",
+    "title": "Future/ Interest Steps",
+    "content": ". | Intergrade the design/data models/components into one platform/infrastructure independent solution. | Support additional data collection, data processing and data offering services. | Offer an intuitive and user-friendly configuration toolbox (UI). | Offer data visualization mechanisms (UI). | Blockchain (Hyperledger Fabric) integration supporting the configurations and results of the solution. | . ",
+    "url": "/home/#future-interest-steps",
+    
+    "relUrl": "/home/#future-interest-steps"
+  },"28": {
+    "doc": "Home",
+    "title": "Links:",
+    "content": ". | Contact DataCROP | Report Issues/Problems | DataCROP Forum | Website (under construction) | DataCROP@DockerHub | Stats@OpenHUB | . ",
+    "url": "/home/#links",
+    
+    "relUrl": "/home/#links"
+  },"29": {
+    "doc": "Home",
+    "title": "Home",
+    "content": " ",
+    "url": "/home/",
+    
+    "relUrl": "/home/"
+  },"30": {
+    "doc": "Index",
+    "title": "DataCROP™ Information",
+    "content": "DataCROP™ (Data Collection Routing &amp; Processing) is a Data collection framework which provides the specifications and relevant implementation to enable a real time data collection, transformation, filtering, and management service to facilitate data consumers (i.e., analytic algorithms). The framework can be applied in IoT environments supporting solutions in various domains (e.g., Industrial, Cybersecurity, etch.). For example, the solution may be used to collect security related data (e.g., network, system, solution proprietary, etch.) from monitored IoT systems and store them to detect patterns of abnormal behaviour by applying simple (i.e., filtering and pre-processing) or more elaborated mechanisms (i.e., AI algorithms). The design of the framework is driven by configurability, extensibility, dynamic setup, stream handling capabilities and Blockchain (Ledger) support. One of the key features of the framework is that it is detached from the underlying infrastructure by employing a specialized data model for modelling the solution’s Data Sources, Processors and Results which facilitates the data interoperability discoverability and configurability of the offered solution. ",
+    "url": "/#datacrop-information",
+    
+    "relUrl": "/#datacrop-information"
+  },"31": {
+    "doc": "Index",
+    "title": "Demonstrator",
+    "content": "A DataCROP™ Farro version demo infrastracture instance, which can be deployed locally, can be found at the farro-demo-deployment-scripts repository. ",
+    "url": "/#demonstrator",
+    
+    "relUrl": "/#demonstrator"
+  },"32": {
+    "doc": "Index",
+    "title": "Technologies/Framework",
+    "content": "DataCROP has been developed and applied in various iterations, within the context of various EU projects, with different dependencies . DataCROP™ Barley (v1.0) Outcome of FAR-EDGE EU Project . | MongoDB | Apache Kafka (Inter-Data Bus) | RabitMQ (Data Input interface) | Kafka Streams (Stream Processing) | NodeJS (Component Implementation) | React (UI) | Hyperledger Fabric (optional Blockchain support) | . DataCROP™ Farro (v2.0) Outcome of Barley version and PROPHESY EU project . | MongoDB | Apache Kafka (Inter-Data Bus communication &amp; input/output interface) | RabbitMQ (Data Input interface) | Algorithms: ** Java Algorithms (Qarma) ** Python Algorithms (RUL feature extraction &amp; Health Index Calculation) ** R Algorithms | NodeJS (Component Implementation) | React (UI) | . DataCROP™ Maize :corn: (V3.0) - (under construction :construction:) Outcome of Farro version and SecureIoT, IoTAC EU projects . | MongoDB | Apache Kafka (Inter-Data Bus) | ELK Stack | Additional to be included as developments evolves | . ",
+    "url": "/#technologiesframework",
+    
+    "relUrl": "/#technologiesframework"
+  },"33": {
+    "doc": "Index",
+    "title": "Maturity Level / Active years",
+    "content": "V1.0 - TRL 6 Designed/Developed and demonstrated under the FAR-EDGE (2016-2019) project . V2.0 - TRL6 Designed/Developed and demonstrated under the H2020 PROPHESY (2017-2020) project. Demonstrated under the QU4LITY (2019-2022) project . V3.0 – TRL4 (Under design/Development) Designed/Developed under the SecureIoT (2018-2021) project, IoTAC (2020-2023), STAR (2020-2023) . ",
+    "url": "/#maturity-level--active-years",
+    
+    "relUrl": "/#maturity-level--active-years"
+  },"34": {
+    "doc": "Index",
+    "title": "Future/ Interest Steps",
+    "content": ". | Intergrade the design/data models/components into one platform/infrastructure independent solution. | Support additional data collection, data processing and data offering services. | Offer an intuitive and user-friendly configuration toolbox (UI). | Offer data visualization mechanisms (UI). | Blockchain (Hyperledger Fabric) integration supporting the configurations and results of the solution. | . ",
+    "url": "/#future-interest-steps",
+    
+    "relUrl": "/#future-interest-steps"
+  },"35": {
+    "doc": "Index",
+    "title": "Links:",
+    "content": ". | Contact DataCROP | Report Issues/Problems | DataCROP Forum | Website (under construction :construction:) | DataCROP@DockerHub | Stats@OpenHUB | . ",
+    "url": "/#links",
+    
+    "relUrl": "/#links"
+  },"36": {
+    "doc": "Index",
+    "title": "Index",
+    "content": " ",
+    "url": "/",
+    
+    "relUrl": "/"
+  },"37": {
+    "doc": "4. Airflow",
+    "title": "Airflow",
+    "content": ". For all the workflows we create, two DAGs (Directed Acyclic Graphs) are generated in Airflow: . | Deployment DAG: Responsible for deploying all the processors in the workflow. | Undeployment DAG: Responsible for undeploying all the processors in the workflow. | . This is why there is an Airflow icon in the sidebar, which contains an iframe that takes you directly to the Airflow web page. Additionally, each workflow in the Lab page has an Airflow tab to inspect the corresponding Airflow DAG. ",
+    "url": "/airflow-note/#airflow",
+    
+    "relUrl": "/airflow-note/#airflow"
+  },"38": {
+    "doc": "4. Airflow",
+    "title": "4. Airflow",
+    "content": " ",
+    "url": "/airflow-note/",
+    
+    "relUrl": "/airflow-note/"
+  },"39": {
+    "doc": "2. Creating Data Models",
+    "title": "Creating Data Models",
+    "content": " ",
+    "url": "/creating-data-models/#creating-data-models",
+    
+    "relUrl": "/creating-data-models/#creating-data-models"
+  },"40": {
+    "doc": "2. Creating Data Models",
+    "title": "Warehouse Tab",
+    "content": "My Workflows . Description: This section displays a list of workflows you have created. Features: . | View Workflows: Browse your existing workflows. | Create Workflow: Redirects you to the Lab tab for creating a new workflow. | . My Digital Resources . Description: The Digital Resource entity represents the instantiation of a data source within the system. Purpose: Provides a context and connection interface for accessing and utilizing data. Key Attributes: . | assetID: Identifies the asset. | dataKindID: Links to the type of data the resource manages. | . Functionality: Links physical or digital assets to their operational data within DataCROP. My Workers . Description: This section allows you to view and create worker assets. Purpose: Worker assets are responsible for executing processors within workflows. Features: . | Define worker specifications. | Assign workers to processors for deployment. | . My Data Kinds . Description: The Data Kind entity defines the type of data managed in the system. Purpose: Provides metadata about data structure, format, and type. Key Attributes: . | modelType: Specifies the data’s structural type (e.g., simple or complex). | format: Indicates the format (e.g., JSON, XML). | quantityKind: Defines whether the data is quantitative or qualitative. | . Functionality: Facilitates precise processing and analysis of data. ",
+    "url": "/creating-data-models/#warehouse-tab",
+    
+    "relUrl": "/creating-data-models/#warehouse-tab"
+  },"41": {
+    "doc": "2. Creating Data Models",
+    "title": "2. Creating Data Models",
+    "content": " ",
+    "url": "/creating-data-models/",
+    
+    "relUrl": "/creating-data-models/"
+  },"42": {
+    "doc": "3. Creating Workflows",
+    "title": "Creating Workflows",
+    "content": " ",
+    "url": "/creating-workflows/#creating-workflows",
+    
+    "relUrl": "/creating-workflows/#creating-workflows"
+  },"43": {
+    "doc": "3. Creating Workflows",
+    "title": "Lab Tab",
+    "content": "Creating Workflows . Workflow Specifications Page . Overview: The starting point for creating workflows. Workflow Specifications: . | Name | Description | Configuration: Define the DAG (Directed Acyclic Graph) that represents the workflow in Airflow. | . Flow Creator . Overview: An interactive interface for designing workflows using nodes and edges. Features: . | Add Node: Use the “Add Node” button to add processors to your workflow. | View Workflow: Nodes are displayed in a 2D representation and can be connected using edges. | . Processors . Processor Configuration . | Define the Processor Type and it’s parameters. | Choose a Worker for deployment. | Assign Data Input and Data Output using digital resources. | . Note: Before creating a processor in the Flow Creator, ensure that you have already created the data models you plan to use with it. This includes the worker asset and the digital resources that will represent the data input and output you plan to add. Basic Processor Types Supported: . | Streamhandler: Deploys a full Kafka cluster. | Logstash: Creates a pipeline that transfers data from one digital resource to another. | Kibana: Creates a Logstash pipeline that takes input from a digital resource and transfers it to Elasticsearch for visualization through the workflow editor. | Logstash -&gt; Observation: Creates a Logstash pipeline that takes data from the input digital resource, converts it into an observation, and saves it in a predefined collection. | . ",
+    "url": "/creating-workflows/#lab-tab",
+    
+    "relUrl": "/creating-workflows/#lab-tab"
+  },"44": {
+    "doc": "3. Creating Workflows",
+    "title": "3. Creating Workflows",
+    "content": " ",
+    "url": "/creating-workflows/",
+    
+    "relUrl": "/creating-workflows/"
+  },"45": {
+    "doc": "User Guide",
+    "title": "DataCROP Maize Workflow Management Engine User Guide",
+    "content": " ",
+    "url": "/user-guide/#datacrop-maize-workflow-management-engine-user-guide",
+    
+    "relUrl": "/user-guide/#datacrop-maize-workflow-management-engine-user-guide"
+  },"46": {
+    "doc": "User Guide",
+    "title": "Overview",
+    "content": "The Workflow Management Engine application is designed to facilitate efficient creation and management of workflows through four primary tabs in the sidebar: Warehouse, Lab, Airflow, and Kibana. Each tab serves a distinct purpose within the application. | Warehouse: A repository for creating and managing the data models that are used in workflows. | Lab: A dedicated space for designing and configuring workflows, leveraging the data models from the Warehouse. | Airflow: For monitoring the deployment of components. | Kibana: For data visualization. | . ",
+    "url": "/user-guide/#overview",
+    
+    "relUrl": "/user-guide/#overview"
+  },"47": {
+    "doc": "User Guide",
+    "title": "User Guide",
+    "content": " ",
+    "url": "/user-guide/",
+    
+    "relUrl": "/user-guide/"
+  },"48": {
+    "doc": "1. Getting Started",
+    "title": "Getting Started",
+    "content": " ",
+    "url": "/overview/#getting-started",
+    
+    "relUrl": "/overview/#getting-started"
+  },"49": {
+    "doc": "1. Getting Started",
+    "title": "Accessing the Workflow Editor",
+    "content": "To access the Workflow Editor, you need to log in using Keycloak. You can authenticate in one of two ways: . | Using credentials you already have. | Using Single Sign-On (SSO) with your GitHub account. | . ",
+    "url": "/overview/#accessing-the-workflow-editor",
+    
+    "relUrl": "/overview/#accessing-the-workflow-editor"
+  },"50": {
+    "doc": "1. Getting Started",
+    "title": "1. Getting Started",
+    "content": " ",
+    "url": "/overview/",
+    
+    "relUrl": "/overview/"
   }
 }
