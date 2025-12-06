@@ -17,7 +17,6 @@
 ![ELK Stack](https://img.shields.io/badge/Observability-ELK_Stack-005571?style=for-the-badge&logo=elasticstack&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/Database-MongoDB-47a248?style=for-the-badge&logo=mongodb&logoColor=white)
 ![RabbitMQ](https://img.shields.io/badge/Messaging-RabbitMQ-ff6600?style=for-the-badge&logo=rabbitmq&logoColor=white)
-![Node.js](https://img.shields.io/badge/Runtime-Node.js-43853d?style=for-the-badge&logo=node.js&logoColor=white)
 ![Keycloak](https://img.shields.io/badge/Identity-Keycloak-32404b?style=for-the-badge&logo=keycloak&logoColor=white)
 
 ### CI/CD & Hosting
