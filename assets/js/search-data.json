@@ -27,64 +27,64 @@
     
     "relUrl": "/Setup/"
   },"4": {
-    "doc": "1. Maize MVP Setup",
+    "doc": "Maize MVP Setup",
     "title": "Maize MVP (single-script deployment)",
     "content": "Use the Maize MVP repository to bring up all Maize components with one script. This path is the fastest way to get a working demo; it provisions Keycloak automatically as part of the run. ",
     "url": "/maize-mvp/#maize-mvp-single-script-deployment",
     
     "relUrl": "/maize-mvp/#maize-mvp-single-script-deployment"
   },"5": {
-    "doc": "1. Maize MVP Setup",
+    "doc": "Maize MVP Setup",
     "title": "Repository",
     "content": ". | Maize MVP repo: https://github.com/datacrop/maize-mvp (use your fork/URL if different). | . ",
     "url": "/maize-mvp/#repository",
     
     "relUrl": "/maize-mvp/#repository"
   },"6": {
-    "doc": "1. Maize MVP Setup",
+    "doc": "Maize MVP Setup",
     "title": "Prerequisites",
     "content": ". | Docker installed on the host. | Network/ports open for Keycloak, Airflow, Worker, Model Repository, and Workflow Editor. | . ",
     "url": "/maize-mvp/#prerequisites",
     
     "relUrl": "/maize-mvp/#prerequisites"
   },"7": {
-    "doc": "1. Maize MVP Setup",
+    "doc": "Maize MVP Setup",
     "title": "Configure environment variables",
     "content": ". | Clone the MVP repository and cd into it. | For each component subfolder (Keycloak, Airflow, Worker, Model Repository, Workflow Editor, etc.), open its .env or config file and adjust values for your environment (IP/hostnames, ports, credentials where applicable). | Use the corresponding manual pages for variable meanings if needed: . | Keycloak, Airflow, Worker, Model Repository, Workflow Editor | . | . ",
     "url": "/maize-mvp/#configure-environment-variables",
     
     "relUrl": "/maize-mvp/#configure-environment-variables"
   },"8": {
-    "doc": "1. Maize MVP Setup",
+    "doc": "Maize MVP Setup",
     "title": "Run the setup script",
     "content": ". | In the repo root, run the provided setup script (typically ./scripts/setup.sh; mark executable first if needed: chmod +x scripts/setup.sh). | The script will run docker compose up for all components. Wait until containers are healthy. | . ",
     "url": "/maize-mvp/#run-the-setup-script",
     
     "relUrl": "/maize-mvp/#run-the-setup-script"
   },"9": {
-    "doc": "1. Maize MVP Setup",
+    "doc": "Maize MVP Setup",
     "title": "Verify the deployment",
     "content": ". | Check containers: . | docker ps --filter name=keycloak | docker ps --filter name=airflow | docker ps --filter name=worker | docker ps --filter name=wme (model repo) | docker ps --filter name=wme-ui (workflow editor) | . | Open the Workflow Editor UI at http://&lt;WME_UI_HOST&gt;:5173/MainPage/Warehouse and confirm it loads. | . ",
     "url": "/maize-mvp/#verify-the-deployment",
     
     "relUrl": "/maize-mvp/#verify-the-deployment"
   },"10": {
-    "doc": "1. Maize MVP Setup",
+    "doc": "Maize MVP Setup",
     "title": "Post-deployment (required)",
     "content": "After the Workflow Editor UI is reachable: . | Log in via Keycloak. | Go to Settings in the editor UI. | Click Initialize resources (see Workflow Editor Setup for details). | This creates the base resources and any extra processors defined via the Model Repository. Skipping this leaves the system uninitialized. | . ",
     "url": "/maize-mvp/#post-deployment-required",
     
     "relUrl": "/maize-mvp/#post-deployment-required"
   },"11": {
-    "doc": "1. Maize MVP Setup",
+    "doc": "Maize MVP Setup",
     "title": "Notes on Keycloak",
     "content": ". | In the MVP path, Keycloak is provisioned/configured automatically by the script; you do not need a pre-existing Keycloak instance. | If you need to customize Keycloak manually, refer to the Keycloak Setup page. | . ",
     "url": "/maize-mvp/#notes-on-keycloak",
     
     "relUrl": "/maize-mvp/#notes-on-keycloak"
   },"12": {
-    "doc": "1. Maize MVP Setup",
-    "title": "1. Maize MVP Setup",
+    "doc": "Maize MVP Setup",
+    "title": "Maize MVP Setup",
     "content": " ",
     "url": "/maize-mvp/",
     
@@ -139,15 +139,15 @@
     
     "relUrl": "/editor/"
   },"20": {
-    "doc": "2. Manual Setup",
+    "doc": "Manual Setup",
     "title": "Manual per-repository setup",
     "content": "Use this path if you want to deploy and customize each component separately. Follow the component pages in order: . | Keycloak Setup | Airflow Setup | Worker Setup | Model Repository Setup | Workflow Editor Setup | . You can still reference these pages even if you use the Maize MVP path, to understand variables and configuration details. ",
     "url": "/manual-setup/#manual-per-repository-setup",
     
     "relUrl": "/manual-setup/#manual-per-repository-setup"
   },"21": {
-    "doc": "2. Manual Setup",
-    "title": "2. Manual Setup",
+    "doc": "Manual Setup",
+    "title": "Manual Setup",
     "content": " ",
     "url": "/manual-setup/",
     
