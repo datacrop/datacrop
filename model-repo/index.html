@@ -56,19 +56,102 @@
  AIRFLOW_BASE_URL=http://&lt;AIRFLOW_HOST&gt;:8080/api/v1
  AIRFLOW_USERNAME=&lt;AIRFLOW_USERNAME&gt;
  AIRFLOW_PASSWORD=[REDACTED – keep existing value in your .env]
-</code></pre></div> </div> <p>Sensitive secrets are redacted above; ensure your <code class="language-plaintext highlighter-rouge">.env</code> retains the real values currently configured.</p> </li> </ol> <h3 id="optional-predefining-custom-processors-before-deploying-the-editor"> <a href="#optional-predefining-custom-processors-before-deploying-the-editor" class="anchor-heading" aria-labelledby="optional-predefining-custom-processors-before-deploying-the-editor"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Optional: Predefining custom processors (before deploying the editor) </h3> <ul> <li>You can ship extra processor definitions for your project by adding a JSON file at <code class="language-plaintext highlighter-rouge">config/extra-processors.json</code> in the model repository project. The docker compose mounts it like: <ul> <li><code class="language-plaintext highlighter-rouge">./config/extra-processors.json:/app/config/extra-processors.json:ro</code></li> </ul> </li> <li> <p>The file contains an array of processor definitions. Example:</p> <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"custom-logstash"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"logstash"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Moves data from source A to sink B"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"harbor.example.com/project/logstash-custom:1.0.0"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"input"</span><span class="p">:</span><span class="w"> </span><span class="s2">"digitalResourceIdA"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"output"</span><span class="p">:</span><span class="w"> </span><span class="s2">"digitalResourceIdB"</span><span class="w">
+</code></pre></div> </div> <p>Sensitive secrets are redacted above; ensure your <code class="language-plaintext highlighter-rouge">.env</code> retains the real values currently configured.</p> </li> </ol> <h3 id="optional-predefining-processor-definitions-before-initialization"> <a href="#optional-predefining-processor-definitions-before-initialization" class="anchor-heading" aria-labelledby="optional-predefining-processor-definitions-before-initialization"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Optional: Predefining processor definitions (before initialization) </h3> <p>Deployers can ship <strong>predefined processor definitions</strong> that will be imported when a Workflow Editor user clicks <strong>Initialize resources</strong>. This lets each deployed instance come up with a customized processor catalog.</p> <h4 id="how-to-use"> <a href="#how-to-use" class="anchor-heading" aria-labelledby="how-to-use"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> How to use </h4> <ol> <li>Create <code class="language-plaintext highlighter-rouge">config/extra-processors.json</code> (use the template file as a starting point): <ul> <li><code class="language-plaintext highlighter-rouge">cp config/extra-processors.example.json config/extra-processors.json</code></li> </ul> </li> <li>Edit <code class="language-plaintext highlighter-rouge">config/extra-processors.json</code>: <ul> <li><strong>Kafka is just an example</strong> in the template; rename the processor <code class="language-plaintext highlighter-rouge">name</code> and/or replace the entry with your own processors.</li> </ul> </li> <li>Ensure the file is mounted into the Model Repository container (already present in <code class="language-plaintext highlighter-rouge">docker-compose.yml</code>): <ul> <li><code class="language-plaintext highlighter-rouge">./config/extra-processors.json:/app/config/extra-processors.json:ro</code></li> </ul> </li> <li>Deploy the Model Repository, then in the Workflow Editor go to <strong>Settings</strong> → <strong>Initialize resources</strong> (see <a href="/editor/">Workflow Editor Setup</a>).</li> </ol> <h4 id="file-format-schema"> <a href="#file-format-schema" class="anchor-heading" aria-labelledby="file-format-schema"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> File format (schema) </h4> <p>The server expects a root object with a <code class="language-plaintext highlighter-rouge">processors</code> array:</p> <ul> <li>Root: <code class="language-plaintext highlighter-rouge">{ "processors": [ ... ] }</code></li> <li>Each processor: <ul> <li><code class="language-plaintext highlighter-rouge">name</code>, <code class="language-plaintext highlighter-rouge">description</code>, <code class="language-plaintext highlighter-rouge">processorType</code>, <code class="language-plaintext highlighter-rouge">version</code>, <code class="language-plaintext highlighter-rouge">copyright</code>, <code class="language-plaintext highlighter-rouge">processorLocation</code>, <code class="language-plaintext highlighter-rouge">fontAwesomeIcon</code>, <code class="language-plaintext highlighter-rouge">projectName</code>, <code class="language-plaintext highlighter-rouge">containerImage</code></li> <li><code class="language-plaintext highlighter-rouge">parameters</code>: a list of <code class="language-plaintext highlighter-rouge">{ "name", "description", "type", "defaultValue" }</code></li> </ul> </li> </ul> <p>Example (from <code class="language-plaintext highlighter-rouge">config/extra-processors.example.json</code>):</p> <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"processors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kafka Example"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This processor is used for building a Kafka cluster alongside the akhq frontend for visualizations"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"processorType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Data Persistence"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.1"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"copyright"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Apache"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"processorLocation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Local Deployment"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"fontAwesomeIcon"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fa-solid fa-bus"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"projectName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"containerImage"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"KAFKA_NETWORK"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kafka-network"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"KAFKA_DATA"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kafka-data"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"KAFKA_HOSTNAME"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kafka"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"KAFKA_CONTAINER_NAME"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kafka"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"KAFKA_EXTERNAL_PORT"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9092"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"KAFKA_EXTERNAL_HOSTNAME_OR_IP"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"167.235.128.77"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"KAFKA_INTERNAL_PORT"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9094"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"KAFKA_INTERNAL_HOSTNAME_OR_IP"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kafka"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CLUSTER_ID"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kraft mode cluster id"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cluster-id"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AKHQ_CONTAINER_NAME"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"akhq"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AKHQ_IMAGE"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.24.0"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AKHQ_PORT"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8081"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AKHQ_CONNECTION_NAME_PREFIX"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"defaultValue"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kafka-connection"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
     </span><span class="p">}</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre></div> </div> </li> <li>Workflow: place your JSON file, deploy the Model Repository, deploy the Workflow Editor, then log in and click <strong>Initialize resources</strong> (see <a href="/editor/">Workflow Editor Setup</a>). The initialization step loads this file and creates both the default and any extra processors you defined.</li> </ul> <p>Once these parameters are correctly set, you can proceed with the deployment</p> <h3 id="starting-the-application"> <a href="#starting-the-application" class="anchor-heading" aria-labelledby="starting-the-application"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Starting the Application </h3> <ol> <li>Navigate to the source directory containing the <code class="language-plaintext highlighter-rouge">Dockerfile</code> and <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> files.</li> <li> <p>Run the following commands:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker build <span class="nt">-t</span> wme <span class="nb">.</span>
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div> <h4 id="behavior-notes"> <a href="#behavior-notes" class="anchor-heading" aria-labelledby="behavior-notes"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Behavior notes </h4> <ul> <li>If the file is missing or invalid, initialization continues without failing.</li> <li>If a processor definition with the same <code class="language-plaintext highlighter-rouge">name</code> already exists, it is skipped (not overwritten).</li> <li>Changing <code class="language-plaintext highlighter-rouge">name</code> (for example, adding <code class="language-plaintext highlighter-rouge">v2</code>) creates a separate processor definition.</li> </ul> <p>Once these parameters are correctly set, you can proceed with the deployment</p> <h3 id="starting-the-application"> <a href="#starting-the-application" class="anchor-heading" aria-labelledby="starting-the-application"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Starting the Application </h3> <ol> <li>Navigate to the source directory containing the <code class="language-plaintext highlighter-rouge">Dockerfile</code> and <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> files.</li> <li> <p>Run the following commands:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker build <span class="nt">-t</span> wme <span class="nb">.</span>
     
  docker compose up <span class="nt">-d</span>
 </code></pre></div> </div> </li> </ol> <h3 id="verifying-the-deployment"> <a href="#verifying-the-deployment" class="anchor-heading" aria-labelledby="verifying-the-deployment"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Verifying the Deployment </h3> <p>Wait for the services to start, then run the following commands:</p> <ol> <li> <p>Check if the WME container is running:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker ps <span class="nt">--filter</span> <span class="nv">name</span><span class="o">=</span>wme-container <span class="nt">--format</span> <span class="s2">"table {{.Image}}</span><span class="se">\t</span><span class="s2">{{.Names}}"</span>
