@@ -239,214 +239,277 @@
   },"34": {
     "doc": "Developer Guide",
     "title": "DataCROP Maize Workflow Management Engine Developer Guide",
-    "content": " ",
+    "content": "The Workflow Management Engine (WME) is the DataCROP Maize application for modeling workflows and running processors. This guide focuses on developer-facing integration points, especially how to package processors and connect them to WME data inputs and outputs. ",
     "url": "/dev-guide/#datacrop-maize-workflow-management-engine-developer-guide",
     
     "relUrl": "/dev-guide/#datacrop-maize-workflow-management-engine-developer-guide"
   },"35": {
     "doc": "Developer Guide",
-    "title": "Overview",
-    "content": "The Workflow Management Engine application is designed to facilitate efficient creation and management of workflows through four primary tabs in the sidebar: Warehouse, Lab, Airflow, and Kibana. Each tab serves a distinct purpose within the application. | Warehouse: A repository for creating and managing the data models that are used in workflows. | Lab: A dedicated space for designing and configuring workflows, leveraging the data models from the Warehouse. | Airflow: For monitoring the deployment of components. | Kibana: For data visualization. | . ",
-    "url": "/dev-guide/#overview",
+    "title": "Who this guide is for",
+    "content": ". | Developers integrating custom processors into WME workflows. | Teams packaging services with docker-compose.yml and runtime .env configuration. | Engineers wiring processors to WME digital resources for data input and output. | . ",
+    "url": "/dev-guide/#who-this-guide-is-for",
     
-    "relUrl": "/dev-guide/#overview"
+    "relUrl": "/dev-guide/#who-this-guide-is-for"
   },"36": {
+    "doc": "Developer Guide",
+    "title": "What you’ll learn",
+    "content": ". | What “processor integration” means in WME: a packaging contract plus a data I/O compatibility contract. | How to expose WME-compatible env vars derived from data interface types. | Where to find user-guide context on digital resources and workflow wiring. | . ",
+    "url": "/dev-guide/#what-youll-learn",
+    
+    "relUrl": "/dev-guide/#what-youll-learn"
+  },"37": {
+    "doc": "Developer Guide",
+    "title": "Developer guide map",
+    "content": ". | Integrating Custom Processors: packaging requirements and WME-compatible data I/O env vars. | Processor definitions and Model Repository defaults (planned). | Workflow execution and worker deployment integration points (planned). | API and automation hooks (planned). | . ",
+    "url": "/dev-guide/#developer-guide-map",
+    
+    "relUrl": "/dev-guide/#developer-guide-map"
+  },"38": {
     "doc": "Developer Guide",
     "title": "Developer Guide",
     "content": " ",
     "url": "/dev-guide/",
     
     "relUrl": "/dev-guide/"
-  },"37": {
+  },"39": {
+    "doc": "Integrating Custom Processors",
+    "title": "Integrating Custom Processors",
+    "content": " ",
+    "url": "/integrating-processors/",
+    
+    "relUrl": "/integrating-processors/"
+  },"40": {
+    "doc": "Integrating Custom Processors",
+    "title": "Overview",
+    "content": "A processor is a runnable service in a WME workflow. Integrating one means packaging it so WME can start it and inject data connection settings from user-selected digital resources. This page defines the packaging contract and the WME-compatible env var convention for data I/O. ",
+    "url": "/integrating-processors/#overview",
+    
+    "relUrl": "/integrating-processors/#overview"
+  },"41": {
+    "doc": "Integrating Custom Processors",
+    "title": "Packaging requirements",
+    "content": "Folder layout example . my-processor/ ├─ docker-compose.yml ├─ .env.example └─ app/ └─ ... docker-compose.yml best practices . | Read configuration from env vars instead of hardcoding endpoints. | Keep secrets out of git; use .env locally and .env.example for documentation. | Keep the compose file focused on running the service, not provisioning infrastructure. | .env as the runtime contract . Your .env (or .env.example) lists every value a deployer may need to configure at runtime. Treat this as the interface between WME and your container: every WME-injected data input or output should be represented by an env var documented here. You can also define app-specific env vars alongside the data-source ones. WME only auto-injects the data-resource variables when using the editor wiring; the rest remain user-configurable. ",
+    "url": "/integrating-processors/#packaging-requirements",
+    
+    "relUrl": "/integrating-processors/#packaging-requirements"
+  },"42": {
+    "doc": "Integrating Custom Processors",
+    "title": "Digital resources and data interface types",
+    "content": "A digital resource is an instantiated data source or sink with parameter values. Each digital resource is based on a data interface type, which defines the required parameter keys (for example, kafka.bootstrap_servers and kafka.topic_id). Users create these in the Warehouse and assign them as workflow inputs and outputs in the Lab. When a processor is assigned a digital resource as its data input or output, WME injects the corresponding env vars at runtime. For more detail, see: . | Creating Data Models (digital resources and interface types) | Creating Workflows (assigning data input/output) | . If you rely on the default interface types seeded by the Model Repository, see Model Repository Setup for the current list and keys. ",
+    "url": "/integrating-processors/#digital-resources-and-data-interface-types",
+    
+    "relUrl": "/integrating-processors/#digital-resources-and-data-interface-types"
+  },"43": {
+    "doc": "Integrating Custom Processors",
+    "title": "WME compatibility env var convention",
+    "content": "WME passes digital resource parameters into your container using a consistent env var naming rule: . &lt;INTERFACE&gt;_&lt;KEY&gt;_&lt;DIRECTION&gt; . Normalization rules: . | &lt;INTERFACE&gt; is the uppercase data interface type name (for example, kafka becomes KAFKA). | &lt;KEY&gt; is the uppercase parameter key with non-alphanumerics converted to _ (for example, bootstrap_servers becomes BOOTSTRAP_SERVERS). | &lt;DIRECTION&gt; is INPUT for parameters consumed by your processor and OUTPUT for parameters written by your processor. | . Direction rules: . | Use _INPUT for values read from the selected input digital resource. | Use _OUTPUT for values written to the selected output digital resource. | If your processor can be used for either direction, expose both input and output variants for shared connection fields. | . Note: This env var convention is the WME compatibility interface for processor integrations, even as runtime wiring evolves. Implement it now to stay compatible with the visual editor workflow. ",
+    "url": "/integrating-processors/#wme-compatibility-env-var-convention",
+    
+    "relUrl": "/integrating-processors/#wme-compatibility-env-var-convention"
+  },"44": {
+    "doc": "Integrating Custom Processors",
+    "title": "Examples from default interface types",
+    "content": "Kafka input . KAFKA_BOOTSTRAP_SERVERS_INPUT=... KAFKA_TOPIC_ID_INPUT=... Kafka output . KAFKA_BOOTSTRAP_SERVERS_OUTPUT=... KAFKA_TOPIC_ID_OUTPUT=... RabbitMQ input and output . RABBITMQ_HOST_INPUT=... RABBITMQ_PORT_INPUT=... RABBITMQ_USER_INPUT=... RABBITMQ_PASSWORD_INPUT=... RABBITMQ_QUEUE_INPUT=... RABBITMQ_HOST_OUTPUT=... RABBITMQ_PORT_OUTPUT=... RABBITMQ_USER_OUTPUT=... RABBITMQ_PASSWORD_OUTPUT=... RABBITMQ_EXCHANGE_OUTPUT=... RABBITMQ_EXCHANGE_TYPE_OUTPUT=... RABBITMQ_VHOST_OUTPUT=... ",
+    "url": "/integrating-processors/#examples-from-default-interface-types",
+    
+    "relUrl": "/integrating-processors/#examples-from-default-interface-types"
+  },"45": {
+    "doc": "Integrating Custom Processors",
+    "title": "Compatibility checklist",
+    "content": ". | Package the processor as a folder with your app, docker-compose.yml, and .env or .env.example. | Ensure docker-compose.yml reads configuration from env vars, not hardcoded endpoints. | Expose WME-compatible env vars using the &lt;INTERFACE&gt;_&lt;KEY&gt;_&lt;DIRECTION&gt; pattern. | Provide both input and output variants when your processor supports either direction. | Document the interface types and keys your processor expects, matching the Model Repository definitions. | . ",
+    "url": "/integrating-processors/#compatibility-checklist",
+    
+    "relUrl": "/integrating-processors/#compatibility-checklist"
+  },"46": {
     "doc": "Home",
     "title": "DataCROP™ Information",
     "content": "DataCROP™ (Data Collection Routing &amp; Processing) is a Data collection framework which provides the specifications and relevant implementation to enable a real time data collection, transformation, filtering, and management service to facilitate data consumers (i.e., analytic algorithms). The framework can be applied in IoT environments supporting solutions in various domains (e.g., Industrial, Cybersecurity, etch.). For example, the solution may be used to collect security related data (e.g., network, system, solution proprietary, etch.) from monitored IoT systems and store them to detect patterns of abnormal behaviour by applying simple (i.e., filtering and pre-processing) or more elaborated mechanisms (i.e., AI algorithms). The design of the framework is driven by configurability, extensibility, dynamic setup, stream handling capabilities and Blockchain (Ledger) support. One of the key features of the framework is that it is detached from the underlying infrastructure by employing a specialized data model for modelling the solution’s Data Sources, Processors and Results which facilitates the data interoperability discoverability and configurability of the offered solution. ",
     "url": "/home/#datacrop-information",
     
     "relUrl": "/home/#datacrop-information"
-  },"38": {
+  },"47": {
     "doc": "Home",
     "title": "Demonstrator",
     "content": "A DataCROP™ Farro version demo infrastracture instance, which can be deployed locally, can be found at the farro-demo-deployment-scripts repository. ",
     "url": "/home/#demonstrator",
     
     "relUrl": "/home/#demonstrator"
-  },"39": {
+  },"48": {
     "doc": "Home",
     "title": "Technologies/Framework",
     "content": "DataCROP has been developed and applied in various iterations, within the context of various EU projects, with different dependencies . DataCROP™ Barley (v1.0) Outcome of FAR-EDGE EU Project . | MongoDB | Apache Kafka (Inter-Data Bus) | RabitMQ (Data Input interface) | Kafka Streams (Stream Processing) | NodeJS (Component Implementation) | React (UI) | Hyperledger Fabric (optional Blockchain support) | . DataCROP™ Farro (v2.0) Outcome of Barley version and PROPHESY EU project . | MongoDB | Apache Kafka (Inter-Data Bus communication &amp; input/output interface) | RabbitMQ (Data Input interface) | Algorithms: ** Java Algorithms (Qarma) ** Python Algorithms (RUL feature extraction &amp; Health Index Calculation) ** R Algorithms | NodeJS (Component Implementation) | React (UI) | . DataCROP™ Maize :corn: (V3.0) - (under construction :construction:) Outcome of Farro version and SecureIoT, IoTAC EU projects . | MongoDB | Apache Kafka (Inter-Data Bus) | ELK Stack | Additional to be included as developments evolves | . ",
     "url": "/home/#technologiesframework",
     
     "relUrl": "/home/#technologiesframework"
-  },"40": {
+  },"49": {
     "doc": "Home",
     "title": "Maturity Level / Active years",
     "content": "V1.0 - TRL 6 Designed/Developed and demonstrated under the FAR-EDGE (2016-2019) project . V2.0 - TRL6 Designed/Developed and demonstrated under the H2020 PROPHESY (2017-2020) project. Demonstrated under the QU4LITY (2019-2022) project . V3.0 – TRL4 (Under design/Development) Designed/Developed under the SecureIoT (2018-2021) project, IoTAC (2020-2023), STAR (2020-2023) . ",
     "url": "/home/#maturity-level--active-years",
     
     "relUrl": "/home/#maturity-level--active-years"
-  },"41": {
+  },"50": {
     "doc": "Home",
     "title": "Future/ Interest Steps",
     "content": ". | Intergrade the design/data models/components into one platform/infrastructure independent solution. | Support additional data collection, data processing and data offering services. | Offer an intuitive and user-friendly configuration toolbox (UI). | Offer data visualization mechanisms (UI). | Blockchain (Hyperledger Fabric) integration supporting the configurations and results of the solution. | . ",
     "url": "/home/#future-interest-steps",
     
     "relUrl": "/home/#future-interest-steps"
-  },"42": {
+  },"51": {
     "doc": "Home",
     "title": "Links:",
     "content": ". | Contact DataCROP | Report Issues/Problems | DataCROP Forum | Website (under construction) | DataCROP@DockerHub | Stats@OpenHUB | . ",
     "url": "/home/#links",
     
     "relUrl": "/home/#links"
-  },"43": {
+  },"52": {
     "doc": "Home",
     "title": "Home",
     "content": " ",
     "url": "/home/",
     
     "relUrl": "/home/"
-  },"44": {
+  },"53": {
     "doc": "Index",
     "title": "DataCROP™ Information",
     "content": "DataCROP™ (Data Collection Routing &amp; Processing) is a Data collection framework which provides the specifications and relevant implementation to enable a real time data collection, transformation, filtering, and management service to facilitate data consumers (i.e., analytic algorithms). The framework can be applied in IoT environments supporting solutions in various domains (e.g., Industrial, Cybersecurity, etch.). For example, the solution may be used to collect security related data (e.g., network, system, solution proprietary, etch.) from monitored IoT systems and store them to detect patterns of abnormal behaviour by applying simple (i.e., filtering and pre-processing) or more elaborated mechanisms (i.e., AI algorithms). The design of the framework is driven by configurability, extensibility, dynamic setup, stream handling capabilities and Blockchain (Ledger) support. One of the key features of the framework is that it is detached from the underlying infrastructure by employing a specialized data model for modelling the solution’s Data Sources, Processors and Results which facilitates the data interoperability discoverability and configurability of the offered solution. ",
     "url": "/#datacrop-information",
     
     "relUrl": "/#datacrop-information"
-  },"45": {
+  },"54": {
     "doc": "Index",
     "title": "Demonstrator",
     "content": "A DataCROP™ Farro version demo infrastracture instance, which can be deployed locally, can be found at the farro-demo-deployment-scripts repository. ",
     "url": "/#demonstrator",
     
     "relUrl": "/#demonstrator"
-  },"46": {
+  },"55": {
     "doc": "Index",
     "title": "Technologies/Framework",
     "content": "DataCROP has been developed and applied in various iterations, within the context of various EU projects, with different dependencies . DataCROP™ Barley (v1.0) Outcome of FAR-EDGE EU Project . | MongoDB | Apache Kafka (Inter-Data Bus) | RabitMQ (Data Input interface) | Kafka Streams (Stream Processing) | NodeJS (Component Implementation) | React (UI) | Hyperledger Fabric (optional Blockchain support) | . DataCROP™ Farro (v2.0) Outcome of Barley version and PROPHESY EU project . | MongoDB | Apache Kafka (Inter-Data Bus communication &amp; input/output interface) | RabbitMQ (Data Input interface) | Algorithms: ** Java Algorithms (Qarma) ** Python Algorithms (RUL feature extraction &amp; Health Index Calculation) ** R Algorithms | NodeJS (Component Implementation) | React (UI) | . DataCROP™ Maize :corn: (V3.0) - (under construction :construction:) Outcome of Farro version and SecureIoT, IoTAC EU projects . | MongoDB | Apache Kafka (Inter-Data Bus) | ELK Stack | Additional to be included as developments evolves | . ",
     "url": "/#technologiesframework",
     
     "relUrl": "/#technologiesframework"
-  },"47": {
+  },"56": {
     "doc": "Index",
     "title": "Maturity Level / Active years",
     "content": "V1.0 - TRL 6 Designed/Developed and demonstrated under the FAR-EDGE (2016-2019) project . V2.0 - TRL6 Designed/Developed and demonstrated under the H2020 PROPHESY (2017-2020) project. Demonstrated under the QU4LITY (2019-2022) project . V3.0 – TRL4 (Under design/Development) Designed/Developed under the SecureIoT (2018-2021) project, IoTAC (2020-2023), STAR (2020-2023) . ",
     "url": "/#maturity-level--active-years",
     
     "relUrl": "/#maturity-level--active-years"
-  },"48": {
+  },"57": {
     "doc": "Index",
     "title": "Future/ Interest Steps",
     "content": ". | Intergrade the design/data models/components into one platform/infrastructure independent solution. | Support additional data collection, data processing and data offering services. | Offer an intuitive and user-friendly configuration toolbox (UI). | Offer data visualization mechanisms (UI). | Blockchain (Hyperledger Fabric) integration supporting the configurations and results of the solution. | . ",
     "url": "/#future-interest-steps",
     
     "relUrl": "/#future-interest-steps"
-  },"49": {
+  },"58": {
     "doc": "Index",
     "title": "Links:",
     "content": ". | Contact DataCROP | Report Issues/Problems | DataCROP Forum | Website (under construction :construction:) | DataCROP@DockerHub | Stats@OpenHUB | . ",
     "url": "/#links",
     
     "relUrl": "/#links"
-  },"50": {
+  },"59": {
     "doc": "Index",
     "title": "Index",
     "content": " ",
     "url": "/",
     
     "relUrl": "/"
-  },"51": {
+  },"60": {
     "doc": "4. Airflow",
     "title": "Airflow",
     "content": ". For all the workflows we create, two DAGs (Directed Acyclic Graphs) are generated in Airflow: . | Deployment DAG: Responsible for deploying all the processors in the workflow. | Undeployment DAG: Responsible for undeploying all the processors in the workflow. | . This is why there is an Airflow icon in the sidebar, which contains an iframe that takes you directly to the Airflow web page. Additionally, each workflow in the Lab page has an Airflow tab to inspect the corresponding Airflow DAG. ",
     "url": "/airflow-note/#airflow",
     
     "relUrl": "/airflow-note/#airflow"
-  },"52": {
+  },"61": {
     "doc": "4. Airflow",
     "title": "4. Airflow",
     "content": " ",
     "url": "/airflow-note/",
     
     "relUrl": "/airflow-note/"
-  },"53": {
+  },"62": {
     "doc": "2. Creating Data Models",
     "title": "Creating Data Models",
     "content": " ",
     "url": "/creating-data-models/#creating-data-models",
     
     "relUrl": "/creating-data-models/#creating-data-models"
-  },"54": {
+  },"63": {
     "doc": "2. Creating Data Models",
     "title": "Warehouse Tab",
     "content": "My Workflows . Description: This section displays a list of workflows you have created. Features: . | View Workflows: Browse your existing workflows. | Create Workflow: Redirects you to the Lab tab for creating a new workflow. | . My Digital Resources . Description: The Digital Resource entity represents the instantiation of a data source within the system. Purpose: Provides a context and connection interface for accessing and utilizing data. Key Attributes: . | dataInterfaceTypeID: Links to the data interface type (e.g., kafka, elasticsearch, API REST). | dataKindID: (Optional) Links to the type of data the resource manages. | parameterValue: A list of parameter values required by the selected data interface type. | . Functionality: Provides reusable, parameterized connection details (for example Kafka topic configuration or Elasticsearch connection details) that processors can reference as workflow inputs/outputs. My Workers . Description: This section allows you to view and create worker assets. Purpose: Worker assets are responsible for executing processors within workflows. Features: . | Define worker specifications. | Assign workers to processors for deployment. | . My Data Kinds . Description: The Data Kind entity defines the type of data managed in the system. Purpose: Provides metadata about data structure, format, and type. Key Attributes: . | modelType: Specifies the data’s structural type (e.g., simple or complex). | format: Indicates the format (e.g., JSON, XML). | quantityKind: Defines whether the data is quantitative or qualitative. | . Functionality: Facilitates precise processing and analysis of data. ",
     "url": "/creating-data-models/#warehouse-tab",
     
     "relUrl": "/creating-data-models/#warehouse-tab"
-  },"55": {
+  },"64": {
     "doc": "2. Creating Data Models",
     "title": "2. Creating Data Models",
     "content": " ",
     "url": "/creating-data-models/",
     
     "relUrl": "/creating-data-models/"
-  },"56": {
+  },"65": {
     "doc": "3. Creating Workflows",
     "title": "Creating Workflows",
     "content": " ",
     "url": "/creating-workflows/#creating-workflows",
     
     "relUrl": "/creating-workflows/#creating-workflows"
-  },"57": {
+  },"66": {
     "doc": "3. Creating Workflows",
     "title": "Lab Tab",
     "content": "Creating Workflows . Workflow Specifications Page . Overview: The starting point for creating workflows. Workflow Specifications: . | Name | Description | Configuration: Define the DAG (Directed Acyclic Graph) that represents the workflow in Airflow. | . Flow Creator . Overview: An interactive interface for designing workflows using nodes and edges. Features: . | Add Node: Use the “Add Node” button to add processors to your workflow. | View Workflow: Nodes are displayed in a 2D representation and can be connected using edges. | . Processors . Processor Configuration . | Define the Processor Type and it’s parameters. | Choose a Worker for deployment. | Assign Data Input and Data Output using digital resources. | . Note: Before creating a processor in the Flow Creator, ensure that you have already created the data models you plan to use with it. This includes the worker asset and the digital resources that will represent the data input and output you plan to add. Basic Processor Types Supported: . | Apache Kafka: Creates a Kafka cluster (used as infrastructure for streaming workflows). | Logstash Pipeline: Creates a pipeline that transfers data from one digital resource to another (supports a custom logstash_filter). | Kibana Pipeline: Creates a pipeline that takes input from a digital resource and forwards it to Elasticsearch for visualization through the editor. | Context Extraction: Example processing component shipped as a processor definition (your deployment may include different processors). | . Note: The list of available processors is driven by processor definitions stored in the Model Repository. Deployers can add more definitions via config/extra-processors.json and import them during initialization. ",
     "url": "/creating-workflows/#lab-tab",
     
     "relUrl": "/creating-workflows/#lab-tab"
-  },"58": {
+  },"67": {
     "doc": "3. Creating Workflows",
     "title": "3. Creating Workflows",
     "content": " ",
     "url": "/creating-workflows/",
     
     "relUrl": "/creating-workflows/"
-  },"59": {
+  },"68": {
     "doc": "User Guide",
     "title": "DataCROP Maize Workflow Management Engine User Guide",
     "content": " ",
     "url": "/user-guide/#datacrop-maize-workflow-management-engine-user-guide",
     
     "relUrl": "/user-guide/#datacrop-maize-workflow-management-engine-user-guide"
-  },"60": {
+  },"69": {
     "doc": "User Guide",
     "title": "Overview",
     "content": "The Workflow Management Engine application is designed to facilitate efficient creation and management of workflows through four primary tabs in the sidebar: Warehouse, Lab, Airflow, and Kibana. Each tab serves a distinct purpose within the application. | Warehouse: A repository for creating and managing the data models that are used in workflows. | Lab: A dedicated space for designing and configuring workflows, leveraging the data models from the Warehouse. | Airflow: For monitoring the deployment of components. | Kibana: For data visualization. | . ",
     "url": "/user-guide/#overview",
     
     "relUrl": "/user-guide/#overview"
-  },"61": {
+  },"70": {
     "doc": "User Guide",
     "title": "User Guide",
     "content": " ",
     "url": "/user-guide/",
     
     "relUrl": "/user-guide/"
-  },"62": {
+  },"71": {
     "doc": "1. Getting Started",
     "title": "Getting Started",
     "content": "Before using the Workflow Editor, choose a deployment path on the Maize Setup page: either the single-script Maize MVP approach or the manual per-repository setup. Available processors depend on your deployment; administrators can ship predefined processor definitions during deployment (see Model Repository Setup). ",
     "url": "/overview/#getting-started",
     
     "relUrl": "/overview/#getting-started"
-  },"63": {
+  },"72": {
     "doc": "1. Getting Started",
     "title": "Accessing the Workflow Editor",
     "content": "To access the Workflow Editor, you log in using Keycloak. The exact login options depend on how your Keycloak realm is configured (for example, username/password, or an external identity provider such as GitHub if enabled). For the backend API calls used by the editor, the JWT token must include a userId claim, otherwise the backend cannot resolve the current user and requests will fail. ",
     "url": "/overview/#accessing-the-workflow-editor",
     
     "relUrl": "/overview/#accessing-the-workflow-editor"
-  },"64": {
+  },"73": {
     "doc": "1. Getting Started",
     "title": "1. Getting Started",
     "content": " ",
