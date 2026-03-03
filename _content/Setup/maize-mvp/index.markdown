@@ -28,7 +28,7 @@ Use the Maize MVP repository to bring up all Maize components with one script. T
 
 ## Run the setup script
 
-1. In the repo root, run the provided setup script (typically `./scripts/setup.sh`; mark executable first if needed: `chmod +x scripts/setup.sh`).
+1. In the repo root, run the provided setup script (typically `./setup.sh`; mark executable first if needed: `chmod +x setup.sh`).
 2. The script will run `docker compose up` for all components. Wait until containers are healthy.
 
 ## Verify the deployment

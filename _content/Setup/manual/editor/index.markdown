@@ -18,8 +18,8 @@ Before proceeding, ensure you have completed the setup instructions for the [Mai
 
 After completing the setup, follow these steps to configure your environment variables:
 
-1. In the Workflow Editor repository, edit `ui/.env`.
-2. Update the file with the correct values for your infrastructure. Current values from `maze-workflow-management-editor/ui/.env` are:
+1. In the Workflow Editor repository, edit the repo-root `.env` file.
+2. Update the file with the correct values for your infrastructure. Current values from `maize-workflow-management-editor/.env` are:
 
     ```plaintext
     VITE_API_URL=http://<WME_API_HOST>:9090
@@ -43,7 +43,7 @@ Once these parameters are correctly set, you can proceed with the deployment.
 
 ### Start The Application.
 
-1. Clone the repository and navigate to the source directory containing the `docker-compose.yml` file.
+1. Clone the repository and navigate to the source directory containing the `docker-compose.yaml` file.
 2. Run the following command:
 
     ```bash
@@ -65,20 +65,20 @@ Wait for the services to start, then run the following commands:
 
     ```bash
     IMAGE                                        NAMES
-    node:lts-alpine                              wme-ui
+    wme-ui:latest                                wme-ui
     ```
 
 2. Check if the network is set up correctly:
 
     ```bash
-    docker network ls --filter name="maze-workflow-management-editor_wme-network" --format "table {% raw %}{{.Name}}{% endraw %}\t{% raw %}{{.Driver}}{% endraw %}\t{% raw %}{{.Scope}}{% endraw %}"
+    docker network ls --filter name="maize-workflow-management-editor_wme-network" --format "table {% raw %}{{.Name}}{% endraw %}\t{% raw %}{{.Driver}}{% endraw %}\t{% raw %}{{.Scope}}{% endraw %}"
     ```
 
     Ensure the output matches the following:
 
     ```bash
-    NAME                                          DRIVER    SCOPE
-    maze-workflow-management-editor_wme-network   bridge    local
+    NAME                                           DRIVER    SCOPE
+    maize-workflow-management-editor_wme-network   bridge    local
     ```
 
 
@@ -109,4 +109,4 @@ Run this once per environment after deployments. Skipping it leaves the system u
 
 Navigate to the source directory and run the following command.
 
-    docker-compose down
+    docker compose down
