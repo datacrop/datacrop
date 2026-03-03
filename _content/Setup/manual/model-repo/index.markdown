@@ -22,7 +22,7 @@ This is a demo deployment instance for the **Maize DataCROP version**. It deploy
 Before proceeding, make sure you have completed the following steps:
 
 1. **Airflow Setup**:
-   - Ensure that you have followed the setup instructions for both the [Airflow Processing Engine](https://github.com/datacrop/maze-processing-engine-airflow) and the [Processing Engine Worker](https://github.com/datacrop/maze-processing-engine-worker). These components need to be properly configured and running before deploying the Maize DataCROP Model Repository.
+   - Ensure that you have followed the setup instructions for both the [Airflow Processing Engine](https://github.com/datacrop/maize-processing-engine-airflow) and the [Processing Engine Worker](https://github.com/datacrop/maize-processing-engine-worker). These components need to be properly configured and running before deploying the Maize DataCROP Model Repository.
 
 After completing the setup, follow these steps to configure your environment variables:
 
@@ -38,7 +38,7 @@ After completing the setup, follow these steps to configure your environment var
     # Workflow Management Engine
     VM_WME_IP=<YOUR_IP>
     VM_WORKER_IP=<YOUR_IP>
-    WEBSERVER_DAGS_FOLDER=/path/to/maze-processing-engine-airflow/dags
+    WEBSERVER_DAGS_FOLDER=/path/to/maize-processing-engine-airflow/dags
     WORKER_API_PORT=8090
 
     # Harbor
@@ -72,6 +72,9 @@ After completing the setup, follow these steps to configure your environment var
     KEYCLOAK_SCOPE=openid,offline_access,profile,roles
     KEYCLOAK_USER_NAME_ATTR=preferred_username
     KEYCLOAK_JWK_SET_URI=https://keycloak.example.com/realms/YOUR-REALM/protocol/openid-connect/certs
+
+    # Credentials Encryption
+    CREDENTIALS_ENCRYPTION_KEY=<BASE64_32_BYTE_KEY>
 
     # Elastic Stack
     ELASTIC_VERSION=8.15.3
@@ -141,6 +144,15 @@ These interface types are intentionally aligned with the editor's **automatic Lo
   - `exchange`: `myexchange` (output)
   - `exchange_type`: `direct` (supported: `direct`, `topic`, `fanout`)
   - `vhost`: `/`
+- **`mqtt`**
+  - `broker`: `tcp://localhost`
+  - `port`: `1883`
+  - `topic`: `sensor/data`
+  - `username`: `""`
+  - `password`: `""`
+  - `client_id`: `modul4r-client`
+  - `qos`: `0`
+  - `clean_session`: `true` (not Logstash-compatible by default)
 
 #### Default processor definitions
 
@@ -331,10 +343,10 @@ Wait for the services to start, then run the following commands:
 To stop the containers, run the following command:
 
 ```bash
-docker-compose down
+docker compose down
 ```
 ### Clean everything up.
 
 Run the following command (**at your own risk**).
 
-    docker-compose down --volumes --remove-orphans
+    docker compose down --volumes --remove-orphans

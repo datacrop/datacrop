@@ -26,7 +26,7 @@ Before proceeding with the deployment, make sure to complete the following steps
 
 After completing the setup, follow these steps to configure your environment variables:
 
-1. In the Airflow Processing Engine repository, edit its `.env` file and ensure that all necessary environment variables are set correctly for your deployment. Current values from `maze-processing-engine-airflow/.env` are shown below; sensitive secrets are redacted—keep using the real values already present in your `.env`.
+1. In the Airflow Processing Engine repository, edit its `.env` file and ensure that all necessary environment variables are set correctly for your deployment. Current values from `maize-processing-engine-airflow/.env` are shown below; sensitive secrets are redacted—keep using the real values already present in your `.env`.
 
     ```plaintext
     # AIRFLOW USERS     ||  DC.C
@@ -76,7 +76,7 @@ After completing the setup, follow these steps to configure your environment var
 Once these parameters are correctly set, you can proceed with the deployment.
 ### Start The Application.
 
-1. Navigate to the source directory containing the `docker-compose.yml` file.
+1. Navigate to the source directory containing the `docker-compose.yaml` file.
 2. Run the following command:
 
     ```bash
@@ -85,25 +85,13 @@ Once these parameters are correctly set, you can proceed with the deployment.
 
 ### Verify that everything is up and running
 
-Wait for the services to start, then run the following commands:
+Wait for the services to start, then run:
 
-- Check if the container is running (change `worker_name` with the actual name that you specified in the .env file):
+```bash
+docker compose ps
+```
 
-    ```bash
-    docker ps --filter name=airflow --format "table {% raw %}{{.Image}}{% endraw %}\t{% raw %}{{.Names}}{% endraw %}"
-    ```
-
-    You should see the following output:
-
-    ```bash
-    IMAGE                            NAMES
-    airflow-airflow-triggerer        airflow-airflow-triggerer-1
-    airflow-airflow-webserver        airflow-airflow-webserver-1
-    airflow-flower                   airflow-flower-1
-    airflow-airflow-scheduler        airflow-airflow-scheduler-1
-    postgres:13                      airflow-postgres-1
-    redis:7.2                        airflow-redis-1
-    ```
+Confirm `airflow-webserver`, `airflow-scheduler`, `airflow-triggerer`, `flower`, `postgres`, and `redis` are up. `airflow-init` may appear as exited after successful initialization.
 
 
 ### Make Sure Everything Works
@@ -122,4 +110,4 @@ Wait for the services to start, then run the following commands:
 
 Navigate to the source directory and run the following command.
 
-    docker-compose down
+    docker compose down
