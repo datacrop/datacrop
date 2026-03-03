@@ -49,10 +49,11 @@ Deployable Farro demo: `https://github.com/datacrop/farro-demo-deployment-script
 4. Visit `http://localhost:4000` (adjust `baseurl` if configured).
 
 ## Documentation Structure
-- `_content/home/`: High-level framework overview and roadmap.
-- `_content/overview/`: Getting started and authentication with Keycloak.
-- `_content/airflow/`: Airflow processing engine deployment steps.
-- `_content/creating-workflows/`, `_content/creating-data-models/`, `_content/worker/`: Building workflows, data models, and workers.
-- `_content/dev-guide/`, `_content/editor/`, `_content/user-guide/`: Guidance for developers and end users.
-
+- `_content/index.markdown`: Documentation landing page.
+- `_content/home/`: Framework overview and roadmap.
+- `_content/Setup/`: Setup landing page.
+- `_content/Setup/maize-mvp/`: Single-script Maize MVP deployment.
+- `_content/Setup/manual/`: Manual component setup (Keycloak, Airflow, Worker, Model Repository, Workflow Editor).
+- `_content/user-guide/`: End-user workflows, data models, and overview pages.
+- `_content/dev-guide/`: Developer guidance, including processor integration.
 
