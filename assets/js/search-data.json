@@ -57,7 +57,7 @@
   },"8": {
     "doc": "Maize MVP Setup",
     "title": "Run the setup script",
-    "content": ". | In the repo root, run the provided setup script (typically ./scripts/setup.sh; mark executable first if needed: chmod +x scripts/setup.sh). | The script will run docker compose up for all components. Wait until containers are healthy. | . ",
+    "content": ". | In the repo root, run the provided setup script (typically ./setup.sh; mark executable first if needed: chmod +x setup.sh). | The script will run docker compose up for all components. Wait until containers are healthy. | . ",
     "url": "/maize-mvp/#run-the-setup-script",
     
     "relUrl": "/maize-mvp/#run-the-setup-script"
