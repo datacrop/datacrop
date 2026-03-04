@@ -8,45 +8,145 @@ nav_order: 3
 
 # Creating Workflows
 
-## Lab Tab
+This page documents the current Lab implementation: workflow details, flow editor behavior, runtime actions, and template usage.
 
-### Creating Workflows
+## Before You Start
+
+Prepare these first in Warehouse:
+
+- At least one **Processor Definition**.
+- At least one **Digital Resource**.
+- At least one **Worker** (unless using existing infrastructure mode where allowed).
+
+See [Creating Data Models](/creating-data-models/).
+
+## End-To-End Workflow Creation
+
+### 1) Configure Workflow Details (Required)
+
+1. Open **Workflow Lab**.
+2. In **1. Workflow Details**, set:
+   - Workflow **Name** (required to save/update)
+   - Workflow **Description** (optional)
+   - DAG configuration fields
+3. If `requires_scheduler` is enabled, **Schedule** is required.
 
 ![Workflow Specs Image](/assets/img/creating-workflows/workflowspecs.png)
 
-#### Workflow Specifications Page
+### 2) Build The Flow Graph
 
-**Overview**: The starting point for creating workflows.
+Open **2. Flow Creator** and use either approach:
 
-**Workflow Specifications**:
-- **Name**  
-- **Description**  
-- **Configuration**: Define the DAG (Directed Acyclic Graph) that represents the workflow in Airflow.
+- **Processor nodes**:
+  - Click **Add Processor**, or
+  - Drag a processor preset from the left panel (this creates and persists a processor instance immediately).
+- **Digital Resource nodes**:
+  - Click **Add Digital Resource**, or
+  - Drag an existing Digital Resource from the left panel.
 
-### Flow Creator
+Double-click a node (or select + Edit) to open configuration forms.
 
 ![Flow Creator Image](/assets/img/creating-workflows/flowCreator.png)
 
-**Overview**: An interactive interface for designing workflows using nodes and edges.
+> Screenshot note: the current editor also includes template save, DS transfer dialog, and DS inline create/edit dialogs that may not appear in the older image.
 
-**Features**:
-- **Add Node**: Use the “Add Node” button to add processors to your workflow.
-- **View Workflow**: Nodes are displayed in a 2D representation and can be connected using edges.
+### 3) Configure Processor Nodes
 
-### Processors
+Processor form currently supports:
 
-#### Processor Configuration
+- **General**: `name`, `description`.
+- **Deployment**:
+  - `assetID` (worker) required unless `usesExistingInfrastructure` is enabled for eligible Data Persistence processors.
+- **Details**:
+  - `processorDefinitionReferenceID` (required).
+  - parameter values based on selected Processor Definition template.
+- **Data Flow**:
+  - `dataInput` and `dataOutput` Digital Resource lists.
 
-- Define the **Processor Type** and it's parameters.
-- Choose a **Worker** for deployment.
-- Assign **Data Input** and **Data Output** using digital resources.
+Current special behavior:
 
-**Note**: Before creating a processor in the Flow Creator, ensure that you have already created the data models you plan to use with it. This includes the worker asset and the digital resources that will represent the data input and output you plan to add.
+- **Kibana Pipeline**: `dataOutput` is disabled in form.
+- **Logstash Pipeline**:
+  - DS selection is filtered to interface names `elasticsearch`, `API REST`, `kafka`.
+  - `logstash_filter` can be enabled/edited when parameter exists in definition.
+- **Derived Environment Variables** preview is shown from selected DS input/output using:
+  - `<INTERFACE>_<KEY>_<DIRECTION>`
 
-**Basic Processor Types Supported**:
-- **Apache Kafka**: Creates a Kafka cluster (used as infrastructure for streaming workflows).
-- **Logstash Pipeline**: Creates a pipeline that transfers data from one digital resource to another (supports a custom `logstash_filter`).
-- **Kibana Pipeline**: Creates a pipeline that takes input from a digital resource and forwards it to Elasticsearch for visualization through the editor.
-- **Context Extraction**: Example processing component shipped as a processor definition (your deployment may include different processors).
+Example directions:
 
-**Note**: The list of available processors is driven by processor definitions stored in the Model Repository. Deployers can add more definitions via `config/extra-processors.json` and import them during initialization.
+- `_INPUT` for processor inputs.
+- `_OUTPUT` for processor outputs.
+
+This matches the processor integration contract in [Integrating Custom Processors](/integrating-processors/).
+
+### 4) Connect Nodes And Transfer Digital Resources
+
+#### Direct DS <-> Processor links
+
+- Connect **DS -> Processor** to add DS to processor `dataInput`.
+- Connect **Processor -> DS** to add DS to processor `dataOutput`.
+
+These edges are labeled `INPUT` or `OUTPUT`.
+
+#### Processor -> Processor links (Transfer dialog)
+
+Connecting two processor nodes opens **Transfer Digital Resources between Processors**.
+
+Available options:
+
+1. Select source output DS values to add into target inputs.
+2. Select target input DS values to add into source outputs.
+3. Select one existing DS for both sides.
+4. Create a new DS for both sides.
+5. Proceed without transfer.
+
+### 5) Save / Update Behavior
+
+- **Save** (new workflow) and **Update** (existing workflow) are disabled until:
+  - workflow name is present, and
+  - schedule is provided when `requires_scheduler=true`.
+- Payload includes workflow nodes/edges plus compatibility fields (`dataProcessors`, `edgeConf`).
+- After save/update, Lab warns that Airflow visibility can take up to two minutes.
+
+### 6) Run / Stop Behavior
+
+From Lab toolbar or Warehouse workflow row actions:
+
+- **Run** triggers workflow DAG via `dagConf.dag_id`.
+- **Stop** triggers teardown DAG by appending `_teardown` to the same DAG id.
+- In Warehouse tables, these actions are shown as **Deploy** and **Stop** for workflow rows.
+
+### 7) Airflow Views In Lab
+
+- Unsaved workflows show warning in Lab Airflow tab.
+- Saved workflows show toggle:
+  - **Deployment** DAG
+  - **Teardown** DAG
+- Embedded grid iframe path in Lab is derived from workflow name/id formatting.
+
+For global Airflow iframe behavior, see [Airflow](/airflow-note/).
+
+Kibana monitoring is not part of Lab tabs; it is available as a separate sidebar page.
+
+### 8) Workflow Templates
+
+Template features currently available:
+
+- In Lab flow editor: **Save as Template**.
+- In Warehouse Workflows tab:
+  - **Create Workflow from Template**
+  - Edit/Delete template when user is owner or admin.
+
+## Common Constraints And Validation Notes
+
+- Worker is required for most processors when not using existing infrastructure mode.
+- Processor Type must be selected before parameter template values can be filled.
+- DS links and processor-to-processor transfer update processor input/output lists used by runtime env-var injection.
+
+## Troubleshooting
+
+- **Save/Update disabled**: set workflow name; if scheduler is enabled, provide schedule.
+- **Run/Stop shows DAG id warning**: ensure `dag_id` exists in workflow DAG configuration.
+- **Workflow not visible in Airflow immediately**: allow up to two minutes after save/update.
+- **Graph edits not reflected in backend yet**: explicit **Update** is the safest persistence action for existing workflows.
+- **Cannot assign output for Kibana Pipeline**: this is intentional in current PM form behavior.
