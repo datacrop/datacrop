@@ -449,95 +449,130 @@
   },"64": {
     "doc": "2. Creating Data Models",
     "title": "Creating Data Models",
-    "content": " ",
+    "content": "This page documents the current Warehouse behavior implemented in the frontend. ",
     "url": "/creating-data-models/#creating-data-models",
     
     "relUrl": "/creating-data-models/#creating-data-models"
   },"65": {
     "doc": "2. Creating Data Models",
-    "title": "Warehouse Tab",
-    "content": "My Workflows . Description: This section displays a list of workflows you have created. Features: . | View Workflows: Browse your existing workflows. | Create Workflow: Redirects you to the Lab tab for creating a new workflow. | . My Digital Resources . Description: The Digital Resource entity represents the instantiation of a data source within the system. Purpose: Provides a context and connection interface for accessing and utilizing data. Key Attributes: . | dataInterfaceTypeID: Links to the data interface type (e.g., kafka, elasticsearch, API REST). | dataKindID: (Optional) Links to the type of data the resource manages. | parameterValue: A list of parameter values required by the selected data interface type. | . Functionality: Provides reusable, parameterized connection details (for example Kafka topic configuration or Elasticsearch connection details) that processors can reference as workflow inputs/outputs. My Workers . Description: This section allows you to view and create worker assets. Purpose: Worker assets are responsible for executing processors within workflows. Features: . | Define worker specifications. | Assign workers to processors for deployment. | . My Data Kinds . Description: The Data Kind entity defines the type of data managed in the system. Purpose: Provides metadata about data structure, format, and type. Key Attributes: . | modelType: Specifies the data’s structural type (e.g., simple or complex). | format: Indicates the format (e.g., JSON, XML). | quantityKind: Defines whether the data is quantitative or qualitative. | . Functionality: Facilitates precise processing and analysis of data. ",
-    "url": "/creating-data-models/#warehouse-tab",
+    "title": "Warehouse Tabs And Access",
+    "content": "Warehouse shows these tabs: . | Workflows | Digital Resources | Workers | Data Kinds | Processor Definitions (admin only) | Data Interface Types (admin only) | . Non-admin users do not see the admin tabs. Screenshot note: actions and dialog styling may differ slightly from older captures. ",
+    "url": "/creating-data-models/#warehouse-tabs-and-access",
     
-    "relUrl": "/creating-data-models/#warehouse-tab"
+    "relUrl": "/creating-data-models/#warehouse-tabs-and-access"
   },"66": {
+    "doc": "2. Creating Data Models",
+    "title": "Recommended Creation Order",
+    "content": ". | Initialize resources in Settings (Required, admin only). | Data Interface Types (Required for Digital Resources). | Processor Definitions (Required for processor node types in Lab). | Data Kinds (Optional, but recommended for DR metadata). | Digital Resources (Required for processor inputs/outputs). | Workers (Required for most processors, unless specific existing-infrastructure mode is used). | Workflows and processor nodes in Workflow Lab. | . Why this order: each later object depends on IDs and templates created earlier (for example Digital Resources depend on Data Interface Type parameter templates). ",
+    "url": "/creating-data-models/#recommended-creation-order",
+    
+    "relUrl": "/creating-data-models/#recommended-creation-order"
+  },"67": {
+    "doc": "2. Creating Data Models",
+    "title": "Warehouse Entity Matrix",
+    "content": "| Entity | What it is | Where created/managed | Required fields / dependencies | Optional fields | Validation behavior (UI vs save logic) | Common pitfalls | . | Workflow (PO) | Saved workflow orchestration object that stores DAG config and graph (nodes/edges). | Listed in Warehouse, created/edited in Lab. | Name; schedule only when requires_scheduler=true; valid graph references. | Description, many DAG fields. | Save/Update is blocked in Lab until name exists, and schedule exists when scheduler is enabled. | Users expect Warehouse to create workflow directly; actual creation flow starts in Lab. | . | Data Interface Type (DIT) | Interface template describing parameter schema for connection types. | Warehouse admin tab. | Name, description, interfaceCategory. | logstashCompatible, parameter defaults/metadata. | Inputs are marked required in UI, but Warehouse form submission is not blocked client-side by field validators. | Non-admin users cannot access this tab. | . | Digital Resource (DS) | Instantiated data endpoint/source/sink with actual parameter values. | Warehouse tab (also creatable from PM form and Lab transfer flow). | Name, description, selected Data Interface Type, interface parameters. | Data Kind link. | DS parameter fields are shown only after selecting a Data Interface Type. | Parameter fields do not appear until a Data Interface Type is selected. | . | Data Kind (DK) | Data metadata descriptor. | Warehouse tab. | Name, description, modelType, quantityKind, format. | None in UI. | Fields are marked required visually; final acceptance depends on backend validation. | quantityKind spelling must match backend contract even though UI labels it normally. | . | Asset Category (Worker) | Category template that defines worker parameter schema. | Not managed in Warehouse UI; discovered during inventory initialization. | Must exist in backend (created by Initialize Resources flow). | N/A. | Missing category is detected during inventory init and sets needsInitialization. | If missing, worker management is blocked and Warehouse shows initialization warning. | . | Asset (Worker) | Execution target used by processor nodes. | Warehouse tab. | Name, description, worker parameter values from Worker asset category. | Tags parameter (if provided by template). | Worker form values are template-driven; frontend auto-sets assetCategoryID during save/update. | Hidden worker params (e.g. ssh user, ssh public key) are not shown in form; table also hides ip/ip address. | . | Processor Definition (PD) | Catalog entry for processor type/preset shown in Lab. | Warehouse admin tab. | Name, description, processorType, processorLocation, version; location-specific field (projectName or containerImage). | Icon, copyright, parameter defaults. | Conditional location fields are shown in UI; required behavior is effectively backend-validated. | Non-admin users cannot access this tab; missing/incorrect parameter keys affect PM form behavior. | . | Processor node (PM) | Runtime processor instance in a workflow graph. | Created in Lab (button/drag/drop). | Processor Definition reference; worker unless existing-infrastructure mode is enabled for eligible processors. | Description, params, DS input/output lists. | PM form enforces worker assignment in code when infrastructure toggle is off. | Users may confuse definitions (catalog) with instances (nodes). | . | Workflow Template (WT) | Reusable lightweight graph template (nodes, edges, processor refs). | Saved in Lab, instantiated/managed from Warehouse Workflows tab. | Template name. | Description. | Template save is blocked in Lab if name is blank. | Edit/Delete allowed only for admin or template owner. | . ",
+    "url": "/creating-data-models/#warehouse-entity-matrix",
+    
+    "relUrl": "/creating-data-models/#warehouse-entity-matrix"
+  },"68": {
+    "doc": "2. Creating Data Models",
+    "title": "How To Create Each Entity",
+    "content": "Workflows . | Open Warehouse -&gt; Workflows. | Click Create New Workflow to open Lab, or choose Create Workflow from Template. | Configure and save from Lab. | . Data Interface Types (Admin) . | Open Warehouse -&gt; Data Interface Types. | Click Add Data Interface Type. | Fill: . | name (required) | description (required) | interfaceCategory (required) | logstashCompatible (optional switch) | parameter list entries (name, key, type, defaultValue, optional description) | . | Save. | . Digital Resources . | Open Warehouse -&gt; Digital Resources. | Click Add Digital Resource. | Fill: . | name (required) | description (required) | dataInterfaceTypeID (required) | interface parameter values (required by selected template) | dataKindID (optional) | . | Optional: click Use Defaults to populate parameter values from template defaults. | Save. | . Data Kinds . | Open Warehouse -&gt; Data Kinds. | Click Add Data Kind. | Fill name, description, modelType, quantityKind, format. | Save. | . Workers . | Open Warehouse -&gt; Workers. | Click Add Worker. | Fill name, description, and category-driven parameter values. | If template exposes tags, add tags in the dedicated tag control. | Save. | . Processor Definitions (Admin) . | Open Warehouse -&gt; Processor Definitions. | Click Add Processor Definition. | Fill required core fields and location-specific value: . | processorLocation = Local Deployment -&gt; set projectName | processorLocation = Remote Deployment -&gt; set containerImage | . | Define parameter list entries that processor instances will consume in PM form. | Save. | . ",
+    "url": "/creating-data-models/#how-to-create-each-entity",
+    
+    "relUrl": "/creating-data-models/#how-to-create-each-entity"
+  },"69": {
+    "doc": "2. Creating Data Models",
+    "title": "Relationship Map",
+    "content": "Relationship Table . | From | To | Relationship | Required? | Where used | . | Data Interface Type | Digital Resource | DS parameter schema/template source | Yes | Warehouse DS form, Lab DS display, PM env var derivation | . | Data Kind | Digital Resource | DS semantic classification | No | Warehouse listing and DS metadata | . | Asset Category (Worker) | Asset (Worker) | Worker parameter template and category binding | Yes | Worker form and backend worker creation | . | Processor Definition | Processor node | Node type + parameter template | Yes | Lab flow editor and PM form | . | Worker Asset | Processor node | Execution target (assetID) | Usually yes | PM form and deployment runtime | . | Digital Resource | Processor node dataInput | Input data binding | Depends on processor/use case | PM form + flow connections | . | Processor node dataOutput | Digital Resource | Output data binding | Depends on processor/use case | PM form + flow connections | . | Workflow | Nodes + edges + processor refs | Full orchestration container | Yes | Save/Update/Run lifecycle | . Mermaid View . flowchart LR DIT[\"Data Interface Type\"] --&gt; DR[\"Digital Resource\"] DK[\"Data Kind\"] -. optional .-&gt; DR AC[\"Asset Category: Worker\"] --&gt; W[\"Asset: Worker\"] PD[\"Processor Definition\"] --&gt; PM[\"Processor Node (Lab)\"] W --&gt; PM DR --&gt;|INPUT| PM PM --&gt;|OUTPUT| DR WF[\"Workflow\"] --&gt; PM WF --&gt; E[\"Flow Edges\"] WT[\"Workflow Template\"] --&gt; WF . If your docs renderer does not support Mermaid, use the table above as the canonical map. ",
+    "url": "/creating-data-models/#relationship-map",
+    
+    "relUrl": "/creating-data-models/#relationship-map"
+  },"70": {
+    "doc": "2. Creating Data Models",
+    "title": "Troubleshooting",
+    "content": ". | Workers are not available / initialization warning is shown: Go to Settings and run Initialize Resources as admin. | Admin tabs are missing: Your account is not detected as admin by role mapping. | Digital Resource parameter fields are empty: Select a Data Interface Type first. | Worker fields seem incomplete: Some parameters are intentionally hidden in UI (ssh user, ssh public key; worker table also hides ip/ip address). | Template edit/delete buttons not visible: Only admins or template owners can edit/delete templates. | . ",
+    "url": "/creating-data-models/#troubleshooting",
+    
+    "relUrl": "/creating-data-models/#troubleshooting"
+  },"71": {
     "doc": "2. Creating Data Models",
     "title": "2. Creating Data Models",
     "content": " ",
     "url": "/creating-data-models/",
     
     "relUrl": "/creating-data-models/"
-  },"67": {
+  },"72": {
     "doc": "3. Creating Workflows",
     "title": "Creating Workflows",
     "content": " ",
     "url": "/creating-workflows/#creating-workflows",
     
     "relUrl": "/creating-workflows/#creating-workflows"
-  },"68": {
+  },"73": {
     "doc": "3. Creating Workflows",
     "title": "Lab Tab",
     "content": "Creating Workflows . Workflow Specifications Page . Overview: The starting point for creating workflows. Workflow Specifications: . | Name | Description | Configuration: Define the DAG (Directed Acyclic Graph) that represents the workflow in Airflow. | . Flow Creator . Overview: An interactive interface for designing workflows using nodes and edges. Features: . | Add Node: Use the “Add Node” button to add processors to your workflow. | View Workflow: Nodes are displayed in a 2D representation and can be connected using edges. | . Processors . Processor Configuration . | Define the Processor Type and it’s parameters. | Choose a Worker for deployment. | Assign Data Input and Data Output using digital resources. | . Note: Before creating a processor in the Flow Creator, ensure that you have already created the data models you plan to use with it. This includes the worker asset and the digital resources that will represent the data input and output you plan to add. Basic Processor Types Supported: . | Apache Kafka: Creates a Kafka cluster (used as infrastructure for streaming workflows). | Logstash Pipeline: Creates a pipeline that transfers data from one digital resource to another (supports a custom logstash_filter). | Kibana Pipeline: Creates a pipeline that takes input from a digital resource and forwards it to Elasticsearch for visualization through the editor. | Context Extraction: Example processing component shipped as a processor definition (your deployment may include different processors). | . Note: The list of available processors is driven by processor definitions stored in the Model Repository. Deployers can add more definitions via config/extra-processors.json and import them during initialization. ",
     "url": "/creating-workflows/#lab-tab",
     
     "relUrl": "/creating-workflows/#lab-tab"
-  },"69": {
+  },"74": {
     "doc": "3. Creating Workflows",
     "title": "3. Creating Workflows",
     "content": " ",
     "url": "/creating-workflows/",
     
     "relUrl": "/creating-workflows/"
-  },"70": {
+  },"75": {
     "doc": "User Guide",
     "title": "DataCROP Maize Workflow Management Editor User Guide",
     "content": " ",
     "url": "/user-guide/#datacrop-maize-workflow-management-editor-user-guide",
     
     "relUrl": "/user-guide/#datacrop-maize-workflow-management-editor-user-guide"
-  },"71": {
+  },"76": {
     "doc": "User Guide",
     "title": "Overview",
     "content": "The editor sidebar currently includes six pages: . | Warehouse: Create and manage reusable data models (workflows list, digital resources, workers, data kinds, and admin-only catalogs). | Workflow Lab: Configure workflow DAG metadata, design flow graphs, assign processors/workers/resources, and run/stop workflows. | Airflow DAGs: Opens the Airflow UI in an iframe. | Kibana Visualizations: Opens Kibana dashboards in an iframe. | Celery Workers Status: Opens Celery workers status in an iframe. | Settings: Theme/preferences, registry credentials, admin initialization, and read-only user profile. | . This guide focuses on the pages where most daily work happens: Warehouse, Workflow Lab, and Settings. ",
     "url": "/user-guide/#overview",
     
     "relUrl": "/user-guide/#overview"
-  },"72": {
+  },"77": {
     "doc": "User Guide",
     "title": "Read This First",
     "content": "Use this sequence when onboarding a new environment: . | Getting Started | Creating Data Models | Creating Workflows | Settings | Airflow | . ",
     "url": "/user-guide/#read-this-first",
     
     "relUrl": "/user-guide/#read-this-first"
-  },"73": {
+  },"78": {
     "doc": "User Guide",
     "title": "Access Notes",
     "content": ". | Some Warehouse tabs are admin-only (Processor Definitions, Data Interface Types). | The Initialize Resources action is visible only to admins in Settings. | If initialization is missing, Warehouse shows a warning and links to Settings. | . ",
     "url": "/user-guide/#access-notes",
     
     "relUrl": "/user-guide/#access-notes"
-  },"74": {
+  },"79": {
     "doc": "User Guide",
     "title": "User Guide",
     "content": " ",
     "url": "/user-guide/",
     
     "relUrl": "/user-guide/"
-  },"75": {
+  },"80": {
     "doc": "1. Getting Started",
     "title": "Getting Started",
     "content": "Before using the Workflow Editor, choose a deployment path on the Maize Setup page: either the single-script Maize MVP approach or the manual per-repository setup. Available processors depend on your deployment; administrators can ship predefined processor definitions during deployment (see Model Repository Setup). ",
     "url": "/overview/#getting-started",
     
     "relUrl": "/overview/#getting-started"
-  },"76": {
+  },"81": {
     "doc": "1. Getting Started",
     "title": "Accessing the Workflow Editor",
     "content": "To access the Workflow Editor, you log in using Keycloak. The exact login options depend on how your Keycloak realm is configured (for example, username/password, or an external identity provider such as GitHub if enabled). For the backend API calls used by the editor, the JWT token must include a userId claim, otherwise the backend cannot resolve the current user and requests will fail. ",
     "url": "/overview/#accessing-the-workflow-editor",
     
     "relUrl": "/overview/#accessing-the-workflow-editor"
-  },"77": {
+  },"82": {
     "doc": "1. Getting Started",
     "title": "1. Getting Started",
     "content": " ",
