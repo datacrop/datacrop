@@ -476,40 +476,54 @@
     "relUrl": "/creating-workflows/"
   },"68": {
     "doc": "User Guide",
-    "title": "DataCROP Maize Workflow Management Engine User Guide",
+    "title": "DataCROP Maize Workflow Management Editor User Guide",
     "content": " ",
-    "url": "/user-guide/#datacrop-maize-workflow-management-engine-user-guide",
+    "url": "/user-guide/#datacrop-maize-workflow-management-editor-user-guide",
     
-    "relUrl": "/user-guide/#datacrop-maize-workflow-management-engine-user-guide"
+    "relUrl": "/user-guide/#datacrop-maize-workflow-management-editor-user-guide"
   },"69": {
     "doc": "User Guide",
     "title": "Overview",
-    "content": "The Workflow Management Engine application is designed to facilitate efficient creation and management of workflows through four primary tabs in the sidebar: Warehouse, Lab, Airflow, and Kibana. Each tab serves a distinct purpose within the application. | Warehouse: A repository for creating and managing the data models that are used in workflows. | Lab: A dedicated space for designing and configuring workflows, leveraging the data models from the Warehouse. | Airflow: For monitoring the deployment of components. | Kibana: For data visualization. | . ",
+    "content": "The editor sidebar currently includes six pages: . | Warehouse: Create and manage reusable data models (workflows list, digital resources, workers, data kinds, and admin-only catalogs). | Workflow Lab: Configure workflow DAG metadata, design flow graphs, assign processors/workers/resources, and run/stop workflows. | Airflow DAGs: Opens the Airflow UI in an iframe. | Kibana Visualizations: Opens Kibana dashboards in an iframe. | Celery Workers Status: Opens Celery workers status in an iframe. | Settings: Theme/preferences, registry credentials, admin initialization, and read-only user profile. | . This guide focuses on the pages where most daily work happens: Warehouse, Workflow Lab, and Settings. ",
     "url": "/user-guide/#overview",
     
     "relUrl": "/user-guide/#overview"
   },"70": {
+    "doc": "User Guide",
+    "title": "Read This First",
+    "content": "Use this sequence when onboarding a new environment: . | Getting Started | Creating Data Models | Creating Workflows | Settings | Airflow | . ",
+    "url": "/user-guide/#read-this-first",
+    
+    "relUrl": "/user-guide/#read-this-first"
+  },"71": {
+    "doc": "User Guide",
+    "title": "Access Notes",
+    "content": ". | Some Warehouse tabs are admin-only (Processor Definitions, Data Interface Types). | The Initialize Resources action is visible only to admins in Settings. | If initialization is missing, Warehouse shows a warning and links to Settings. | . ",
+    "url": "/user-guide/#access-notes",
+    
+    "relUrl": "/user-guide/#access-notes"
+  },"72": {
     "doc": "User Guide",
     "title": "User Guide",
     "content": " ",
     "url": "/user-guide/",
     
     "relUrl": "/user-guide/"
-  },"71": {
+  },"73": {
     "doc": "1. Getting Started",
     "title": "Getting Started",
     "content": "Before using the Workflow Editor, choose a deployment path on the Maize Setup page: either the single-script Maize MVP approach or the manual per-repository setup. Available processors depend on your deployment; administrators can ship predefined processor definitions during deployment (see Model Repository Setup). ",
     "url": "/overview/#getting-started",
     
     "relUrl": "/overview/#getting-started"
-  },"72": {
+  },"74": {
     "doc": "1. Getting Started",
     "title": "Accessing the Workflow Editor",
     "content": "To access the Workflow Editor, you log in using Keycloak. The exact login options depend on how your Keycloak realm is configured (for example, username/password, or an external identity provider such as GitHub if enabled). For the backend API calls used by the editor, the JWT token must include a userId claim, otherwise the backend cannot resolve the current user and requests will fail. ",
     "url": "/overview/#accessing-the-workflow-editor",
     
     "relUrl": "/overview/#accessing-the-workflow-editor"
-  },"73": {
+  },"75": {
     "doc": "1. Getting Started",
     "title": "1. Getting Started",
     "content": " ",
