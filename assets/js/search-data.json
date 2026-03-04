@@ -600,5 +600,82 @@
     "url": "/overview/",
     
     "relUrl": "/overview/"
+  },"86": {
+    "doc": "4. Settings",
+    "title": "Settings",
+    "content": "The Settings page controls user-level preferences, registry credentials, and admin resource initialization. ",
+    "url": "/settings/#settings",
+    
+    "relUrl": "/settings/#settings"
+  },"87": {
+    "doc": "4. Settings",
+    "title": "Sections Overview",
+    "content": "Current sections in the UI: . | Appearance &amp; Theme | Application Preferences | Initialize Resources (admin only card inside Application Preferences) | Registry Credentials | Save Settings | User Profile | . ",
+    "url": "/settings/#sections-overview",
+    
+    "relUrl": "/settings/#sections-overview"
+  },"88": {
+    "doc": "4. Settings",
+    "title": "Appearance &amp; Theme",
+    "content": "Theme Mode . | Toggle between light and dark mode. | The toggle updates user store dark-theme state used by the app theme. | . Primary Color . | Select from predefined color swatches. | Color is applied immediately to Vuetify custom light/dark themes. | Change is saved locally immediately; server persistence happens only when pressing Save. | . ",
+    "url": "/settings/#appearance--theme",
+    
+    "relUrl": "/settings/#appearance--theme"
+  },"89": {
+    "doc": "4. Settings",
+    "title": "Application Preferences",
+    "content": "Start Page . | UI shows a Start Page selector (Warehouse/Lab/Airflow/Kibana). | In current implementation it is disabled and labeled Coming Soon. | Effective behavior remains fixed to Warehouse as default landing page. | . Initialize Resources (Admin Only) . | Visible only when user is detected as admin. | Button calls backend POST /user/v1/initialize-resources. | Intended impact from frontend perspective: . | initializes required catalogs/resources used by Warehouse/Lab (for example worker category dependency checked by inventory initialization). | . | Action is repeatable from UI. | . ",
+    "url": "/settings/#application-preferences",
+    
+    "relUrl": "/settings/#application-preferences"
+  },"90": {
+    "doc": "4. Settings",
+    "title": "Registry Credentials",
+    "content": "This section manages private image registry credentials used by backend runtime configuration. What You Can Do . | Add registry credentials. | Edit existing entry. | Remove entry. | . Supported Presets . | Docker Hub (docker.io) | GitHub Container Registry (ghcr.io) | GitLab (registry.gitlab.com) | Custom registry URL | . Current Form Rules . | Required: normalized URL + username. | Token rules: . | New entry requires token/password. | Editing an entry with stored token: token field can be left blank to keep stored secret. | . | URL normalization removes protocol (http://, https://) and trailing slashes. | . Token Handling Behavior . | Stored token is masked in UI (********). | Existing token value is not shown back to users. | . ",
+    "url": "/settings/#registry-credentials",
+    
+    "relUrl": "/settings/#registry-credentials"
+  },"91": {
+    "doc": "4. Settings",
+    "title": "Save Settings",
+    "content": ". | Save button persists settings to backend via POST /user/v1/settings. | On success: success notification and local backup update. | On backend failure: error notification and fallback save to localStorage still occurs. | . Saved data payload includes: . | selected color | landing page value (currently not functionally used for startup routing) | registry credentials payload | . ",
+    "url": "/settings/#save-settings",
+    
+    "relUrl": "/settings/#save-settings"
+  },"92": {
+    "doc": "4. Settings",
+    "title": "User Profile",
+    "content": "Displays read-only account data from user/auth stores (populated from decoded Keycloak token fields): . | full name | authority | admin flag | email | username | region | user id | roles | . In-app profile editing is not implemented. ",
+    "url": "/settings/#user-profile",
+    
+    "relUrl": "/settings/#user-profile"
+  },"93": {
+    "doc": "4. Settings",
+    "title": "One-Time Vs Repeatable Actions",
+    "content": "| Action | Current behavior | . | Initialize Resources | Repeatable (admin only) | . | Save Settings | Repeatable | . | Add/Edit/Remove Registry | Repeatable | . | Theme / Color changes | Repeatable | . ",
+    "url": "/settings/#one-time-vs-repeatable-actions",
+    
+    "relUrl": "/settings/#one-time-vs-repeatable-actions"
+  },"94": {
+    "doc": "4. Settings",
+    "title": "Known Limitations (Confirmed)",
+    "content": ". | Start page preference is present but not active in routing behavior. | Profile editing is not available in-app. | Registry tokens are masked and not retrievable in plaintext through UI. | . ",
+    "url": "/settings/#known-limitations-confirmed",
+    
+    "relUrl": "/settings/#known-limitations-confirmed"
+  },"95": {
+    "doc": "4. Settings",
+    "title": "Troubleshooting",
+    "content": ". | Initialize button not visible: account is not recognized as admin. | Save fails to backend: settings still fall back to localStorage; check backend availability/auth token. | Cannot save registry entry: ensure URL and username are set; set token when creating new entry. | Theme color not persisted after reload: use Save to persist to backend (local fallback depends on browser storage state). | . Screenshot note: this guide reflects the current structured Settings layout; refresh screenshots if your deployment uses older UI styling. ",
+    "url": "/settings/#troubleshooting",
+    
+    "relUrl": "/settings/#troubleshooting"
+  },"96": {
+    "doc": "4. Settings",
+    "title": "4. Settings",
+    "content": " ",
+    "url": "/settings/",
+    
+    "relUrl": "/settings/"
   }
 }
