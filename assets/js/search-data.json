@@ -419,111 +419,125 @@
     
     "relUrl": "/"
   },"60": {
-    "doc": "4. Airflow",
+    "doc": "5. Airflow",
     "title": "Airflow",
-    "content": ". For all the workflows we create, two DAGs (Directed Acyclic Graphs) are generated in Airflow: . | Deployment DAG: Responsible for deploying all the processors in the workflow. | Undeployment DAG: Responsible for undeploying all the processors in the workflow. | . This is why there is an Airflow icon in the sidebar, which contains an iframe that takes you directly to the Airflow web page. Additionally, each workflow in the Lab page has an Airflow tab to inspect the corresponding Airflow DAG. ",
+    "content": ". The editor exposes Airflow in two places: . | Sidebar Airflow DAGs page: opens the Airflow home UI in an iframe. | Lab -&gt; Airflow tab (for a selected workflow): embeds workflow-specific DAG grid views with a toggle between: . | Deployment | Teardown | . | . ",
     "url": "/airflow-note/#airflow",
     
     "relUrl": "/airflow-note/#airflow"
   },"61": {
-    "doc": "4. Airflow",
-    "title": "4. Airflow",
+    "doc": "5. Airflow",
+    "title": "Workflow Runtime Actions",
+    "content": "For saved workflows: . | Run triggers the deployment workflow using dagConf.dag_id. | Stop triggers teardown using dagConf.dag_id + \"_teardown\". | . ",
+    "url": "/airflow-note/#workflow-runtime-actions",
+    
+    "relUrl": "/airflow-note/#workflow-runtime-actions"
+  },"62": {
+    "doc": "5. Airflow",
+    "title": "What To Expect",
+    "content": ". | Unsaved workflows cannot be inspected in the Lab Airflow tab. | After save/update, workflow DAGs may take up to two minutes to appear and become runnable. | . ",
+    "url": "/airflow-note/#what-to-expect",
+    
+    "relUrl": "/airflow-note/#what-to-expect"
+  },"63": {
+    "doc": "5. Airflow",
+    "title": "5. Airflow",
     "content": " ",
     "url": "/airflow-note/",
     
     "relUrl": "/airflow-note/"
-  },"62": {
+  },"64": {
     "doc": "2. Creating Data Models",
     "title": "Creating Data Models",
     "content": " ",
     "url": "/creating-data-models/#creating-data-models",
     
     "relUrl": "/creating-data-models/#creating-data-models"
-  },"63": {
+  },"65": {
     "doc": "2. Creating Data Models",
     "title": "Warehouse Tab",
     "content": "My Workflows . Description: This section displays a list of workflows you have created. Features: . | View Workflows: Browse your existing workflows. | Create Workflow: Redirects you to the Lab tab for creating a new workflow. | . My Digital Resources . Description: The Digital Resource entity represents the instantiation of a data source within the system. Purpose: Provides a context and connection interface for accessing and utilizing data. Key Attributes: . | dataInterfaceTypeID: Links to the data interface type (e.g., kafka, elasticsearch, API REST). | dataKindID: (Optional) Links to the type of data the resource manages. | parameterValue: A list of parameter values required by the selected data interface type. | . Functionality: Provides reusable, parameterized connection details (for example Kafka topic configuration or Elasticsearch connection details) that processors can reference as workflow inputs/outputs. My Workers . Description: This section allows you to view and create worker assets. Purpose: Worker assets are responsible for executing processors within workflows. Features: . | Define worker specifications. | Assign workers to processors for deployment. | . My Data Kinds . Description: The Data Kind entity defines the type of data managed in the system. Purpose: Provides metadata about data structure, format, and type. Key Attributes: . | modelType: Specifies the data’s structural type (e.g., simple or complex). | format: Indicates the format (e.g., JSON, XML). | quantityKind: Defines whether the data is quantitative or qualitative. | . Functionality: Facilitates precise processing and analysis of data. ",
     "url": "/creating-data-models/#warehouse-tab",
     
     "relUrl": "/creating-data-models/#warehouse-tab"
-  },"64": {
+  },"66": {
     "doc": "2. Creating Data Models",
     "title": "2. Creating Data Models",
     "content": " ",
     "url": "/creating-data-models/",
     
     "relUrl": "/creating-data-models/"
-  },"65": {
+  },"67": {
     "doc": "3. Creating Workflows",
     "title": "Creating Workflows",
     "content": " ",
     "url": "/creating-workflows/#creating-workflows",
     
     "relUrl": "/creating-workflows/#creating-workflows"
-  },"66": {
+  },"68": {
     "doc": "3. Creating Workflows",
     "title": "Lab Tab",
     "content": "Creating Workflows . Workflow Specifications Page . Overview: The starting point for creating workflows. Workflow Specifications: . | Name | Description | Configuration: Define the DAG (Directed Acyclic Graph) that represents the workflow in Airflow. | . Flow Creator . Overview: An interactive interface for designing workflows using nodes and edges. Features: . | Add Node: Use the “Add Node” button to add processors to your workflow. | View Workflow: Nodes are displayed in a 2D representation and can be connected using edges. | . Processors . Processor Configuration . | Define the Processor Type and it’s parameters. | Choose a Worker for deployment. | Assign Data Input and Data Output using digital resources. | . Note: Before creating a processor in the Flow Creator, ensure that you have already created the data models you plan to use with it. This includes the worker asset and the digital resources that will represent the data input and output you plan to add. Basic Processor Types Supported: . | Apache Kafka: Creates a Kafka cluster (used as infrastructure for streaming workflows). | Logstash Pipeline: Creates a pipeline that transfers data from one digital resource to another (supports a custom logstash_filter). | Kibana Pipeline: Creates a pipeline that takes input from a digital resource and forwards it to Elasticsearch for visualization through the editor. | Context Extraction: Example processing component shipped as a processor definition (your deployment may include different processors). | . Note: The list of available processors is driven by processor definitions stored in the Model Repository. Deployers can add more definitions via config/extra-processors.json and import them during initialization. ",
     "url": "/creating-workflows/#lab-tab",
     
     "relUrl": "/creating-workflows/#lab-tab"
-  },"67": {
+  },"69": {
     "doc": "3. Creating Workflows",
     "title": "3. Creating Workflows",
     "content": " ",
     "url": "/creating-workflows/",
     
     "relUrl": "/creating-workflows/"
-  },"68": {
+  },"70": {
     "doc": "User Guide",
     "title": "DataCROP Maize Workflow Management Editor User Guide",
     "content": " ",
     "url": "/user-guide/#datacrop-maize-workflow-management-editor-user-guide",
     
     "relUrl": "/user-guide/#datacrop-maize-workflow-management-editor-user-guide"
-  },"69": {
+  },"71": {
     "doc": "User Guide",
     "title": "Overview",
     "content": "The editor sidebar currently includes six pages: . | Warehouse: Create and manage reusable data models (workflows list, digital resources, workers, data kinds, and admin-only catalogs). | Workflow Lab: Configure workflow DAG metadata, design flow graphs, assign processors/workers/resources, and run/stop workflows. | Airflow DAGs: Opens the Airflow UI in an iframe. | Kibana Visualizations: Opens Kibana dashboards in an iframe. | Celery Workers Status: Opens Celery workers status in an iframe. | Settings: Theme/preferences, registry credentials, admin initialization, and read-only user profile. | . This guide focuses on the pages where most daily work happens: Warehouse, Workflow Lab, and Settings. ",
     "url": "/user-guide/#overview",
     
     "relUrl": "/user-guide/#overview"
-  },"70": {
+  },"72": {
     "doc": "User Guide",
     "title": "Read This First",
     "content": "Use this sequence when onboarding a new environment: . | Getting Started | Creating Data Models | Creating Workflows | Settings | Airflow | . ",
     "url": "/user-guide/#read-this-first",
     
     "relUrl": "/user-guide/#read-this-first"
-  },"71": {
+  },"73": {
     "doc": "User Guide",
     "title": "Access Notes",
     "content": ". | Some Warehouse tabs are admin-only (Processor Definitions, Data Interface Types). | The Initialize Resources action is visible only to admins in Settings. | If initialization is missing, Warehouse shows a warning and links to Settings. | . ",
     "url": "/user-guide/#access-notes",
     
     "relUrl": "/user-guide/#access-notes"
-  },"72": {
+  },"74": {
     "doc": "User Guide",
     "title": "User Guide",
     "content": " ",
     "url": "/user-guide/",
     
     "relUrl": "/user-guide/"
-  },"73": {
+  },"75": {
     "doc": "1. Getting Started",
     "title": "Getting Started",
     "content": "Before using the Workflow Editor, choose a deployment path on the Maize Setup page: either the single-script Maize MVP approach or the manual per-repository setup. Available processors depend on your deployment; administrators can ship predefined processor definitions during deployment (see Model Repository Setup). ",
     "url": "/overview/#getting-started",
     
     "relUrl": "/overview/#getting-started"
-  },"74": {
+  },"76": {
     "doc": "1. Getting Started",
     "title": "Accessing the Workflow Editor",
     "content": "To access the Workflow Editor, you log in using Keycloak. The exact login options depend on how your Keycloak realm is configured (for example, username/password, or an external identity provider such as GitHub if enabled). For the backend API calls used by the editor, the JWT token must include a userId claim, otherwise the backend cannot resolve the current user and requests will fail. ",
     "url": "/overview/#accessing-the-workflow-editor",
     
     "relUrl": "/overview/#accessing-the-workflow-editor"
-  },"75": {
+  },"77": {
     "doc": "1. Getting Started",
     "title": "1. Getting Started",
     "content": " ",
