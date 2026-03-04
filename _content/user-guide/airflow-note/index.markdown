@@ -1,17 +1,30 @@
 ---
 layout: page
-title: "4. Airflow"
+title: "5. Airflow"
 parent: User Guide
 permalink: /airflow-note/
-nav_order: 4
+nav_order: 5
 ---
 
 # Airflow
 
 ![Airflow Screenshot](/assets/img/airflow-note/airflow.png)
 
-For all the workflows we create, two DAGs (Directed Acyclic Graphs) are generated in Airflow:
-- **Deployment DAG**: Responsible for deploying all the processors in the workflow.
-- **Undeployment DAG**: Responsible for undeploying all the processors in the workflow.
+The editor exposes Airflow in two places:
 
-This is why there is an Airflow icon in the sidebar, which contains an iframe that takes you directly to the Airflow web page. Additionally, each workflow in the Lab page has an Airflow tab to inspect the corresponding Airflow DAG.
+- **Sidebar Airflow DAGs page**: opens the Airflow home UI in an iframe.
+- **Lab -> Airflow tab** (for a selected workflow): embeds workflow-specific DAG grid views with a toggle between:
+  - **Deployment**
+  - **Teardown**
+
+## Workflow Runtime Actions
+
+For saved workflows:
+
+- **Run** triggers the deployment workflow using `dagConf.dag_id`.
+- **Stop** triggers teardown using `dagConf.dag_id + "_teardown"`.
+
+## What To Expect
+
+- Unsaved workflows cannot be inspected in the Lab Airflow tab.
+- After save/update, workflow DAGs may take up to two minutes to appear and become runnable.
