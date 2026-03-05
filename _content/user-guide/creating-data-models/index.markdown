@@ -132,23 +132,6 @@ Why this order: each later object depends on IDs and templates created earlier (
 | Processor node `dataOutput` | Digital Resource | Output data binding | Depends on processor/use case | PM form + flow connections |
 | Workflow | Nodes + edges + processor refs | Full orchestration container | Yes | Save/Update/Run lifecycle |
 
-### Mermaid View
-
-```mermaid
-flowchart LR
-  DIT["Data Interface Type"] --> DR["Digital Resource"]
-  DK["Data Kind"] -. optional .-> DR
-  AC["Asset Category: Worker"] --> W["Asset: Worker"]
-  PD["Processor Definition"] --> PM["Processor Node (Lab)"]
-  W --> PM
-  DR -->|INPUT| PM
-  PM -->|OUTPUT| DR
-  WF["Workflow"] --> PM
-  WF --> E["Flow Edges"]
-  WT["Workflow Template"] --> WF
-```
-
-If your docs renderer does not support Mermaid, use the table above as the canonical map.
 
 ## Troubleshooting
 
