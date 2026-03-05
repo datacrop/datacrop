@@ -107,21 +107,6 @@ Displays read-only account data from user/auth stores (populated from decoded Ke
 
 In-app profile editing is not implemented.
 
-## One-Time Vs Repeatable Actions
-
-| Action | Current behavior |
-|---|---|
-| Initialize Resources | Repeatable (admin only) |
-| Save Settings | Repeatable |
-| Add/Edit/Remove Registry | Repeatable |
-| Theme / Color changes | Repeatable |
-
-## Known Limitations (Confirmed)
-
-- Start page preference is present but not active in routing behavior.
-- Profile editing is not available in-app.
-- Registry tokens are masked and not retrievable in plaintext through UI.
-
 ## Troubleshooting
 
 - **Initialize button not visible**: account is not recognized as admin.
