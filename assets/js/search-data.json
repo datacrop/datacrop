@@ -651,26 +651,12 @@
     "relUrl": "/settings/#user-profile"
   },"93": {
     "doc": "4. Settings",
-    "title": "One-Time Vs Repeatable Actions",
-    "content": "| Action | Current behavior | . | Initialize Resources | Repeatable (admin only) | . | Save Settings | Repeatable | . | Add/Edit/Remove Registry | Repeatable | . | Theme / Color changes | Repeatable | . ",
-    "url": "/settings/#one-time-vs-repeatable-actions",
-    
-    "relUrl": "/settings/#one-time-vs-repeatable-actions"
-  },"94": {
-    "doc": "4. Settings",
-    "title": "Known Limitations (Confirmed)",
-    "content": ". | Start page preference is present but not active in routing behavior. | Profile editing is not available in-app. | Registry tokens are masked and not retrievable in plaintext through UI. | . ",
-    "url": "/settings/#known-limitations-confirmed",
-    
-    "relUrl": "/settings/#known-limitations-confirmed"
-  },"95": {
-    "doc": "4. Settings",
     "title": "Troubleshooting",
     "content": ". | Initialize button not visible: account is not recognized as admin. | Save fails to backend: settings still fall back to localStorage; check backend availability/auth token. | Cannot save registry entry: ensure URL and username are set; set token when creating new entry. | Theme color not persisted after reload: use Save to persist to backend (local fallback depends on browser storage state). | . Screenshot note: this guide reflects the current structured Settings layout; refresh screenshots if your deployment uses older UI styling. ",
     "url": "/settings/#troubleshooting",
     
     "relUrl": "/settings/#troubleshooting"
-  },"96": {
+  },"94": {
     "doc": "4. Settings",
     "title": "4. Settings",
     "content": " ",
