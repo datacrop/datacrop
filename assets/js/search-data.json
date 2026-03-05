@@ -407,7 +407,7 @@
   },"58": {
     "doc": "Index",
     "title": "Links:",
-    "content": ". | Contact DataCROP | Report Issues/Problems | DataCROP Forum | Website (under construction :construction:) | DataCROP@DockerHub | Stats@OpenHUB | . ",
+    "content": ". | DataCROP@DockerHub | Stats@OpenHUB | . ",
     "url": "/#links",
     
     "relUrl": "/#links"
