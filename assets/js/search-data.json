@@ -428,7 +428,7 @@
   },"61": {
     "doc": "5. Airflow",
     "title": "Workflow Runtime Actions",
-    "content": "For saved workflows: . | Run triggers the deployment workflow using dagConf.dag_id. | Stop triggers teardown using dagConf.dag_id + \"_teardown\". | . ",
+    "content": "For saved workflows: . | Run triggers the deployment DAG. | Stop triggers teardown DAG. | . ",
     "url": "/airflow-note/#workflow-runtime-actions",
     
     "relUrl": "/airflow-note/#workflow-runtime-actions"
