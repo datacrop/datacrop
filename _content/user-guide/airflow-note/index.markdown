@@ -21,8 +21,8 @@ The editor exposes Airflow in two places:
 
 For saved workflows:
 
-- **Run** triggers the deployment workflow using `dagConf.dag_id`.
-- **Stop** triggers teardown using `dagConf.dag_id + "_teardown"`.
+- **Run** triggers the deployment DAG.
+- **Stop** triggers teardown DAG.
 
 ## What To Expect
 
