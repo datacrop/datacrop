@@ -73,10 +73,6 @@ Designed/Developed under the SecureIoT (2018-2021) project, IoTAC (2020-2023), S
 
 ## Links:
 
-* [Contact DataCROP](mailto:datacrop@googlegroups.com)
-* [Report Issues/Problems](mailto:datacrop@googlegroups.com)
-* [DataCROP Forum](https://groups.google.com/forum/#!forum/datacrop)
-* [Website](http://www.datacrop.eu/) (under construction :construction:)
 * [DataCROP@DockerHub](https://hub.docker.com/u/datacrop)
 * [Stats@OpenHUB](https://www.openhub.net/p/datacrop)
 
