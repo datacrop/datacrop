@@ -1,9 +1,9 @@
 ---
 layout: page
-title: "4. Settings"
+title: "5. Settings"
 parent: User Guide
 permalink: /settings/
-nav_order: 4
+nav_order: 5
 ---
 
 # Settings

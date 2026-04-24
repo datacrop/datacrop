@@ -1,9 +1,9 @@
 ---
 layout: page
-title: "5. Airflow"
+title: "6. Airflow"
 parent: User Guide
 permalink: /airflow-note/
-nav_order: 5
+nav_order: 6
 ---
 
 # Airflow

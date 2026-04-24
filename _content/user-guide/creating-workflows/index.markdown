@@ -67,8 +67,9 @@ Current special behavior:
 
 - **Kibana Pipeline**: `dataOutput` is disabled in form.
 - **Logstash Pipeline**:
-  - DS selection is filtered to interface names `elasticsearch`, `API REST`, `kafka`.
-  - `logstash_filter` can be enabled/edited when parameter exists in definition.
+  - Data Input and Data Output lists are filtered by each Data Interface Type's Logstash capability flags (`logstashCompatible`, `supportsLogstashInput`, `supportsLogstashOutput`). Only compatible types appear; custom types created by admins are included if their flags permit.
+  - A dedicated **Logstash Filter** section lets you write or AI-generate the filter body (filter plugin content only, no `filter {}` wrapper).
+  - See [Logstash Pipelines](/logstash-pipelines/) for the full guide including the AI Logstash Assistant.
 - **Derived Environment Variables** preview is shown from selected DS input/output using:
   - `<INTERFACE>_<KEY>_<DIRECTION>`
 
