@@ -419,29 +419,29 @@
     
     "relUrl": "/"
   },"60": {
-    "doc": "5. Airflow",
+    "doc": "6. Airflow",
     "title": "Airflow",
     "content": ". The editor exposes Airflow in two places: . | Sidebar Airflow DAGs page: opens the Airflow home UI in an iframe. | Lab -&gt; Airflow tab (for a selected workflow): embeds workflow-specific DAG grid views with a toggle between: . | Deployment | Teardown | . | . ",
     "url": "/airflow-note/#airflow",
     
     "relUrl": "/airflow-note/#airflow"
   },"61": {
-    "doc": "5. Airflow",
+    "doc": "6. Airflow",
     "title": "Workflow Runtime Actions",
     "content": "For saved workflows: . | Run triggers the deployment DAG. | Stop triggers teardown DAG. | . ",
     "url": "/airflow-note/#workflow-runtime-actions",
     
     "relUrl": "/airflow-note/#workflow-runtime-actions"
   },"62": {
-    "doc": "5. Airflow",
+    "doc": "6. Airflow",
     "title": "What To Expect",
     "content": ". | Unsaved workflows cannot be inspected in the Lab Airflow tab. | After save/update, workflow DAGs may take up to two minutes to appear and become runnable. | . ",
     "url": "/airflow-note/#what-to-expect",
     
     "relUrl": "/airflow-note/#what-to-expect"
   },"63": {
-    "doc": "5. Airflow",
-    "title": "5. Airflow",
+    "doc": "6. Airflow",
+    "title": "6. Airflow",
     "content": " ",
     "url": "/airflow-note/",
     
@@ -519,7 +519,7 @@
   },"74": {
     "doc": "3. Creating Workflows",
     "title": "End-To-End Workflow Creation",
-    "content": "1) Configure Workflow Details (Required) . | Open Workflow Lab. | In 1. Workflow Details, set: . | Workflow Name (required to save/update) | Workflow Description (optional) | DAG configuration fields | . | If requires_scheduler is enabled, Schedule is required. | . 2) Build The Flow Graph . Open 2. Flow Creator and use either approach: . | Processor nodes: . | Click Add Processor, or | Drag a processor preset from the left panel (this creates and persists a processor instance immediately). | . | Digital Resource nodes: . | Click Add Digital Resource, or | Drag an existing Digital Resource from the left panel. | . | . Double-click a node (or select + Edit) to open configuration forms. Screenshot note: the current editor also includes template save, DS transfer dialog, and DS inline create/edit dialogs that may not appear in the older image. 3) Configure Processor Nodes . Processor form currently supports: . | General: name, description. | Deployment: . | assetID (worker) required unless usesExistingInfrastructure is enabled for eligible Data Persistence processors. | . | Details: . | processorDefinitionReferenceID (required). | parameter values based on selected Processor Definition template. | . | Data Flow: . | dataInput and dataOutput Digital Resource lists. | . | . Current special behavior: . | Kibana Pipeline: dataOutput is disabled in form. | Logstash Pipeline: . | DS selection is filtered to interface names elasticsearch, API REST, kafka. | logstash_filter can be enabled/edited when parameter exists in definition. | . | Derived Environment Variables preview is shown from selected DS input/output using: . | &lt;INTERFACE&gt;_&lt;KEY&gt;_&lt;DIRECTION&gt; | . | . Example directions: . | _INPUT for processor inputs. | _OUTPUT for processor outputs. | . This matches the processor integration contract in Integrating Custom Processors. 4) Connect Nodes And Transfer Digital Resources . Direct DS &lt;-&gt; Processor links . | Connect DS -&gt; Processor to add DS to processor dataInput. | Connect Processor -&gt; DS to add DS to processor dataOutput. | . These edges are labeled INPUT or OUTPUT. Processor -&gt; Processor links (Transfer dialog) . Connecting two processor nodes opens Transfer Digital Resources between Processors. Available options: . | Select source output DS values to add into target inputs. | Select target input DS values to add into source outputs. | Select one existing DS for both sides. | Create a new DS for both sides. | Proceed without transfer. | . 5) Save / Update Behavior . | Save (new workflow) and Update (existing workflow) are disabled until: . | workflow name is present, and | schedule is provided when requires_scheduler=true. | . | Payload includes workflow nodes/edges plus compatibility fields (dataProcessors, edgeConf). | After save/update, Lab warns that Airflow visibility can take up to two minutes. | . 6) Run / Stop Behavior . From Lab toolbar or Warehouse workflow row actions: . | Run triggers workflow DAG via dagConf.dag_id. | Stop triggers teardown DAG by appending _teardown to the same DAG id. | In Warehouse tables, these actions are shown as Deploy and Stop for workflow rows. | . 7) Airflow Views In Lab . | Unsaved workflows show warning in Lab Airflow tab. | Saved workflows show toggle: . | Deployment DAG | Teardown DAG | . | Embedded grid iframe path in Lab is derived from workflow name/id formatting. | . For global Airflow iframe behavior, see Airflow. Kibana monitoring is not part of Lab tabs; it is available as a separate sidebar page. 8) Workflow Templates . Template features currently available: . | In Lab flow editor: Save as Template. | In Warehouse Workflows tab: . | Create Workflow from Template | Edit/Delete template when user is owner or admin. | . | . ",
+    "content": "1) Configure Workflow Details (Required) . | Open Workflow Lab. | In 1. Workflow Details, set: . | Workflow Name (required to save/update) | Workflow Description (optional) | DAG configuration fields | . | If requires_scheduler is enabled, Schedule is required. | . 2) Build The Flow Graph . Open 2. Flow Creator and use either approach: . | Processor nodes: . | Click Add Processor, or | Drag a processor preset from the left panel (this creates and persists a processor instance immediately). | . | Digital Resource nodes: . | Click Add Digital Resource, or | Drag an existing Digital Resource from the left panel. | . | . Double-click a node (or select + Edit) to open configuration forms. Screenshot note: the current editor also includes template save, DS transfer dialog, and DS inline create/edit dialogs that may not appear in the older image. 3) Configure Processor Nodes . Processor form currently supports: . | General: name, description. | Deployment: . | assetID (worker) required unless usesExistingInfrastructure is enabled for eligible Data Persistence processors. | . | Details: . | processorDefinitionReferenceID (required). | parameter values based on selected Processor Definition template. | . | Data Flow: . | dataInput and dataOutput Digital Resource lists. | . | . Current special behavior: . | Kibana Pipeline: dataOutput is disabled in form. | Logstash Pipeline: . | Data Input and Data Output lists are filtered by each Data Interface Type’s Logstash capability flags (logstashCompatible, supportsLogstashInput, supportsLogstashOutput). Only compatible types appear; custom types created by admins are included if their flags permit. | A dedicated Logstash Filter section lets you write or AI-generate the filter body (filter plugin content only, no filter {} wrapper). | See Logstash Pipelines for the full guide including the AI Logstash Assistant. | . | Derived Environment Variables preview is shown from selected DS input/output using: . | &lt;INTERFACE&gt;_&lt;KEY&gt;_&lt;DIRECTION&gt; | . | . Example directions: . | _INPUT for processor inputs. | _OUTPUT for processor outputs. | . This matches the processor integration contract in Integrating Custom Processors. 4) Connect Nodes And Transfer Digital Resources . Direct DS &lt;-&gt; Processor links . | Connect DS -&gt; Processor to add DS to processor dataInput. | Connect Processor -&gt; DS to add DS to processor dataOutput. | . These edges are labeled INPUT or OUTPUT. Processor -&gt; Processor links (Transfer dialog) . Connecting two processor nodes opens Transfer Digital Resources between Processors. Available options: . | Select source output DS values to add into target inputs. | Select target input DS values to add into source outputs. | Select one existing DS for both sides. | Create a new DS for both sides. | Proceed without transfer. | . 5) Save / Update Behavior . | Save (new workflow) and Update (existing workflow) are disabled until: . | workflow name is present, and | schedule is provided when requires_scheduler=true. | . | Payload includes workflow nodes/edges plus compatibility fields (dataProcessors, edgeConf). | After save/update, Lab warns that Airflow visibility can take up to two minutes. | . 6) Run / Stop Behavior . From Lab toolbar or Warehouse workflow row actions: . | Run triggers workflow DAG via dagConf.dag_id. | Stop triggers teardown DAG by appending _teardown to the same DAG id. | In Warehouse tables, these actions are shown as Deploy and Stop for workflow rows. | . 7) Airflow Views In Lab . | Unsaved workflows show warning in Lab Airflow tab. | Saved workflows show toggle: . | Deployment DAG | Teardown DAG | . | Embedded grid iframe path in Lab is derived from workflow name/id formatting. | . For global Airflow iframe behavior, see Airflow. Kibana monitoring is not part of Lab tabs; it is available as a separate sidebar page. 8) Workflow Templates . Template features currently available: . | In Lab flow editor: Save as Template. | In Warehouse Workflows tab: . | Create Workflow from Template | Edit/Delete template when user is owner or admin. | . | . ",
     "url": "/creating-workflows/#end-to-end-workflow-creation",
     
     "relUrl": "/creating-workflows/#end-to-end-workflow-creation"
@@ -580,85 +580,211 @@
     
     "relUrl": "/user-guide/"
   },"83": {
+    "doc": "AI Logstash Assistant",
+    "title": "AI Logstash Assistant",
+    "content": "The AI Logstash Assistant is a context-aware chat panel embedded in the Logstash Pipeline processor form. It uses a large-language model (LLM) to help you write, explain, and refine Logstash filter bodies without leaving the editor. The assistant enforces two hard constraints automatically: . | It generates filter body content only — the output is meant to go directly into the filter editor and never includes an outer filter {}, input {}, or output {} wrapper. | It only uses well-known Logstash filter plugins: grok, mutate, date, json, kv, geoip, ruby, drop, and standard flow-control constructs. | . ",
+    "url": "/ai-logstash-assistant/",
+    
+    "relUrl": "/ai-logstash-assistant/"
+  },"84": {
+    "doc": "AI Logstash Assistant",
+    "title": "Opening the Assistant",
+    "content": "The AI Assistant button appears in the Logstash Filter Configuration section of the processor form. It is visible only when the selected Processor Type is Logstash Pipeline. Click AI Assistant to slide the chat panel open alongside the form. The dialog widens automatically to give the panel room. Click the button again, or the close button in the panel header, to collapse it. ",
+    "url": "/ai-logstash-assistant/#opening-the-assistant",
+    
+    "relUrl": "/ai-logstash-assistant/#opening-the-assistant"
+  },"85": {
+    "doc": "AI Logstash Assistant",
+    "title": "What the Assistant Knows",
+    "content": "When you send your first message, the assistant receives the following context automatically — you do not need to describe your pipeline manually: . | The Processor Definition name and its parameter schema | All configured Data Input Digital Resources: their names, interface types, and parameter values (e.g. Kafka bootstrap servers and topic) | All configured Data Output Digital Resources: the same detail set | The derived environment variables that will be injected at runtime (&lt;INTERFACE&gt;_&lt;KEY&gt;_&lt;DIRECTION&gt; format) | The current filter body, if one is already set | . This lets you write prompts like “Write a grok filter for my Kafka input messages” and the assistant already knows the topic and format context from the selected Digital Resources. ",
+    "url": "/ai-logstash-assistant/#what-the-assistant-knows",
+    
+    "relUrl": "/ai-logstash-assistant/#what-the-assistant-knows"
+  },"86": {
+    "doc": "AI Logstash Assistant",
+    "title": "Using the Chat",
+    "content": "Type a prompt in the message box and press Send (or Enter). The assistant responds in one of two modes: . Explanation mode (default) Plain prose that explains, describes, or answers a question. No code block is generated. Use this to understand what a filter does, ask conceptual questions, or get advice before writing code. Code generation mode Triggered when your prompt contains an action word: write, generate, create, fix, rewrite, refactor, or modify. The assistant returns a fenced code block with an Apply to filter button next to it. Responses stream token-by-token. A Stop button appears during generation if you want to interrupt early. Quick actions: . | Button | What it does | . | Explain current filter | Pre-fills a prompt asking the assistant to analyse the existing filter body. Useful when inheriting a pipeline you did not write. | . | Clear Chat | Resets the conversation history. The pipeline context is re-sent automatically with the next message. | . ",
+    "url": "/ai-logstash-assistant/#using-the-chat",
+    
+    "relUrl": "/ai-logstash-assistant/#using-the-chat"
+  },"87": {
+    "doc": "AI Logstash Assistant",
+    "title": "Applying a Generated Filter",
+    "content": "When the assistant produces a code block, an Apply to filter button appears below it. Clicking it: . | Saves the current filter body as the undo checkpoint. | Replaces the filter textarea with the generated code. | Automatically enables the Enable Custom Filter toggle if it was off. | Shows a blue banner: “Filter updated by AI assistant” with an inline Undo button. The banner auto-dismisses after 10 seconds. | . You can apply multiple suggestions in sequence — each application records the previous state as the new undo checkpoint. ",
+    "url": "/ai-logstash-assistant/#applying-a-generated-filter",
+    
+    "relUrl": "/ai-logstash-assistant/#applying-a-generated-filter"
+  },"88": {
+    "doc": "AI Logstash Assistant",
+    "title": "Undoing an AI-Applied Filter",
+    "content": "Two undo paths are available: . | Banner Undo — click Undo in the blue notification banner that appears immediately after applying. This is the fastest path. | Section Undo — click the Undo button in the Logstash Filter Configuration section header (visible whenever a previous state is recorded). | . Both restore the filter to the state it was in just before the most recent Apply. Only one undo step is stored at a time. ",
+    "url": "/ai-logstash-assistant/#undoing-an-ai-applied-filter",
+    
+    "relUrl": "/ai-logstash-assistant/#undoing-an-ai-applied-filter"
+  },"89": {
+    "doc": "AI Logstash Assistant",
+    "title": "Example Prompts",
+    "content": "| Goal | Example prompt | . | Parse Apache access logs | Write a filter to parse Apache combined access logs | . | Add a static field | Add a field called environment with value production | . | Parse a JSON message field | Write a filter to parse the message field as JSON and promote its keys | . | Drop health-check noise | Drop events where the path field equals /health | . | Understand an existing filter | (click Explain current filter) | . | Parse a custom timestamp | Write a filter to parse log_timestamp using the format yyyy-MM-dd HH:mm:ss and set it as @timestamp | . | Enrich with geo data | Add a geoip filter on the client_ip field | . | Rename a field | Rename the field msg to message using mutate | . ",
+    "url": "/ai-logstash-assistant/#example-prompts",
+    
+    "relUrl": "/ai-logstash-assistant/#example-prompts"
+  },"90": {
+    "doc": "AI Logstash Assistant",
+    "title": "Limitations",
+    "content": ". | Filter body only. The assistant cannot configure input or output sections. Those come from the Digital Resources you wire in the processor form. | Review before saving. Responses are generated by an LLM and may occasionally contain syntax errors or use plugins not installed in your Logstash instance. Always review and test generated filters. | No live pipeline access. The assistant has no visibility into your running Logstash instance, existing indices, or live data. It reasons from the form configuration only. | Session-scoped history. Conversation history resets when the form is closed. Re-opening the assistant starts a fresh session (with pipeline context re-sent). | One undo step. Only the state before the most recent Apply is stored. If you apply two suggestions, the first checkpoint is lost. | . ",
+    "url": "/ai-logstash-assistant/#limitations",
+    
+    "relUrl": "/ai-logstash-assistant/#limitations"
+  },"91": {
+    "doc": "4. Logstash Pipelines",
+    "title": "Logstash Pipelines",
+    "content": "Logstash Pipeline is a built-in Processor Definition (type: Datacrop Service) that turns your Digital Resource wiring into a working Logstash configuration automatically. When you save a Logstash Pipeline processor manifest, the backend generates a .conf file and updates pipelines.yml — no manual file editing or Logstash restart required. ",
+    "url": "/logstash-pipelines/#logstash-pipelines",
+    
+    "relUrl": "/logstash-pipelines/#logstash-pipelines"
+  },"92": {
+    "doc": "4. Logstash Pipelines",
+    "title": "Before You Start",
+    "content": "Run Initialize Resources from Settings (admin only) before creating Logstash Pipeline processors. This seeds the built-in Data Interface Types and their Logstash capability metadata. ",
+    "url": "/logstash-pipelines/#before-you-start",
+    
+    "relUrl": "/logstash-pipelines/#before-you-start"
+  },"93": {
+    "doc": "4. Logstash Pipelines",
+    "title": "Compatible Data Interface Types",
+    "content": "Each Data Interface Type carries three capability flags that control Logstash participation: . | Flag | Meaning | Default when unset | . | logstashCompatible | Type can appear in any Logstash pipeline | true | . | supportsLogstashInput | Type can be used as a pipeline input source | true | . | supportsLogstashOutput | Type can be used as a pipeline output sink | true | . The built-in types seeded by Initialize Resources have explicit capabilities: . | Type | Logstash plugin | Input | Output | . | elasticsearch | elasticsearch | ✓ | ✓ | . | kafka | kafka | ✓ | ✓ | . | http | http | ✓ | ✓ | . | s3 | s3 | ✓ | ✓ | . | redis | redis | ✓ | ✓ | . | rabbitmq | rabbitmq | ✓ | ✓ | . | mongodb | mongodb | ✗ | ✓ | . | mqtt | — | ✗ | ✗ | . When you open the Logstash Pipeline processor form in the Lab, the Data Input dropdown shows only Digital Resources whose type has logstashCompatible = true and supportsLogstashInput ≠ false. The Data Output dropdown applies the same logic with supportsLogstashOutput. The same capability check is enforced server-side when the manifest is saved — a backend error is returned if an incompatible type slips through. Custom Data Interface Types created by admins appear in the dropdowns if their capability flags allow it. Types without explicit flags set (legacy or custom without declarations) default to supporting both directions. ",
+    "url": "/logstash-pipelines/#compatible-data-interface-types",
+    
+    "relUrl": "/logstash-pipelines/#compatible-data-interface-types"
+  },"94": {
+    "doc": "4. Logstash Pipelines",
+    "title": "Creating a Logstash Pipeline Processor",
+    "content": ". | Open Workflow Lab and add a processor node to the canvas. | Open the processor form (double-click or Edit). | Enable Use Existing Processor Infrastructure — Logstash is a platform service, so no worker is needed. | Enter a Name (required) and optional Description. | Under Details, select Logstash Pipeline as the Processor Type. | In Processor Parameters, confirm Active is set to true (it defaults to true). | Under Data Flow, select one or more Digital Resources for Data Input and/or Data Output. Only compatible types appear in each dropdown. | Optionally configure the Logstash Filter section — see The Logstash Filter Section below. | Click Save. | . Pipeline file generation happens synchronously on save. The .conf file and pipelines.yml are updated within seconds, and Logstash hot-reloads the new configuration automatically. ",
+    "url": "/logstash-pipelines/#creating-a-logstash-pipeline-processor",
+    
+    "relUrl": "/logstash-pipelines/#creating-a-logstash-pipeline-processor"
+  },"95": {
+    "doc": "4. Logstash Pipelines",
+    "title": "The Active Toggle",
+    "content": "The Active parameter in the Processor Parameters table controls whether Logstash loads this pipeline: . | true (default) — the pipeline is registered in pipelines.yml and Logstash loads it. | false — the pipeline is excluded from pipelines.yml; Logstash ignores it. The .conf file is not deleted. Re-enabling Active and saving restores the pipeline. | . Use the Active toggle to pause a pipeline during debugging or maintenance without losing its configuration. ",
+    "url": "/logstash-pipelines/#the-active-toggle",
+    
+    "relUrl": "/logstash-pipelines/#the-active-toggle"
+  },"96": {
+    "doc": "4. Logstash Pipelines",
+    "title": "The Logstash Filter Section",
+    "content": "The Logstash Filter editor adds a transformation step between input and output. It accepts filter plugin content only — do not include the outer filter { } wrapper. Example of valid content: . mutate { add_field =&gt; { \"environment\" =&gt; \"production\" } } grok { match =&gt; { \"message\" =&gt; \"%{COMMONAPACHELOG}\" } } . Controls: . | Enable Custom Filter toggle — shows or hides the editor. If no content is set, collapsing the editor resets the value to the empty default. | Reset to Default button — clears the filter back to the empty default. | AI Assistant button — opens the AI Logstash Assistant panel for AI-guided filter authoring. | . The filter section is visible only when the selected Processor Type is Logstash Pipeline and the logstash_filter parameter exists in that processor definition. ",
+    "url": "/logstash-pipelines/#the-logstash-filter-section",
+    
+    "relUrl": "/logstash-pipelines/#the-logstash-filter-section"
+  },"97": {
+    "doc": "4. Logstash Pipelines",
+    "title": "Empty Pipeline Handling",
+    "content": "A pipeline manifest with no eligible inputs, no eligible outputs, and no filter body produces no .conf file and is omitted from pipelines.yml. This prevents the Logstash startup error “Missing Filter End Vertex” that occurs when a pipeline configuration has no vertices. Once you add at least one eligible input, output, or a non-empty filter body and save, the pipeline file is created and Logstash picks it up on the next reload. ",
+    "url": "/logstash-pipelines/#empty-pipeline-handling",
+    
+    "relUrl": "/logstash-pipelines/#empty-pipeline-handling"
+  },"98": {
+    "doc": "4. Logstash Pipelines",
+    "title": "How Pipeline Files Are Generated",
+    "content": "When a Logstash Pipeline manifest is saved or deleted, the backend calls LogstashManager.reloadLogstash(). It: . | Fetches all Logstash Pipeline processor manifests. | For each manifest, resolves eligible Digital Resources for each direction using the capability flags. | Renders a &lt;name&gt;_&lt;id&gt;.conf from a Jinja2 template — each plugin block uses the type’s logstashPluginName, falling back to the type display name for backward compatibility. | Regenerates pipelines.yml, including only active and non-empty pipelines. | . The generated files land in the folder configured by the logstash.pipeline.folder environment variable (default: /app/logstash/pipeline/). ",
+    "url": "/logstash-pipelines/#how-pipeline-files-are-generated",
+    
+    "relUrl": "/logstash-pipelines/#how-pipeline-files-are-generated"
+  },"99": {
+    "doc": "4. Logstash Pipelines",
+    "title": "Troubleshooting",
+    "content": "No Digital Resources appear in Data Input or Data Output The type of those Digital Resources has supportsLogstashInput or supportsLogstashOutput set to false, or logstashCompatible is false. An admin can update the capability flags on the Data Interface Type. Pipeline does not appear in Logstash after saving Check that Active is true and that the manifest has at least one eligible input, output, or a non-empty filter body. Also verify that the logstash.pipeline.folder environment variable in the backend matches the path Logstash monitors for its pipeline configurations. Logstash reports a pipeline error after saving The most common cause is invalid filter syntax. Verify the filter body uses valid Logstash filter plugin syntax, has no outer filter {} wrapper, and contains no input {} or output {} blocks. mqtt Digital Resources do not appear in the dropdowns MQTT is marked logstashCompatible = false and is excluded from both input and output lists by design. There is no built-in Logstash MQTT plugin in standard distributions. Pipeline changes not picked up after a backend restart File generation is triggered on save. If the backend restarted without a save event, re-save any Logstash Pipeline manifests or call the POST /user/v1/initialize-resources endpoint to trigger a full reload. ",
+    "url": "/logstash-pipelines/#troubleshooting",
+    
+    "relUrl": "/logstash-pipelines/#troubleshooting"
+  },"100": {
+    "doc": "4. Logstash Pipelines",
+    "title": "4. Logstash Pipelines",
+    "content": " ",
+    "url": "/logstash-pipelines/",
+    
+    "relUrl": "/logstash-pipelines/"
+  },"101": {
     "doc": "1. Getting Started",
     "title": "Getting Started",
     "content": "Before using the Workflow Editor, choose a deployment path on the Maize Setup page: either the single-script Maize MVP approach or the manual per-repository setup. Available processors depend on your deployment; administrators can ship predefined processor definitions during deployment (see Model Repository Setup). ",
     "url": "/overview/#getting-started",
     
     "relUrl": "/overview/#getting-started"
-  },"84": {
+  },"102": {
     "doc": "1. Getting Started",
     "title": "Accessing the Workflow Editor",
     "content": "To access the Workflow Editor, you log in using Keycloak. The exact login options depend on how your Keycloak realm is configured (for example, username/password, or an external identity provider such as GitHub if enabled). For the backend API calls used by the editor, the JWT token must include a userId claim, otherwise the backend cannot resolve the current user and requests will fail. ",
     "url": "/overview/#accessing-the-workflow-editor",
     
     "relUrl": "/overview/#accessing-the-workflow-editor"
-  },"85": {
+  },"103": {
     "doc": "1. Getting Started",
     "title": "1. Getting Started",
     "content": " ",
     "url": "/overview/",
     
     "relUrl": "/overview/"
-  },"86": {
-    "doc": "4. Settings",
+  },"104": {
+    "doc": "5. Settings",
     "title": "Settings",
     "content": "The Settings page controls user-level preferences, registry credentials, and admin resource initialization. ",
     "url": "/settings/#settings",
     
     "relUrl": "/settings/#settings"
-  },"87": {
-    "doc": "4. Settings",
+  },"105": {
+    "doc": "5. Settings",
     "title": "Sections Overview",
     "content": "Current sections in the UI: . | Appearance &amp; Theme | Application Preferences | Initialize Resources (admin only card inside Application Preferences) | Registry Credentials | Save Settings | User Profile | . ",
     "url": "/settings/#sections-overview",
     
     "relUrl": "/settings/#sections-overview"
-  },"88": {
-    "doc": "4. Settings",
+  },"106": {
+    "doc": "5. Settings",
     "title": "Appearance &amp; Theme",
     "content": "Theme Mode . | Toggle between light and dark mode. | The toggle updates user store dark-theme state used by the app theme. | . Primary Color . | Select from predefined color swatches. | Color is applied immediately to Vuetify custom light/dark themes. | Change is saved locally immediately; server persistence happens only when pressing Save. | . ",
     "url": "/settings/#appearance--theme",
     
     "relUrl": "/settings/#appearance--theme"
-  },"89": {
-    "doc": "4. Settings",
+  },"107": {
+    "doc": "5. Settings",
     "title": "Application Preferences",
     "content": "Start Page . | UI shows a Start Page selector (Warehouse/Lab/Airflow/Kibana). | In current implementation it is disabled and labeled Coming Soon. | Effective behavior remains fixed to Warehouse as default landing page. | . Initialize Resources (Admin Only) . | Visible only when user is detected as admin. | Button calls backend POST /user/v1/initialize-resources. | Intended impact from frontend perspective: . | initializes required catalogs/resources used by Warehouse/Lab (for example worker category dependency checked by inventory initialization). | . | Action is repeatable from UI. | . ",
     "url": "/settings/#application-preferences",
     
     "relUrl": "/settings/#application-preferences"
-  },"90": {
-    "doc": "4. Settings",
+  },"108": {
+    "doc": "5. Settings",
     "title": "Registry Credentials",
     "content": "This section manages private image registry credentials used by backend runtime configuration. What You Can Do . | Add registry credentials. | Edit existing entry. | Remove entry. | . Supported Presets . | Docker Hub (docker.io) | GitHub Container Registry (ghcr.io) | GitLab (registry.gitlab.com) | Custom registry URL | . Current Form Rules . | Required: normalized URL + username. | Token rules: . | New entry requires token/password. | Editing an entry with stored token: token field can be left blank to keep stored secret. | . | URL normalization removes protocol (http://, https://) and trailing slashes. | . Token Handling Behavior . | Stored token is masked in UI (********). | Existing token value is not shown back to users. | . ",
     "url": "/settings/#registry-credentials",
     
     "relUrl": "/settings/#registry-credentials"
-  },"91": {
-    "doc": "4. Settings",
+  },"109": {
+    "doc": "5. Settings",
     "title": "Save Settings",
     "content": ". | Save button persists settings to backend via POST /user/v1/settings. | On success: success notification and local backup update. | On backend failure: error notification and fallback save to localStorage still occurs. | . Saved data payload includes: . | selected color | landing page value (currently not functionally used for startup routing) | registry credentials payload | . ",
     "url": "/settings/#save-settings",
     
     "relUrl": "/settings/#save-settings"
-  },"92": {
-    "doc": "4. Settings",
+  },"110": {
+    "doc": "5. Settings",
     "title": "User Profile",
     "content": "Displays read-only account data from user/auth stores (populated from decoded Keycloak token fields): . | full name | authority | admin flag | email | username | region | user id | roles | . In-app profile editing is not implemented. ",
     "url": "/settings/#user-profile",
     
     "relUrl": "/settings/#user-profile"
-  },"93": {
-    "doc": "4. Settings",
+  },"111": {
+    "doc": "5. Settings",
     "title": "Troubleshooting",
     "content": ". | Initialize button not visible: account is not recognized as admin. | Save fails to backend: settings still fall back to localStorage; check backend availability/auth token. | Cannot save registry entry: ensure URL and username are set; set token when creating new entry. | Theme color not persisted after reload: use Save to persist to backend (local fallback depends on browser storage state). | . Screenshot note: this guide reflects the current structured Settings layout; refresh screenshots if your deployment uses older UI styling. ",
     "url": "/settings/#troubleshooting",
     
     "relUrl": "/settings/#troubleshooting"
-  },"94": {
-    "doc": "4. Settings",
-    "title": "4. Settings",
+  },"112": {
+    "doc": "5. Settings",
+    "title": "5. Settings",
     "content": " ",
     "url": "/settings/",
     
