@@ -21,9 +21,19 @@ Warehouse shows these tabs:
 
 Non-admin users do not see the admin tabs.
 
-![Workflows Image](/img/creating-data-models/workflows.png)
+![Warehouse overview](/img/user-guide/wme/page-warehouse.jpg)
 
-> Screenshot note: actions and dialog styling may differ slightly from older captures.
+## Warehouse Row Actions
+
+Warehouse tables use icon actions in the rightmost column. Their meaning depends on the selected tab:
+
+- **Open/Edit** opens the selected item form. For saved workflows, opening the row loads that workflow in **Workflow Lab**.
+- **Clone** creates a copy flow for reusable catalog entries.
+- **Delete** removes the selected item after confirmation.
+- **Deploy** appears on workflow rows and runs the workflow deployment DAG.
+- **Stop** appears on workflow rows and runs the corresponding teardown DAG.
+
+Workflow rows are operational objects, so their actions include **Deploy** and **Stop**. Catalog rows such as Digital Resources, Workers, Data Kinds, Processor Definitions, and Data Interface Types focus on management actions such as open/edit, clone, and delete.
 
 ## Recommended Creation Order
 
@@ -39,17 +49,17 @@ Why this order: each later object depends on IDs and templates created earlier (
 
 ## Warehouse Entity Matrix
 
-| Entity | What it is | Where created/managed | Required fields / dependencies | Optional fields | Validation behavior (UI vs save logic) | Common pitfalls |
-|---|---|---|---|---|---|---|
-| Workflow (PO) | Saved workflow orchestration object that stores DAG config and graph (nodes/edges). | Listed in Warehouse, created/edited in Lab. | Name; schedule only when `requires_scheduler=true`; valid graph references. | Description, many DAG fields. | Save/Update is blocked in Lab until name exists, and schedule exists when scheduler is enabled. | Users expect Warehouse to create workflow directly; actual creation flow starts in Lab. |
-| Data Interface Type (DIT) | Interface template describing parameter schema for connection types. | Warehouse admin tab. | Name, description, interfaceCategory. | `logstashCompatible`, parameter defaults/metadata. | Inputs are marked required in UI, but Warehouse form submission is not blocked client-side by field validators. | Non-admin users cannot access this tab. |
-| Digital Resource (DS) | Instantiated data endpoint/source/sink with actual parameter values. | Warehouse tab (also creatable from PM form and Lab transfer flow). | Name, description, selected Data Interface Type, interface parameters. | Data Kind link. | DS parameter fields are shown only after selecting a Data Interface Type. | Parameter fields do not appear until a Data Interface Type is selected. |
-| Data Kind (DK) | Data metadata descriptor. | Warehouse tab. | Name, description, modelType, quantityKind, format. | None in UI. | Fields are marked required visually; final acceptance depends on backend validation. | `quantityKind` spelling must match backend contract even though UI labels it normally. |
-| Asset Category (Worker) | Category template that defines worker parameter schema. | Not managed in Warehouse UI; discovered during inventory initialization. | Must exist in backend (created by Initialize Resources flow). | N/A. | Missing category is detected during inventory init and sets `needsInitialization`. | If missing, worker management is blocked and Warehouse shows initialization warning. |
-| Asset (Worker) | Execution target used by processor nodes. | Warehouse tab. | Name, description, worker parameter values from Worker asset category. | Tags parameter (if provided by template). | Worker form values are template-driven; frontend auto-sets `assetCategoryID` during save/update. | Hidden worker params (e.g. `ssh user`, `ssh public key`) are not shown in form; table also hides `ip`/`ip address`. |
-| Processor Definition (PD) | Catalog entry for processor type/preset shown in Lab. | Warehouse admin tab. | Name, description, processorType, processorLocation, version; location-specific field (`projectName` or `containerImage`). | Icon, copyright, parameter defaults. | Conditional location fields are shown in UI; required behavior is effectively backend-validated. | Non-admin users cannot access this tab; missing/incorrect parameter keys affect PM form behavior. |
-| Processor node (PM) | Runtime processor instance in a workflow graph. | Created in Lab (button/drag/drop). | Processor Definition reference; worker unless existing-infrastructure mode is enabled for eligible processors. | Description, params, DS input/output lists. | PM form enforces worker assignment in code when infrastructure toggle is off. | Users may confuse definitions (catalog) with instances (nodes). |
-| Workflow Template (WT) | Reusable lightweight graph template (`nodes`, `edges`, processor refs). | Saved in Lab, instantiated/managed from Warehouse Workflows tab. | Template name. | Description. | Template save is blocked in Lab if name is blank. | Edit/Delete allowed only for admin or template owner. |
+| Entity | What it is | Where created/managed | Required fields / dependencies | Optional fields |
+|---|---|---|---|---|
+| Workflow (PO) | Saved workflow orchestration object that stores DAG config and graph (nodes/edges). | Listed in Warehouse, created/edited in Lab. | Name; schedule only when `requires_scheduler=true`; valid graph references. | Description, many DAG fields. |
+| Data Interface Type (DIT) | Interface template describing parameter schema for connection types. | Warehouse admin tab. | Name, description, interfaceCategory. | `logstashCompatible`, parameter defaults/metadata. |
+| Digital Resource (DS) | Instantiated data endpoint/source/sink with actual parameter values. | Warehouse tab (also creatable from PM form and Lab transfer flow). | Name, description, selected Data Interface Type, interface parameters. | Data Kind link. |
+| Data Kind (DK) | Data metadata descriptor. | Warehouse tab. | Name, description, modelType, quantityKind, format. | None in UI. |
+| Asset Category (Worker) | Category template that defines worker parameter schema. | Not managed in Warehouse UI; discovered during inventory initialization. | Must exist in backend (created by Initialize Resources flow). | N/A. |
+| Asset (Worker) | Execution target used by processor nodes. | Warehouse tab. | Name, description, worker parameter values from Worker asset category. | Tags parameter (if provided by template). |
+| Processor Definition (PD) | Catalog entry for processor type/preset shown in Lab. | Warehouse admin tab. | Name, description, processorType, processorLocation, version; location-specific field (`projectName` or `containerImage`). | Icon, copyright, parameter defaults. |
+| Processor node (PM) | Runtime processor instance in a workflow graph. | Created in Lab (button/drag/drop). | Processor Definition reference; worker unless existing-infrastructure mode is enabled for eligible processors. | Description, params, DS input/output lists. |
+| Workflow Template (WT) | Reusable lightweight graph template (`nodes`, `edges`, processor refs). | Saved in Lab, instantiated/managed from Warehouse Workflows tab. | Template name. | Description. |
 
 ## How To Create Each Entity
 
@@ -59,7 +69,15 @@ Why this order: each later object depends on IDs and templates created earlier (
 2. Click **Create New Workflow** to open Lab, or choose **Create Workflow from Template**.
 3. Configure and save from Lab.
 
+![Warehouse workflows table](/img/user-guide/wme/warehouse-workflows-table.jpg)
+
+Opening a saved workflow row loads it in **Workflow Lab** with its details, graph, and runtime controls available.
+
+![Workflow opened in Lab](/img/user-guide/wme/warehouse-workflows-item-opened-in-lab.jpg)
+
 ### Data Interface Types (Admin)
+
+Data Interface Types are admin-managed templates for Digital Resources. They define the connection category and the parameter schema that a Digital Resource form must collect. Logstash-related capability flags on these templates also determine whether resources of that type can be used as Logstash inputs or outputs.
 
 1. Open **Warehouse -> Data Interface Types**.
 2. Click **Add Data Interface Type**.
@@ -70,6 +88,10 @@ Why this order: each later object depends on IDs and templates created earlier (
    - `logstashCompatible` (optional switch)
    - parameter list entries (`name`, `key`, `type`, `defaultValue`, optional description)
 4. Save.
+
+![Warehouse data interface types table](/img/user-guide/wme/warehouse-data-interface-types-table.jpg)
+
+![Data interface type form](/img/user-guide/wme/warehouse-data-interface-types-item-form.jpg)
 
 ### Digital Resources
 
@@ -84,7 +106,9 @@ Why this order: each later object depends on IDs and templates created earlier (
 4. Optional: click **Use Defaults** to populate parameter values from template defaults.
 5. Save.
 
-![DS Image](/img/creating-data-models/ds.png)
+![Warehouse digital resources table](/img/user-guide/wme/warehouse-digital-resources-table.jpg)
+
+![Digital resource form](/img/user-guide/wme/warehouse-digital-resources-item-form.jpg)
 
 ### Data Kinds
 
@@ -93,7 +117,9 @@ Why this order: each later object depends on IDs and templates created earlier (
 3. Fill `name`, `description`, `modelType`, `quantityKind`, `format`.
 4. Save.
 
-![Datakind Image](/img/creating-data-models/datakind.png)
+![Warehouse data kinds table](/img/user-guide/wme/warehouse-data-kinds-table.jpg)
+
+![Data kind form](/img/user-guide/wme/warehouse-data-kinds-item-form.jpg)
 
 ### Workers
 
@@ -103,9 +129,13 @@ Why this order: each later object depends on IDs and templates created earlier (
 4. If template exposes tags, add tags in the dedicated tag control.
 5. Save.
 
-![Workers Image](/img/creating-data-models/workers.png)
+![Warehouse workers table](/img/user-guide/wme/warehouse-workers-table.jpg)
+
+![Worker form](/img/user-guide/wme/warehouse-workers-item-form.jpg)
 
 ### Processor Definitions (Admin)
+
+Processor Definitions are admin-managed processor templates. They define which processor types appear in the Lab, where the implementation runs, and which parameter fields processor nodes expose when users configure a workflow.
 
 1. Open **Warehouse -> Processor Definitions**.
 2. Click **Add Processor Definition**.
@@ -114,6 +144,10 @@ Why this order: each later object depends on IDs and templates created earlier (
    - `processorLocation = Remote Deployment` -> set `containerImage`
 4. Define parameter list entries that processor instances will consume in PM form.
 5. Save.
+
+![Warehouse processor definitions table](/img/user-guide/wme/warehouse-processor-definitions-table.jpg)
+
+![Processor definition form](/img/user-guide/wme/warehouse-processor-definitions-item-form.jpg)
 
 ## Relationship Map
 

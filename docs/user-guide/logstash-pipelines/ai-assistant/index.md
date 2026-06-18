@@ -19,6 +19,8 @@ The **AI Assistant** button appears in the **Logstash Filter Configuration** sec
 
 Click **AI Assistant** to slide the chat panel open alongside the form. The dialog widens automatically to give the panel room. Click the button again, or the close button in the panel header, to collapse it.
 
+![AI Logstash Assistant](/img/user-guide/wme/lab-logstash-ai-assistant.png)
+
 ## What the Assistant Knows
 
 When you send your first message, the assistant receives the following context automatically — you do not need to describe your pipeline manually:
@@ -29,7 +31,7 @@ When you send your first message, the assistant receives the following context a
 - The **derived environment variables** that will be injected at runtime (`<INTERFACE>_<KEY>_<DIRECTION>` format)
 - The **current filter body**, if one is already set
 
-This lets you write prompts like *"Write a grok filter for my Kafka input messages"* and the assistant already knows the topic and format context from the selected Digital Resources.
+The assistant panel shows this context as chips, including the selected Logstash Pipeline processor and the configured input/output Digital Resources. This lets you write prompts like *"Write a grok filter for my Kafka input messages"* and the assistant already knows the topic and format context from the selected Digital Resources.
 
 ## Using the Chat
 

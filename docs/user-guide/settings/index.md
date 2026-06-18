@@ -8,6 +8,8 @@ sidebar_position: 5
 
 The Settings page controls user-level preferences, registry credentials, and admin resource initialization.
 
+![Settings page](/img/user-guide/wme/page-settings.jpg)
+
 ## Sections Overview
 
 Current sections in the UI:
@@ -18,6 +20,8 @@ Current sections in the UI:
 4. **Registry Credentials**
 5. **Save Settings**
 6. **User Profile**
+
+The visual layout groups these controls from top to bottom: theme mode and primary color, application preferences and admin initialization, registry credentials, save controls, and the read-only user profile.
 
 ## Appearance & Theme
 
@@ -111,5 +115,3 @@ In-app profile editing is not implemented.
 - **Save fails to backend**: settings still fall back to localStorage; check backend availability/auth token.
 - **Cannot save registry entry**: ensure URL and username are set; set token when creating new entry.
 - **Theme color not persisted after reload**: use **Save** to persist to backend (local fallback depends on browser storage state).
-
-> Screenshot note: this guide reflects the current structured Settings layout; refresh screenshots if your deployment uses older UI styling.

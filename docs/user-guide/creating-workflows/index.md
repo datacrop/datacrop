@@ -29,7 +29,11 @@ See [Creating Data Models](/creating-data-models/).
    - DAG configuration fields
 3. If `requires_scheduler` is enabled, **Schedule** is required.
 
-![Workflow Specs Image](/img/creating-workflows/workflowspecs.png)
+![Workflow Lab details](/img/user-guide/wme/page-workflow-lab.jpg)
+
+Saved workflows can also be opened from **Warehouse -> Workflows**. Selecting a workflow row loads that saved workflow in Lab so you can inspect or update its metadata, graph, processor forms, and Airflow views.
+
+![Workflow opened from Warehouse](/img/user-guide/wme/warehouse-workflows-item-opened-in-lab.jpg)
 
 ### 2) Build The Flow Graph
 
@@ -44,9 +48,7 @@ Open **2. Flow Creator** and use either approach:
 
 Double-click a node (or select + Edit) to open configuration forms.
 
-![Flow Creator Image](/img/creating-workflows/flowCreator.png)
-
-> Screenshot note: the current editor also includes template save, DS transfer dialog, and DS inline create/edit dialogs that may not appear in the older image.
+![Flow Creator canvas](/img/user-guide/wme/lab-flow-creator.jpg)
 
 ### 3) Configure Processor Nodes
 
@@ -77,6 +79,8 @@ Example directions:
 - `_OUTPUT` for processor outputs.
 
 This matches the processor integration contract in [Integrating Custom Processors](/integrating-processors/).
+
+![Logstash processor form](/img/user-guide/wme/lab-processor-form-logstash-pipeline.jpg)
 
 ### 4) Connect Nodes And Transfer Digital Resources
 
@@ -122,6 +126,10 @@ From Lab toolbar or Warehouse workflow row actions:
   - **Deployment** DAG
   - **Teardown** DAG
 - Embedded grid iframe path in Lab is derived from workflow name/id formatting.
+
+Use the **Deployment** view to inspect the workflow run DAG and the **Teardown** view to inspect the stop/cleanup DAG generated for the same workflow.
+
+![Lab Airflow tab](/img/user-guide/wme/lab-airflow-tab.jpg)
 
 For global Airflow iframe behavior, see [Airflow](/airflow-note/).
 

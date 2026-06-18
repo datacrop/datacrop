@@ -8,6 +8,8 @@ sidebar_position: 4
 
 **Logstash Pipeline** is a built-in Processor Definition (type: *Datacrop Service*) that turns your Digital Resource wiring into a working Logstash configuration automatically. When you save a Logstash Pipeline processor manifest, the backend generates a `.conf` file and updates `pipelines.yml` — no manual file editing or Logstash restart required.
 
+![Logstash processor form](/img/user-guide/wme/lab-processor-form-logstash-pipeline.jpg)
+
 ## Before You Start
 
 Run **Initialize Resources** from [Settings](/settings/) (admin only) before creating Logstash Pipeline processors. This seeds the built-in Data Interface Types and their Logstash capability metadata.
@@ -66,6 +68,8 @@ Use the Active toggle to pause a pipeline during debugging or maintenance withou
 
 The **Logstash Filter** editor adds a transformation step between input and output. It accepts **filter plugin content only** — do not include the outer `filter { }` wrapper.
 
+![Logstash filter configuration](/img/user-guide/wme/lab-logstash-filter-configuration.png)
+
 Example of valid content:
 
 ```
@@ -79,9 +83,11 @@ grok {
 
 **Controls:**
 
-- **Enable Custom Filter** toggle — shows or hides the editor. If no content is set, collapsing the editor resets the value to the empty default.
+- **Enable Custom Filter** toggle — shows the textarea and includes the filter body in the saved processor manifest. If no content is set, turning it off resets the value to the empty default.
 - **Reset to Default** button — clears the filter back to the empty default.
+- **Collapse** control — hides the editor panel while keeping the section available in the form.
 - **AI Assistant** button — opens the [AI Logstash Assistant](/ai-logstash-assistant/) panel for AI-guided filter authoring.
+- **Information panel** — reminds users that the system creates input and output pipeline sections from selected Digital Resources; the filter editor is only for the transformation section between them.
 
 The filter section is visible only when the selected Processor Type is **Logstash Pipeline** and the `logstash_filter` parameter exists in that processor definition.
 
@@ -99,6 +105,25 @@ When a Logstash Pipeline manifest is saved or deleted, the backend calls `Logsta
 4. Regenerates `pipelines.yml`, including only active and non-empty pipelines.
 
 The generated files land in the folder configured by the `logstash.pipeline.folder` environment variable (default: `/app/logstash/pipeline/`).
+
+## Monitoring Logstash Pipelines
+
+The **Logstash Monitor** sidebar page shows runtime health for saved Logstash Pipeline processor manifests. Use it after saving or updating a pipeline to confirm whether Logstash picked up the generated pipeline and whether events are moving through it.
+
+![Logstash Monitor](/img/user-guide/wme/page-logstash-monitor.jpg)
+
+The status cards summarize the current pipeline set:
+
+- **Running**: pipelines currently reporting healthy activity.
+- **Idle**: pipelines found by the monitor but not currently moving events.
+- **Failed**: pipelines reporting failures or error counters.
+
+The table maps each **Processor Manifest** to the generated **Pipeline ID**, then shows:
+
+- **Status** with any failure count or health note.
+- **Events In** and **Events Out** counters from Logstash.
+- **Last Checked** timestamp so you can tell whether the status is fresh.
+- **Details** action for inspecting a specific pipeline row.
 
 ## Troubleshooting
 
