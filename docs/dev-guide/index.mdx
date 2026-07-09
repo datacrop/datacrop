@@ -18,14 +18,15 @@ The Workflow Management Engine (WME) is the DataCROP Maize application for model
 
 - What "processor integration" means in WME: a packaging contract plus a data I/O compatibility contract.
 - How to expose WME-compatible env vars derived from data interface types.
+- How the Model Repository backend exposes APIs, persists catalog objects, and triggers side effects in worker, Airflow, Logstash, Kibana, and monitoring services.
 - Where to find user-guide context on digital resources and workflow wiring.
 
 ## Developer guide map
 
 - [Integrating Custom Processors](/integrating-processors/): packaging requirements and WME-compatible data I/O env vars.
-- Processor definitions and Model Repository defaults (planned).
-- Workflow execution and worker deployment integration points (planned).
-- API and automation hooks (planned).
+- [Model Repository Backend](/model-repository/): backend responsibilities, dependency map, API conventions, code structure, domain model, and operational side effects.
+- [Model Repository API Reference](/model-repository/api-reference/): live SpringDoc entrypoints plus curated endpoint groups and examples.
+- [Model Repository Operations](/model-repository/operations/): initialization, processor provisioning, workflow execution, Logstash, Kibana, settings, and token contracts.
 
 
 import DocCardList from '@theme/DocCardList';
