@@ -20,7 +20,7 @@ The Workflow Editor is a single web app. After logging in through Keycloak you l
 |---|---|
 | [Warehouse](/user-guide/warehouse/) | Your catalogue: workflows, digital resources, workers, data kinds, processor definitions and (admins) data interface types. |
 | [Workflow Lab](/user-guide/workflow-lab/) | Design, configure, save, run and monitor one workflow. |
-| [Workflow Assistant](/user-guide/workflow-assistant/) *(preview)* | Draft workflows and resources by chatting. |
+| [Workflow Assistant](/user-guide/workflow-assistant/) *(Preview)* | Draft workflows and resources by chatting. |
 | [Kibana Visualizations](/user-guide/kibana/) | Open Elasticsearch resources in Kibana with ready-made dashboards. |
 | [Worker Runtime](/user-guide/worker-runtime/) | Containers per worker: health, logs, start / stop / restart. |
 | [Logstash Monitor](/user-guide/logstash-monitor/) | Status and event counters of every Logstash pipeline. |

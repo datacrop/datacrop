@@ -28,4 +28,4 @@ Two secrets must be set correctly:
 | Secret | Shared by | Generate with |
 |---|---|---|
 | `WME_SERVICE_TOKEN` | Backend and every worker | `openssl rand -hex 32` |
-| `ASSISTANT_SERVICE_KEY` *(preview)* | `wme-server` and `assistant-runtime`, both read from the backend `.env` | `openssl rand -hex 32` |
+| `ASSISTANT_SERVICE_KEY` *(Preview)* | `wme-server` and `assistant-runtime`, both read from the backend `.env` | `openssl rand -hex 32` |

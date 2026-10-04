@@ -26,7 +26,7 @@ This section is for people who package processors for WME, integrate with its AP
 | Repository | Contents |
 |---|---|
 | [`maize-workflow-management-editor`](https://github.com/datacrop/maize-workflow-management-editor) | Vue 3 editor (`ui/`) |
-| [`maize-model-repository`](https://github.com/datacrop/maize-model-repository) | Spring Boot backend, `assistant-runtime/` (preview), Elastic stack config, Kafka/AKHQ |
+| [`maize-model-repository`](https://github.com/datacrop/maize-model-repository) | Spring Boot backend, `assistant-runtime/` (Preview), Elastic stack config, Kafka/AKHQ |
 | [`maize-processing-engine-airflow`](https://github.com/datacrop/maize-processing-engine-airflow) | Airflow (CeleryExecutor) stack |
 | [`maize-processing-engine-worker`](https://github.com/datacrop/maize-processing-engine-worker) | Celery worker + WME agent (`daghandler`, Go) |
 | [`maize-mvp`](https://github.com/datacrop/maize-mvp) | Single-host deployment bundle |

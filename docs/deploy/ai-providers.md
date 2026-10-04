@@ -12,7 +12,7 @@ WME's AI features call an **OpenAI-compatible chat-completions API** through the
 | Feature | Needs |
 |---|---|
 | [AI Logstash assistant](/user-guide/logstash-pipelines/ai-assistant/) | Any chat model; streaming responses |
-| [Workflow Assistant](/user-guide/workflow-assistant/) *(preview)* | A model that supports **tool / function calling** |
+| [Workflow Assistant](/user-guide/workflow-assistant/) *(Preview)* | A model that supports **tool / function calling** |
 
 ## Server default
 

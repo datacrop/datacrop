@@ -1,11 +1,11 @@
 ---
-title: API Reference
+title: API reference
 slug: /developers/model-repository/api-reference/
 sidebar_position: 3
 description: Authentication, pagination, wire formats and examples for backend API clients.
 ---
 
-# Model Repository API Reference
+# Model Repository API reference
 
 The backend publishes live SpringDoc documentation:
 
@@ -24,7 +24,7 @@ Authorization: Bearer <jwt>
 
 The backend extracts the authenticated user from the Spring Security context and uses that `userId` for ownership and filtering. Some endpoints are technically routed under `/user/v1/**`, but clients should still send a valid token because controller methods expect the authenticated user to be present.
 
-## Endpoint Groups
+## Endpoint groups
 
 | Group | Prefix | Purpose |
 |---|---|---|
@@ -39,9 +39,9 @@ The backend extracts the authenticated user from the Spring Security context and
 | Worker runtime | `/user/v1/monitoring/workers/*` | Workers, containers per processor, logs, start/stop/restart, orphan removal. |
 | Visualization | `/user/v1/visualization/*` | Kibana data-view and visualization-link resolution for Digital Resources. |
 | AI Logstash assistant | `/api/ai/logstash/*` | Server-sent-event chat endpoint for Logstash filter generation; `active-config`. |
-| Workflow Assistant *(preview)* | `/api/assistant/*` | Threads, catalogue tools, resource creation, drafts and the model proxy — see [Assistant runtime](/developers/assistant-runtime/). |
+| Workflow Assistant *(Preview)* | `/api/assistant/*` | Threads, catalogue tools, resource creation, drafts and the model proxy — see [Assistant runtime](/developers/assistant-runtime/). |
 
-## Search And Pagination
+## Search and pagination
 
 Search endpoints use `POST` with optional filter bodies and query-string pagination:
 
@@ -122,6 +122,6 @@ Many DTO classes currently extend their entity classes directly. Treat the OpenA
 
 Dates are commonly serialized as `dd-MM-yyyy` for catalog entities. Operational status records use timestamps where needed for provisioning and DAG distribution attempts.
 
-## Error Shape
+## Error shape
 
 Most custom errors are returned as plain text with HTTP `400` or another controller-specific status. Validation errors are returned as a stringified map with an `errors` key. API clients should not depend on a rich JSON error envelope unless a specific endpoint documents one.

@@ -18,7 +18,7 @@ flowchart TB
   kc["Keycloak :8180<br/>realm datacrop-Platform"]
   subgraph BE["Model Repository stack"]
     api["wme-server<br/>Spring Boot :9090"]
-    asst["assistant-runtime<br/>Node :8200 (preview)"]
+    asst["assistant-runtime<br/>Node :8200 (Preview)"]
     mongo[("MongoDB :27017")]
     subgraph ELK["Elastic stack 8.15"]
       ls["Logstash :9600"]
@@ -58,7 +58,7 @@ flowchart TB
 | Component | Responsibility | Repository |
 |---|---|---|
 | **Workflow Editor** (`wme-ui`) | Vue 3 + Vuetify single-page app: Warehouse, Workflow Lab, monitoring pages, settings. Runtime configuration is injected at container start via `env-config.js`. | `maize-workflow-management-editor/ui` |
-| **assistant-runtime** *(preview)* | Node service (CopilotKit + Vercel AI SDK) behind the Workflow Assistant chat. Deployed in the Model Repository stack next to `wme-server`; the browser calls it directly (CORS), like the backend API. Validates the user's Keycloak token and calls the backend for every tool and model call. | `maize-model-repository/assistant-runtime` |
+| **assistant-runtime** *(Preview)* | Node service (CopilotKit + Vercel AI SDK) behind the Workflow Assistant chat. Deployed in the Model Repository stack next to `wme-server`; the browser calls it directly (CORS), like the backend API. Validates the user's Keycloak token and calls the backend for every tool and model call. | `maize-model-repository/assistant-runtime` |
 | **Model Repository** (`wme-server`) | Spring Boot 3 / Java 17 REST API. Owns the catalogue in MongoDB, renders Airflow DAGs, provisions workers, generates Logstash pipelines, builds Kibana dashboards, encrypts secrets, relays worker runtime calls. | `maize-model-repository` |
 | **Keycloak** | OpenID Connect login; issues the JWTs the editor and backend use. The MVP imports a ready realm. | `maize-mvp/Keycloak` |
 | **Elastic stack** | Logstash runs WME-generated pipelines; Elasticsearch stores observations and pipeline output; Kibana shows auto-built dashboards. | `maize-model-repository/docker-elk` |

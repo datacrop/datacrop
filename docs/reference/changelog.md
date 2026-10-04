@@ -11,7 +11,7 @@ Derived from the editor (`maize-workflow-management-editor`) and backend (`maize
 
 ## October 2026
 
-- **Workflow Assistant (preview)** — chat agent that searches the catalogue, creates data kinds and digital resources (with a secure form for secrets), checks worker readiness and produces workflow drafts for review in the Lab. New `assistant-runtime` service and `/api/assistant` backend API (`dev/ai-feature`).
+- **Workflow Assistant (Preview)** — chat agent that searches the catalogue, creates data kinds and digital resources (with a secure form for secrets), checks worker readiness and produces workflow drafts for review in the Lab. New `assistant-runtime` service and `/api/assistant` backend API (`dev/ai-feature`).
 
 ## September 2026
 

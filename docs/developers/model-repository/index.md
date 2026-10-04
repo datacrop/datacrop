@@ -5,13 +5,13 @@ sidebar_position: 1
 description: Backend responsibilities and integration boundaries for the Workflow Management Engine.
 ---
 
-# Model Repository Backend
+# Model Repository backend
 
 The Maize Model Repository is the Spring Boot backend for the Workflow Management Engine (WME). It is the contract boundary between the Workflow Editor, persisted catalog data, worker provisioning, Airflow DAG execution, Logstash/Kibana services, Flower worker discovery, and the AI Logstash assistant.
 
 Use this guide when you need to integrate against backend APIs, understand backend code structure, or reason about side effects triggered by saving processors and workflows.
 
-## Backend Responsibilities
+## Backend responsibilities
 
 The backend owns:
 
@@ -28,7 +28,7 @@ The backend owns:
 
 The frontend never talks directly to workers, Airflow, MongoDB, Logstash, Kibana, or Flower. Those calls go through the backend.
 
-## Service Dependencies
+## Service dependencies
 
 | Dependency | Role | Typical config |
 |---|---|---|
@@ -43,7 +43,7 @@ The frontend never talks directly to workers, Airflow, MongoDB, Logstash, Kibana
 
 The backend listens on `SERVER_PORT`, usually `9090`. SpringDoc is exposed at `/swagger-ui/index.html` (also reachable via `/swagger-ui.html`) and `/v3/api-docs`.
 
-## Source Of Truth
+## Source of truth
 
 Use the generated OpenAPI document for exhaustive request and response schemas. Use these public docs for onboarding, conventions, examples, and side-effect summaries.
 
@@ -56,7 +56,7 @@ The backend repo also contains internal flow notes under `maize-model-repository
 
 Keep detailed controller annotations, DTO/entity details, and internal diagrams in the backend repo. Keep public usage guidance and curated examples in this docs site.
 
-## Backend Guide Map
+## Backend guide map
 
 - [API Reference](/developers/model-repository/api-reference/) - endpoint groups, auth, pagination/search conventions, and examples.
 - [Code Structure](/developers/model-repository/code-structure/) - package/layer map and where to change behavior.

@@ -1,11 +1,11 @@
 ---
-title: Workflow Assistant (preview)
+title: Workflow Assistant (Preview)
 slug: /user-guide/workflow-assistant/
 sidebar_position: 9
 description: An AI agent that drafts workflows and resources from a conversation, for you to review.
 ---
 
-# Workflow Assistant (preview)
+# Workflow Assistant (Preview)
 
 :::caution[Preview]
 The Workflow Assistant is new. It requires the `assistant-runtime` service and an AI model that supports **tool calling**, configured as described in [AI providers](/deploy/ai-providers/). Behaviour may change between releases.

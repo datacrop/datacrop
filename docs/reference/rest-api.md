@@ -28,6 +28,6 @@ Call it with a Keycloak access token: `Authorization: Bearer <jwt>`.
 | Worker runtime | `/user/v1/monitoring/workers/*` |
 | Kibana links | `/user/v1/visualization/*` |
 | Logstash AI assistant | `/api/ai/logstash/*` |
-| Workflow Assistant *(preview)* | `/api/assistant/*` |
+| Workflow Assistant *(Preview)* | `/api/assistant/*` |
 
 Conventions (search bodies, pagination, error shapes) and examples: [Model Repository API reference](/developers/model-repository/api-reference/).

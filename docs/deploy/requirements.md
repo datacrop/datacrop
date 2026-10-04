@@ -40,7 +40,7 @@ flowchart LR
 
 - The backend writes DAG files straight into Airflow's `dags/` folder through a bind mount, so **the backend and the Airflow webserver/scheduler must run on the same host** (or share that folder).
 - Workers can run anywhere that can reach Airflow's **Redis (6379)** and **Postgres (5432)**, and that the backend can reach on **8090**.
-- Browsers need to reach the editor, Keycloak, the backend API, the assistant runtime (preview), Kibana (embedded views), Airflow (admin iframe) and AKHQ (links).
+- Browsers need to reach the editor, Keycloak, the backend API, the assistant runtime (Preview), Kibana (embedded views), Airflow (admin iframe) and AKHQ (links).
 
 ## Ports
 

@@ -47,11 +47,11 @@ Variables you must set (full list in [Configuration reference](/deploy/configura
 | `WME_SERVICE_TOKEN` | **Required**; same value as every worker |
 | `CREDENTIALS_ENCRYPTION_KEY` | Base64 32-byte key (`openssl rand -base64 32`). If omitted a temporary key is generated at each start and stored secrets become unreadable after a restart. |
 | `AI_BASE_URL`, `AI_MODEL`, `AI_API_KEY` | Server-wide AI provider ([AI providers](/deploy/ai-providers/)) |
-| `ASSISTANT_SERVICE_KEY` *(preview)* | **Required** on `dev/ai-feature`; long random secret shared by `wme-server` and `assistant-runtime` (`openssl rand -hex 32`) |
+| `ASSISTANT_SERVICE_KEY` *(Preview)* | **Required** on `dev/ai-feature`; long random secret shared by `wme-server` and `assistant-runtime` (`openssl rand -hex 32`) |
 
 Before the first `up`, make sure `config/extra-processors.json` exists as a **file** (Docker would otherwise create a directory) and that the Logstash pipeline folder contains a `pipelines.yml` — the MVP's `setup.sh` does both.
 
-## assistant-runtime (preview)
+## assistant-runtime (Preview)
 
 The Workflow Assistant needs the `assistant-runtime` service (Node 22, CopilotKit, port 8200). On the `dev/ai-feature` branch of this repository, it lives in `assistant-runtime/` and the Compose file starts it next to `wme-server`:
 

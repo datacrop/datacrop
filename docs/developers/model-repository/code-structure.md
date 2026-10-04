@@ -1,15 +1,15 @@
 ---
-title: Code Structure
+title: Code structure
 slug: /developers/model-repository/code-structure/
 sidebar_position: 4
 description: Backend packages and the code paths responsible for each feature.
 ---
 
-# Model Repository Code Structure
+# Model Repository code structure
 
 The backend application lives under `maize-model-repository/model-repository-server/src/main/java/com/modular/workflow`.
 
-## Package Map
+## Package map
 
 | Package | Responsibility |
 |---|---|
@@ -27,7 +27,7 @@ The backend application lives under `maize-model-repository/model-repository-ser
 | `errors` | Custom exceptions and REST exception handling. |
 | `util` | Shared utilities, JinJava rendering, legacy DAG generation, and credential encryption. |
 
-## Controller Groups
+## Controller groups
 
 | Controller | Primary endpoints | Notes |
 |---|---|---|
@@ -43,9 +43,9 @@ The backend application lives under `maize-model-repository/model-repository-ser
 | `CeleryWorkerController` | `/user/v1/resource/celery/workers*` | Flower-backed Celery worker discovery/import. |
 | `WorkerRuntimeController` | `/user/v1/monitoring/workers*` | Worker Runtime: workers, containers per processor, logs, start/stop/restart, orphan removal (relayed to worker agents). |
 | `LogstashAiController` | `/api/ai/logstash/chat`, `/api/ai/logstash/active-config` | Streaming chat for Logstash filter assistance; active provider/model. |
-| `AssistantController` *(preview)* | `/api/assistant/*` | Workflow Assistant threads, catalogue tools, resource creation, drafts and the model proxy. See [Assistant runtime](/developers/assistant-runtime/). |
+| `AssistantController` *(Preview)* | `/api/assistant/*` | Workflow Assistant threads, catalogue tools, resource creation, drafts and the model proxy. See [Assistant runtime](/developers/assistant-runtime/). |
 
-## Service Responsibilities
+## Service responsibilities
 
 Use the manager/service layer for behavior changes rather than putting business rules in controllers.
 
@@ -65,7 +65,7 @@ Use the manager/service layer for behavior changes rather than putting business 
 | `WorkerRuntimeClient` | HTTP client for the worker agents' `/runtime/*` API (adds `X-WME-Service-Token`). |
 | `LogstashAiService` | Chat completions against the server default or the user's AI provider. |
 
-## Configuration Files
+## Configuration files
 
 | File | Purpose |
 |---|---|
@@ -76,7 +76,7 @@ Use the manager/service layer for behavior changes rather than putting business 
 | `model-repository-server/src/main/resources/kibana/*.json` | Kibana saved-object assets used by visualization provisioning. |
 | `config/extra-processors.example.json` | Optional extra processor catalog seed template. |
 
-## Change Guidance
+## Change guidance
 
 - Add or change endpoint behavior in the relevant controller and manager together.
 - Keep OpenAPI annotations in sync with side effects, async behavior, and response status codes.

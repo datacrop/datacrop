@@ -47,10 +47,10 @@ Values in **bold** must be changed for every deployment (the MVP's `setup.sh` fi
 | `AIRFLOW_API_CONNECT_TIMEOUT_SECONDS`, `AIRFLOW_API_TIMEOUT_SECONDS` | `5`, `30` | Timeouts |
 | **`FLOWER_BASE_URL`** | `http://HOST:5555` | Flower API (worker discovery) |
 | `FLOWER_USERNAME`, `FLOWER_PASSWORD`, `FLOWER_API_*_TIMEOUT_SECONDS` | `celery`, …, `5`/`30` | Flower access |
-| `ASSISTANT_SERVICE_KEY` *(preview)* | — | Shared by `wme-server` and `assistant-runtime` in this stack |
-| `ASSISTANT_CORS_ORIGINS` *(preview)* | `*` | Editor origins allowed to call `assistant-runtime` |
-| `ASSISTANT_RUNTIME_PORT` *(preview)* | `8200` | Host port of `assistant-runtime` |
-| `SPRING_MVC_ASYNC_REQUEST_TIMEOUT` *(preview)* | `300000` | Keeps long assistant responses open |
+| `ASSISTANT_SERVICE_KEY` *(Preview)* | — | Shared by `wme-server` and `assistant-runtime` in this stack |
+| `ASSISTANT_CORS_ORIGINS` *(Preview)* | `*` | Editor origins allowed to call `assistant-runtime` |
+| `ASSISTANT_RUNTIME_PORT` *(Preview)* | `8200` | Host port of `assistant-runtime` |
+| `SPRING_MVC_ASYNC_REQUEST_TIMEOUT` *(Preview)* | `300000` | Keeps long assistant responses open |
 
 ## Workflow Editor
 
@@ -59,7 +59,7 @@ Values in **bold** must be changed for every deployment (the MVP's `setup.sh` fi
 | **`VITE_API_URL`** | Backend URL |
 | **`VITE_BACKEND_IP`**, **`VITE_AIRFLOW_IP`** | Backend and Airflow hosts |
 | `VITE_KIBANA_URL`, `VITE_AKHQ_URL` | Kibana and AKHQ URLs (defaults derived from the hosts above) |
-| `VITE_ASSISTANT_URL` *(preview)* | assistant-runtime URL (default `http://VITE_BACKEND_IP:8200`) |
+| `VITE_ASSISTANT_URL` *(Preview)* | assistant-runtime URL (default `http://VITE_BACKEND_IP:8200`) |
 | **`VITE_KEYCLOAK_URL`** | Keycloak base URL |
 | `VITE_KEYCLOAK_REALM`, `VITE_KEYCLOAK_CLIENT_ID` | `datacrop-Platform`, `datacrop-front` |
 | `VITE_PROJECT_NAME`, `VITE_DEFAULT_PRIMARY_COLOR` | Branding (`DATACROP`, `#DA3333`) |

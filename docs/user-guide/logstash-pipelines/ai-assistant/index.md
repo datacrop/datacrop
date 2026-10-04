@@ -77,7 +77,7 @@ Two undo paths are available:
 
 Both restore the filter to the state it was in just before the most recent Apply. Only one undo step is stored at a time.
 
-## Example Prompts
+## Example prompts
 
 | Goal | Example prompt |
 |---|---|

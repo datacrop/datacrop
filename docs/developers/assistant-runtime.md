@@ -1,11 +1,11 @@
 ---
-title: Assistant runtime (preview)
+title: Assistant runtime (Preview)
 slug: /developers/assistant-runtime/
 sidebar_position: 7
 description: How the Workflow Assistant is built — runtime, tools, backend API and security.
 ---
 
-# Assistant runtime (preview)
+# Assistant runtime (Preview)
 
 The Workflow Assistant is split into three parts:
 

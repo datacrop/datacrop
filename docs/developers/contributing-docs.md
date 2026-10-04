@@ -38,4 +38,16 @@ Each folder has its own sidebar (`sidebars.ts`), ordered by `sidebar_position`. 
 - Titled admonitions use directive syntax, for example `:::caution[Preview]`, because the site enables Docusaurus v4 compatibility flags.
 - Screenshots: put them in `static/img/screens/` and use `<Screenshot src="/img/screens/x.jpg" caption="…" />`. **Blur IP addresses, hostnames and secrets before committing.**
 - The explainer video is embedded with `<VideoEmbed />`.
+
+## Site code
+
+| Path | Purpose |
+|---|---|
+| `src/css/custom.css` | Design tokens (`--dc-*`, indigo palette) and all theme styling |
+| `src/pages/index.tsx` | Landing page; icons in `src/components/Icons.tsx` |
+| `src/components/` | `Screenshot`, `VideoEmbed`, `CopyPageButton`, `OpenInMenu` (the **Open in ChatGPT / Claude / Perplexity** dropdown; logos in `ProviderLogos.tsx`) |
+| `src/theme/` | `MDXComponents` (global MDX components) and the `DocBreadcrumbs` wrapper that adds the **Copy page** / **Open in…** split button |
+| `plugins/markdown-source.js` | Writes each page's Markdown to `<slug>/index.md` at build time for **Copy page** |
+
+Style buttons with Infima classes plus the site variants: `button--primary`, `button--tinted`, `button--subtle`. Headings use sentence case, except literal UI labels (e.g. **Processor Parameters**) and product or component names.
 - Describe the product as it is in the code; mark unreleased features with a *Preview* admonition.

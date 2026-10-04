@@ -43,7 +43,7 @@ The `wme-ui` container serves the app with nginx on host ports **5173** and **80
 | `VITE_AIRFLOW_IP` | Airflow host (Airflow iframes) |
 | `VITE_KIBANA_URL` | Kibana URL for embedded views (default `http://VITE_AIRFLOW_IP:5601`) |
 | `VITE_AKHQ_URL` | AKHQ URL for Kafka links (default `http://VITE_BACKEND_IP:8081`) |
-| `VITE_ASSISTANT_URL` *(preview)* | assistant-runtime URL as seen by browsers (default `http://VITE_BACKEND_IP:8200`) |
+| `VITE_ASSISTANT_URL` *(Preview)* | assistant-runtime URL as seen by browsers (default `http://VITE_BACKEND_IP:8200`) |
 | `VITE_KEYCLOAK_URL` | Keycloak base URL, e.g. `http://HOST:8180/` |
 | `VITE_KEYCLOAK_REALM`, `VITE_KEYCLOAK_CLIENT_ID` | `datacrop-Platform`, `datacrop-front` |
 | `VITE_PROJECT_NAME` | Name shown in the header |
@@ -51,7 +51,7 @@ The `wme-ui` container serves the app with nginx on host ports **5173** and **80
 
 Open `http://HOST:5173`, log in, and run **Settings → Initialize Resources** (once per user).
 
-## Workflow Assistant (preview)
+## Workflow Assistant (Preview)
 
 The editor contains only the chat UI. The browser calls the `assistant-runtime` service directly at `VITE_ASSISTANT_URL`, the same way it calls the backend at `VITE_API_URL`; nginx does not proxy it. The runtime runs in the backend stack and needs no assistant settings or secrets in the editor's `.env`.
 

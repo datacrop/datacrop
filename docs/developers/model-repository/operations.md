@@ -5,7 +5,7 @@ sidebar_position: 6
 description: Initialization, provisioning, workflow deployment and monitoring side effects.
 ---
 
-# Model Repository Operations
+# Model Repository operations
 
 This page summarizes the backend flows that do more than simple CRUD. These flows are the main places where API calls trigger external side effects.
 
@@ -24,7 +24,7 @@ Triggered from Workflow Editor Settings by admins, once per user. It seeds the b
 
 Run initialization before creating real workflows in a fresh deployment. Without it, Warehouse forms may lack templates, default processors, and interface definitions.
 
-## Processor Definition Provisioning
+## Processor definition provisioning
 
 Endpoints:
 
@@ -45,7 +45,7 @@ Provisioning is asynchronous. Create/update responses can succeed while individu
 
 When a new Worker Asset is created, the backend replays all existing non-manual Processor Definitions onto that worker for the same user.
 
-## Workflow Save, Update, Run, And Stop
+## Workflow save, update, run and stop
 
 Endpoints:
 
@@ -61,7 +61,7 @@ Running a workflow talks to Airflow directly from the backend. The backend unpau
 
 Use `GET /user/v1/dpe/registry/po/{id}/dag-distribution-status` to inspect worker distribution results.
 
-## Logstash Pipelines
+## Logstash pipelines
 
 Relevant endpoints:
 
@@ -79,7 +79,7 @@ When a Logstash Pipeline Processor Manifest is saved or deleted, the backend reg
 
 Inactive or empty pipelines are omitted from `pipelines.yml`. The `file-monitor` container watches `pipelines.yml` (inotify + checksum) and restarts Logstash when it changes.
 
-## Kibana Visualization Links
+## Kibana visualization links
 
 Endpoint: `GET /user/v1/visualization/resource/{id}/kibana-link`
 

@@ -14,7 +14,7 @@ Defaults of a Maize MVP deployment. Replace `HOST` with your `HOST_IP`.
 | Workflow Editor | `http://HOST:5173` | `admin` / `admin` (Keycloak) | Also served on port 80 inside the container |
 | Keycloak | `http://HOST:8180` (admin: `/admin`) | `admin` / `admin` | Realm `datacrop-Platform` |
 | Backend API | `http://HOST:9090` | Bearer token | Swagger `/swagger-ui/index.html`, OpenAPI `/v3/api-docs`, health `/test/v1/ping` |
-| assistant-runtime *(preview)* | `http://HOST:8200` | Bearer token | Backend stack; the editor calls `/api/copilotkit` directly. Health `/healthz` |
+| assistant-runtime *(Preview)* | `http://HOST:8200` | Bearer token | Backend stack; the editor calls `/api/copilotkit` directly. Health `/healthz` |
 | Airflow | `http://HOST:8080` | `airflow` / `airflow` | REST API `/api/v1` |
 | Flower | `http://HOST:5555` | none | Keep private |
 | Kibana | `http://HOST:5601` | `elastic` / `elastic` | Anonymous access for embedding |
