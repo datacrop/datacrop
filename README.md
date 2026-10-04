@@ -29,15 +29,21 @@
 </div>
 
 ## Overview
-DataCROP (Data Collection Routing & Processing) is a configurable framework for real-time data collection, transformation, filtering, and management across IoT and cybersecurity domains. It emphasizes interoperability through a specialized data model for sources, processors, and results, enabling flexible workflow-driven analytics.
+DataCROP (Data Collection Routing & Processing) is a configurable framework for real-time data collection, transformation, filtering and management. This repository hosts the documentation of its current generation, **Maize**, centred on the **Workflow Management Engine (WME)**: model processors and data sources, connect them in a visual editor, deploy them to workers through Apache Airflow and observe them with the Elastic stack.
 
-## Versions and Stack Highlights
-- Barley (v1.0): MongoDB, Apache Kafka, RabbitMQ, Kafka Streams, Node.js, React, optional Hyperledger Fabric.
-- Farro (v2.0): Builds on Barley; MongoDB, Apache Kafka, RabbitMQ, Node.js, React, and algorithm support (Java, Python, R).
-- Maize (v3.0, in progress): MongoDB, Apache Kafka, ELK stack; expanding observability and data services.
+Published at **https://doc.datacrop.eu**.
 
-## Demo Environment
-Deployable Farro demo: `https://github.com/datacrop/farro-demo-deployment-scripts`.
+## Site structure
+
+| Folder | Section |
+|---|---|
+| `docs/intro/`, `docs/getting-started/` | Get started — overview, concepts, architecture, quickstart, walkthroughs |
+| `docs/user-guide/` | User guide — every editor feature |
+| `docs/deploy/` | Deploy — Maize MVP, manual setup, configuration, operations |
+| `docs/developers/` | Developers — internals, writing processors, APIs, security |
+| `docs/reference/` | Reference — glossary, interface types, data kinds, ports, changelog |
+
+Screenshots live in `static/img/screens/`, the explainer video in `static/video/`.
 
 ## Local Development (Documentation)
 
@@ -59,11 +65,3 @@ The documentation has been migrated to Docusaurus v3 and lives in the root direc
    npm run build
    ```
    This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-## Documentation Structure
-
-All markdown content files are now located in the `docs/` directory.
-- `docs/home/` - Framework overview and roadmap.
-- `docs/setup/` - Maize setup instructions (MVP and manual per-component guides).
-- `docs/user-guide/` - End-user workflows, data models, and Pipeline configurations.
-- `docs/dev-guide/` - Developer guidance, including processor integration.

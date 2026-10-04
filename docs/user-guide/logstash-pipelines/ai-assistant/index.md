@@ -1,7 +1,8 @@
 ---
 title: "AI Logstash Assistant"
-slug: /ai-logstash-assistant/
+slug: /user-guide/logstash-pipelines/ai-assistant/
 sidebar_position: 1
+description: Draft, explain and refine Logstash filters from the processor form.
 ---
 
 # AI Logstash Assistant
@@ -19,7 +20,11 @@ The **AI Assistant** button appears in the **Logstash Filter Configuration** sec
 
 Click **AI Assistant** to slide the chat panel open alongside the form. The dialog widens automatically to give the panel room. Click the button again, or the close button in the panel header, to collapse it.
 
-![AI Logstash Assistant](/img/user-guide/wme/lab-logstash-ai-assistant.png)
+<Screenshot src="/img/screens/logstash-ai.jpg" caption="The Logstash assistant explaining an existing filter." />
+
+## Which model it uses
+
+The assistant calls an OpenAI-compatible chat-completions endpoint through the backend. By default that is the server-wide model configured by your administrator (`AI_BASE_URL`, `AI_MODEL`); in [Settings → AI Assistant](/user-guide/settings/#ai-assistant) each user can switch to **My own provider** (base URL, model, API key — stored encrypted). See [AI providers](/deploy/ai-providers/).
 
 ## What the Assistant Knows
 

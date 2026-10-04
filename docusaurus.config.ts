@@ -3,8 +3,8 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Datacrop Docs',
-  tagline: 'DataCROP — Data Collection Routing & Processing Framework',
+  title: 'DataCROP Docs',
+  tagline: 'DataCROP Maize — model, connect, deploy and observe data-processing workflows',
   favicon: 'img/logo-icon.png',
 
   future: {
@@ -20,6 +20,7 @@ const config: Config = {
   onBrokenLinks: 'throw',
 
   markdown: {
+    mermaid: true,
     hooks: {
       onBrokenMarkdownLinks: 'warn',
     },
@@ -49,6 +50,7 @@ const config: Config = {
   ],
 
   themes: [
+    '@docusaurus/theme-mermaid',
     [
       require.resolve("@easyops-cn/docusaurus-search-local"),
       {
@@ -57,6 +59,40 @@ const config: Config = {
         indexBlog: false,
         indexPages: true,
         docsRouteBasePath: "/",
+      },
+    ],
+  ],
+
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        // Old slugs from the pre-2026-10 docs structure keep working.
+        redirects: [
+          {from: '/home', to: '/intro/'},
+          {from: '/Setup', to: '/deploy/'},
+          {from: '/maize-mvp', to: '/deploy/maize-mvp/'},
+          {from: '/manual-setup', to: '/deploy/manual/'},
+          {from: '/keycloak', to: '/deploy/manual/keycloak/'},
+          {from: '/airflow', to: '/deploy/manual/airflow/'},
+          {from: '/worker', to: '/deploy/manual/worker/'},
+          {from: '/model-repo', to: '/deploy/manual/model-repository/'},
+          {from: '/editor', to: '/deploy/manual/editor/'},
+          {from: '/overview', to: '/getting-started/quickstart/'},
+          {from: '/creating-data-models', to: '/user-guide/warehouse/'},
+          {from: '/creating-workflows', to: '/user-guide/workflow-lab/'},
+          {from: '/logstash-pipelines', to: '/user-guide/logstash-pipelines/'},
+          {from: '/ai-logstash-assistant', to: '/user-guide/logstash-pipelines/ai-assistant/'},
+          {from: '/settings', to: '/user-guide/settings/'},
+          {from: '/airflow-note', to: '/user-guide/airflow/'},
+          {from: '/dev-guide', to: '/developers/'},
+          {from: '/integrating-processors', to: '/developers/writing-processors/'},
+          {from: '/model-repository', to: '/developers/model-repository/'},
+          {from: '/model-repository/api-reference', to: '/developers/model-repository/api-reference/'},
+          {from: '/model-repository/code-structure', to: '/developers/model-repository/code-structure/'},
+          {from: '/model-repository/domain-model', to: '/developers/model-repository/domain-model/'},
+          {from: '/model-repository/operations', to: '/developers/model-repository/operations/'},
+        ],
       },
     ],
   ],
@@ -73,27 +109,11 @@ const config: Config = {
         src: 'img/logo-icon.png',
       },
       items: [
-        {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
-          position: 'left',
-          label: 'Home',
-        },
-        {
-          to: '/Setup',
-          label: 'Maize Setup',
-          position: 'left',
-        },
-        {
-          to: '/user-guide',
-          label: 'User Guide',
-          position: 'left',
-        },
-        {
-          to: '/dev-guide',
-          label: 'Developer Guide',
-          position: 'left',
-        },
+        {type: 'docSidebar', sidebarId: 'getStarted', position: 'left', label: 'Get started'},
+        {type: 'docSidebar', sidebarId: 'userGuide', position: 'left', label: 'User guide'},
+        {type: 'docSidebar', sidebarId: 'deploy', position: 'left', label: 'Deploy'},
+        {type: 'docSidebar', sidebarId: 'developers', position: 'left', label: 'Developers'},
+        {type: 'docSidebar', sidebarId: 'reference', position: 'left', label: 'Reference'},
         {
           href: 'https://github.com/datacrop',
           label: 'GitHub',
@@ -107,22 +127,12 @@ const config: Config = {
         {
           title: 'Documentation',
           items: [
-            {
-              label: 'Home',
-              to: '/home',
-            },
-            {
-              label: 'Maize Setup',
-              to: '/Setup',
-            },
-            {
-              label: 'User Guide',
-              to: '/user-guide',
-            },
-            {
-              label: 'Developer Guide',
-              to: '/dev-guide',
-            },
+            {label: 'What is DataCROP Maize?', to: '/intro/'},
+            {label: 'Quickstart', to: '/getting-started/quickstart/'},
+            {label: 'User guide', to: '/user-guide/'},
+            {label: 'Deploy', to: '/deploy/'},
+            {label: 'Developers', to: '/developers/'},
+            {label: 'Reference', to: '/reference/'},
           ],
         },
         {
@@ -162,10 +172,16 @@ const config: Config = {
       ],
       copyright: `© ${new Date().getFullYear()} DataCROP`,
     },
+    mermaid: {
+      theme: {light: 'neutral', dark: 'dark'},
+    },
+    docs: {
+      sidebar: {hideable: true, autoCollapseCategories: true},
+    },
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
-      additionalLanguages: ['bash', 'json', 'yaml'],
+      additionalLanguages: ['bash', 'json', 'yaml', 'python', 'java', 'go', 'ini'],
     },
   } satisfies Preset.ThemeConfig,
 };

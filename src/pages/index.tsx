@@ -2,25 +2,26 @@ import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
+import VideoEmbed from '@site/src/components/VideoEmbed';
 
 function HeroBanner(): React.JSX.Element {
   return (
     <div className="hero-banner">
       <div className="hero-banner__content">
-        <p className="hero-banner__subtitle">Data Collection Routing &amp; Processing</p>
-        <h1 className="hero-banner__title">DataCROP&#8482;</h1>
+        <p className="hero-banner__subtitle">DataCROP&#8482; Maize · Workflow Management Engine</p>
+        <h1 className="hero-banner__title">Model. Connect. Deploy. Observe.</h1>
         <p className="hero-banner__description">
-          A configurable framework for real-time data collection, transformation,
-          filtering, and management across IoT and cybersecurity domains. Driven by
-          configurability, extensibility, dynamic setup, stream handling capabilities
-          and Blockchain (Ledger) support.
+          Describe processing components and data sources once, connect them on a drag-and-drop
+          canvas, and run them as Docker containers on your own workers — with Airflow scheduling,
+          managed Logstash pipelines, Kibana observability and a Workflow Assistant (Preview)
+          that drafts workflows for you.
         </p>
         <div className="hero-banner__buttons">
-          <Link className="hero-banner__btn hero-banner__btn--primary" to="/home">
-            Overview
+          <Link className="hero-banner__btn hero-banner__btn--primary" to="/getting-started/quickstart/">
+            Quickstart
           </Link>
-          <Link className="hero-banner__btn hero-banner__btn--secondary" to="/Setup">
-            Installation &amp; Setup
+          <Link className="hero-banner__btn hero-banner__btn--secondary" to="/intro/">
+            What is DataCROP Maize?
           </Link>
           <a
             className="hero-banner__btn hero-banner__btn--secondary"
@@ -36,97 +37,66 @@ function HeroBanner(): React.JSX.Element {
   );
 }
 
-function VersionCards(): React.JSX.Element {
+function VideoSection(): React.JSX.Element {
+  return (
+    <section className="homepage-section">
+      <div className="homepage-section__container" style={{maxWidth: 960}}>
+        <h2 className="homepage-section__title">WME in three minutes</h2>
+        <VideoEmbed />
+      </div>
+    </section>
+  );
+}
+
+const FEATURES: {title: string; text: string; to: string}[] = [
+  {title: 'Model components', text: 'Wrap ML models, LLM services or scripts as processor definitions: a container image or a Compose app from GitHub, with declared interfaces and parameters.', to: '/user-guide/warehouse/processor-definitions/'},
+  {title: 'Describe your data', text: 'Kafka, Elasticsearch, MQTT, MongoDB, S3, Redis, RabbitMQ, HTTP and Beats resources, with data kinds and schemas.', to: '/user-guide/warehouse/digital-resources/'},
+  {title: 'Connect visually', text: 'Drag-and-drop workflows that only allow compatible links. Connected resources become environment variables automatically.', to: '/user-guide/workflow-lab/flow-creator/'},
+  {title: 'Deploy anywhere', text: 'Airflow DAGs run each processor on the worker you choose — once or on a schedule — across as many workers as you need.', to: '/developers/how-deployment-works/'},
+  {title: 'Pipelines without code', text: 'Managed Logstash pipelines between resources, with an AI assistant that drafts, explains and fixes filters.', to: '/user-guide/logstash-pipelines/'},
+  {title: 'Observe & operate', text: 'Observations, auto-built Kibana dashboards, Worker Runtime logs and start/stop/restart, Airflow run history.', to: '/user-guide/observations/'},
+  {title: 'Workflow Assistant', text: 'Describe what you need; an AI agent drafts the workflow and resources for you to review in the Lab. (Preview)', to: '/user-guide/workflow-assistant/'},
+  {title: 'Bring your own code', text: 'A tiny contract — read environment variables — and a worked example to package any component.', to: '/developers/writing-processors/'},
+];
+
+function FeatureCards(): React.JSX.Element {
   return (
     <section className="homepage-section">
       <div className="homepage-section__container">
-        <h2 className="homepage-section__title">Technologies &amp; Framework</h2>
-        <p style={{ textAlign: 'center', maxWidth: 700, margin: '0 auto 1rem', opacity: 0.8 }}>
-          DataCROP has been developed and applied in various iterations, within the
-          context of various EU projects, with different dependencies.
-        </p>
-        <div className="version-cards">
-          <div className="version-card">
-            <div className="version-card__name">DataCROP Barley</div>
-            <div className="version-card__version">v1.0 — FAR-EDGE EU Project</div>
-            <div className="version-card__description">
-              First generation of the DataCROP framework with optional Blockchain support.
-            </div>
-            <ul className="version-card__tech-list">
-              <li>MongoDB</li>
-              <li>Apache Kafka</li>
-              <li>RabbitMQ</li>
-              <li>Kafka Streams</li>
-              <li>Node.js</li>
-              <li>React</li>
-              <li>Hyperledger Fabric</li>
-            </ul>
-          </div>
-          <div className="version-card">
-            <div className="version-card__name">DataCROP Farro</div>
-            <div className="version-card__version">v2.0 — PROPHESY EU Project</div>
-            <div className="version-card__description">
-              Second generation adding multi-language algorithm support (Java, Python, R).
-            </div>
-            <ul className="version-card__tech-list">
-              <li>MongoDB</li>
-              <li>Apache Kafka</li>
-              <li>RabbitMQ</li>
-              <li>Node.js</li>
-              <li>React</li>
-              <li>Java Algorithms</li>
-              <li>Python Algorithms</li>
-              <li>R Algorithms</li>
-            </ul>
-          </div>
-          <div className="version-card">
-            <div className="version-card__name">DataCROP Maize 🌽</div>
-            <div className="version-card__version">v3.0 — Under Construction 🚧</div>
-            <div className="version-card__description">
-              Third generation expanding observability with ELK Stack integration.
-            </div>
-            <ul className="version-card__tech-list">
-              <li>MongoDB</li>
-              <li>Apache Kafka</li>
-              <li>ELK Stack</li>
-              <li>More coming…</li>
-            </ul>
-          </div>
+        <h2 className="homepage-section__title">What you can do</h2>
+        <div className="feature-cards">
+          {FEATURES.map((f) => (
+            <Link key={f.title} className="feature-card" to={f.to}>
+              <div className="feature-card__title">{f.title}</div>
+              <div className="feature-card__text">{f.text}</div>
+            </Link>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-
-
-function MaturityTimeline(): React.JSX.Element {
+function StartHere(): React.JSX.Element {
+  const paths = [
+    {icon: '🚀', label: 'Deploy with the Maize MVP', to: '/deploy/maize-mvp/'},
+    {icon: '🧭', label: 'Walk through your first workflow', to: '/getting-started/first-workflow/'},
+    {icon: '📊', label: 'Observe your data in Kibana', to: '/getting-started/observe-data/'},
+    {icon: '🧩', label: 'Package your own processor', to: '/developers/writing-processors/'},
+    {icon: '🏗️', label: 'Understand the architecture', to: '/intro/architecture/'},
+    {icon: '📚', label: 'Look something up', to: '/reference/'},
+  ];
   return (
     <section className="homepage-section">
       <div className="homepage-section__container">
-        <h2 className="homepage-section__title">Maturity Level / Active Years</h2>
-        <div className="trl-timeline">
-          <div className="trl-item">
-            <span className="trl-badge">TRL 6</span>
-            <div className="trl-info">
-              <strong>V1.0 — Barley</strong>
-              <span>Designed/Developed and demonstrated under the FAR-EDGE (2016–2019) project</span>
-            </div>
-          </div>
-          <div className="trl-item">
-            <span className="trl-badge">TRL 6</span>
-            <div className="trl-info">
-              <strong>V2.0 — Farro</strong>
-              <span>Designed/Developed under H2020 PROPHESY (2017–2020). Demonstrated under QU4LITY (2019–2022)</span>
-            </div>
-          </div>
-          <div className="trl-item">
-            <span className="trl-badge">TRL 4</span>
-            <div className="trl-info">
-              <strong>V3.0 — Maize (Under Design/Development)</strong>
-              <span>SecureIoT (2018–2021), IoTAC (2020–2023), STAR (2020–2023)</span>
-            </div>
-          </div>
+        <h2 className="homepage-section__title">Start here</h2>
+        <div className="links-grid">
+          {paths.map((p) => (
+            <Link key={p.to} className="link-card" to={p.to}>
+              <span className="link-card__icon">{p.icon}</span>
+              {p.label}
+            </Link>
+          ))}
         </div>
       </div>
     </section>
@@ -137,7 +107,7 @@ function LinksSection(): React.JSX.Element {
   return (
     <section className="homepage-section">
       <div className="homepage-section__container">
-        <h2 className="homepage-section__title">Links</h2>
+        <h2 className="homepage-section__title">Community</h2>
         <div className="links-grid">
           <a className="link-card" href="mailto:datacrop@googlegroups.com">
             <span className="link-card__icon">📧</span>
@@ -169,37 +139,15 @@ function LinksSection(): React.JSX.Element {
   );
 }
 
-function FutureSteps(): React.JSX.Element {
-  return (
-    <section className="homepage-section">
-      <div className="homepage-section__container">
-        <h2 className="homepage-section__title">Future / Interest Steps</h2>
-        <div style={{ maxWidth: 700, margin: '0 auto' }}>
-          <ul style={{ lineHeight: 2, fontSize: '1.05rem' }}>
-            <li>Integrate the design/data models/components into one platform/infrastructure independent solution.</li>
-            <li>Support additional data collection, data processing and data offering services.</li>
-            <li>Offer an intuitive and user-friendly configuration toolbox (UI).</li>
-            <li>Offer data visualization mechanisms (UI).</li>
-            <li>Blockchain (Hyperledger Fabric) integration supporting the configurations and results of the solution.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export default function Home(): React.JSX.Element {
   const {siteConfig} = useDocusaurusContext();
   return (
-    <Layout
-      title="Home"
-      description={siteConfig.tagline}
-    >
+    <Layout title="DataCROP Maize" description={siteConfig.tagline}>
       <HeroBanner />
       <main>
-        <VersionCards />
-        <MaturityTimeline />
-        <FutureSteps />
+        <VideoSection />
+        <FeatureCards />
+        <StartHere />
         <LinksSection />
       </main>
     </Layout>

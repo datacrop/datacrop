@@ -1,0 +1,184 @@
+WEBVTT
+
+00:00.400 --> 00:02.664
+Data pipelines are rarely one tool.
+
+00:02.815 --> 00:05.659
+They're models, scripts, brokers and databases,
+
+00:05.810 --> 00:07.378
+scattered across machines.
+
+00:07.819 --> 00:12.707
+The DataCROP Workflow Management Editor brings them onto one canvas.
+
+00:13.533 --> 00:14.752
+The idea is simple.
+
+00:14.926 --> 00:18.014
+Every processing component, a machine-learning model,
+
+00:18.131 --> 00:21.056
+an LLM service, a plain Python script,
+
+00:21.230 --> 00:24.203
+becomes a black box: a processor definition.
+
+00:24.644 --> 00:26.118
+It declares how it runs,
+
+00:26.234 --> 00:28.277
+which data it accepts and produces,
+
+00:28.428 --> 00:31.783
+and the settings it needs as environment variables.
+
+00:32.600 --> 00:34.214
+Bring code you already have:
+
+00:34.655 --> 00:37.383
+a container image for a single-container deployment,
+
+00:37.557 --> 00:40.739
+or a GitHub repository with a Docker Compose application.
+
+00:41.342 --> 00:43.711
+WME provisions it onto every worker,
+
+00:43.838 --> 00:45.185
+ready to run.
+
+00:46.000 --> 00:47.823
+Data sources are modelled too.
+
+00:48.252 --> 00:51.317
+Choose an interface: Kafka, Elasticsearch,
+
+00:51.468 --> 00:56.472
+MQTT, MongoDB, S3, Redis, RabbitMQ,
+
+00:56.623 --> 00:58.260
+HTTP or Beats.
+
+00:58.748 --> 01:00.327
+Fill in its connection details,
+
+01:00.385 --> 01:04.297
+and attach a data kind that describes the payload and its schema.
+
+01:05.099 --> 01:06.226
+Then you compose.
+
+01:06.505 --> 01:10.116
+Drag processors and resources onto the canvas and connect them.
+
+01:10.557 --> 01:13.030
+The editor only allows compatible links.
+
+01:13.633 --> 01:15.839
+Pick the worker each processor runs on,
+
+01:15.967 --> 01:20.704
+set its parameters, and every connected resource is injected automatically as extra
+
+01:20.762 --> 01:22.793
+environment variables.
+
+01:23.600 --> 01:27.780
+Save, and WME generates an Apache Airflow DAG for the workflow,
+
+01:28.058 --> 01:30.125
+plus a teardown DAG to stop it.
+
+01:30.566 --> 01:33.492
+Each processor is routed to its worker's Celery queue,
+
+01:33.619 --> 01:37.532
+where a lightweight agent starts it with Docker Compose or Docker run.
+
+01:38.136 --> 01:39.680
+Run once or on a schedule,
+
+01:39.796 --> 01:42.129
+across as many workers as you need.
+
+01:42.933 --> 01:45.069
+Some jobs need no custom code.
+
+01:45.510 --> 01:50.619
+The built-in Logstash processor turns connected sources into a continuous pipeline:
+
+01:51.002 --> 01:55.042
+inputs in, outputs out, with an optional filter in between.
+
+01:55.553 --> 01:57.504
+And the Logstash assistant can draft,
+
+01:57.550 --> 02:00.302
+explain or fix that filter for you.
+
+02:01.133 --> 02:03.432
+To see what actually flows through your system,
+
+02:03.548 --> 02:04.895
+create observations.
+
+02:05.336 --> 02:08.923
+One click adds a pipeline that tags every event with its source,
+
+02:09.132 --> 02:11.559
+asset, data kind and timestamp,
+
+02:11.710 --> 02:14.508
+and indexes it into Elasticsearch.
+
+02:15.333 --> 02:18.665
+Any Elasticsearch resource opens straight into Kibana,
+
+02:18.816 --> 02:23.506
+where WME builds the data view and a ready-made dashboard for you.
+
+02:24.333 --> 02:28.675
+Once running, the Worker Runtime view shows every deployed container across your
+
+02:28.733 --> 02:29.337
+workers.
+
+02:29.778 --> 02:31.984
+Check health, read logs, and start,
+
+02:32.077 --> 02:36.617
+stop or restart processors, while Airflow run history and the pipeline monitor
+
+02:36.651 --> 02:38.405
+track every deployment.
+
+02:39.233 --> 02:40.487
+Or skip the clicking.
+
+02:40.928 --> 02:43.413
+Describe what you need to the Workflow Assistant.
+
+02:43.854 --> 02:47.871
+It searches your catalogue, creates missing data kinds and resources,
+
+02:48.254 --> 02:49.775
+checks which workers are ready,
+
+02:49.891 --> 02:52.062
+and assembles a complete workflow draft,
+
+02:52.085 --> 02:54.790
+for you to inspect in the Lab and run.
+
+02:55.600 --> 02:56.889
+Model your components.
+
+02:57.005 --> 02:58.154
+Describe your data.
+
+02:58.328 --> 03:01.927
+Connect, deploy and observe, by hand or with AI.
+
+03:02.531 --> 03:05.167
+DataCROP Workflow Management Editor.

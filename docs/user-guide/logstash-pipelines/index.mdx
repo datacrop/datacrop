@@ -1,150 +1,97 @@
 ---
-title: "4. Logstash Pipelines"
-slug: /logstash-pipelines/
+title: Logstash pipelines
+slug: /user-guide/logstash-pipelines/
 sidebar_position: 4
+description: Move and transform data between resources without writing code.
 ---
 
-# Logstash Pipelines
+# Logstash pipelines
 
-**Logstash Pipeline** is a built-in Processor Definition (type: *Datacrop Service*) that turns your Digital Resource wiring into a working Logstash configuration automatically. When you save a Logstash Pipeline processor manifest, the backend generates a `.conf` file and updates `pipelines.yml` — no manual file editing or Logstash restart required.
+**Logstash Pipeline** is a built-in, WME-managed processor. Instead of running your code, it turns its connected digital resources into a Logstash pipeline: every **input** resource becomes a Logstash input, every **output** resource a Logstash output, with an optional **filter** in between. Use it to copy, route or reshape data — for example from Kafka into Elasticsearch — without writing a processor.
 
-![Logstash processor form](/img/user-guide/wme/lab-processor-form-logstash-pipeline.jpg)
-
-## Before You Start
-
-Run **Initialize Resources** from [Settings](/settings/) (admin only) before creating Logstash Pipeline processors. This seeds the built-in Data Interface Types and their Logstash capability metadata.
-
-## Compatible Data Interface Types
-
-Each Data Interface Type carries three capability flags that control Logstash participation:
-
-| Flag | Meaning | Default when unset |
-|---|---|---|
-| `logstashCompatible` | Type can appear in any Logstash pipeline | `true` |
-| `supportsLogstashInput` | Type can be used as a pipeline input source | `true` |
-| `supportsLogstashOutput` | Type can be used as a pipeline output sink | `true` |
-
-The built-in types seeded by Initialize Resources have explicit capabilities:
-
-| Type | Logstash plugin | Input | Output |
-|---|---|---|---|
-| `elasticsearch` | `elasticsearch` | ✓ | ✓ |
-| `kafka` | `kafka` | ✓ | ✓ |
-| `http` | `http` | ✓ | ✓ |
-| `s3` | `s3` | ✓ | ✓ |
-| `redis` | `redis` | ✓ | ✓ |
-| `rabbitmq` | `rabbitmq` | ✓ | ✓ |
-| `mongodb` | `mongodb` | ✗ | ✓ |
-| `mqtt` | — | ✗ | ✗ |
-
-When you open the Logstash Pipeline processor form in the Lab, the **Data Input** dropdown shows only Digital Resources whose type has `logstashCompatible = true` and `supportsLogstashInput ≠ false`. The **Data Output** dropdown applies the same logic with `supportsLogstashOutput`. The same capability check is enforced server-side when the manifest is saved — a backend error is returned if an incompatible type slips through.
-
-Custom Data Interface Types created by admins appear in the dropdowns if their capability flags allow it. Types without explicit flags set (legacy or custom without declarations) default to supporting both directions.
-
-## Creating a Logstash Pipeline Processor
-
-1. Open **Workflow Lab** and add a processor node to the canvas.
-2. Open the processor form (double-click or Edit).
-3. Enable **Use Existing Processor Infrastructure** — Logstash is a platform service, so no worker is needed.
-4. Enter a **Name** (required) and optional **Description**.
-5. Under **Details**, select **Logstash Pipeline** as the Processor Type.
-6. In **Processor Parameters**, confirm **Active** is set to `true` (it defaults to `true`).
-7. Under **Data Flow**, select one or more Digital Resources for **Data Input** and/or **Data Output**. Only compatible types appear in each dropdown.
-8. Optionally configure the **Logstash Filter** section — see [The Logstash Filter Section](#the-logstash-filter-section) below.
-9. Click **Save**.
-
-Pipeline file generation happens synchronously on save. The `.conf` file and `pipelines.yml` are updated within seconds, and Logstash hot-reloads the new configuration automatically.
-
-## The Active Toggle
-
-The **Active** parameter in the Processor Parameters table controls whether Logstash loads this pipeline:
-
-- **`true`** (default) — the pipeline is registered in `pipelines.yml` and Logstash loads it.
-- **`false`** — the pipeline is excluded from `pipelines.yml`; Logstash ignores it. The `.conf` file is not deleted. Re-enabling Active and saving restores the pipeline.
-
-Use the Active toggle to pause a pipeline during debugging or maintenance without losing its configuration.
-
-## The Logstash Filter Section
-
-The **Logstash Filter** editor adds a transformation step between input and output. It accepts **filter plugin content only** — do not include the outer `filter { }` wrapper.
-
-![Logstash filter configuration](/img/user-guide/wme/lab-logstash-filter-configuration.png)
-
-Example of valid content:
-
+```mermaid
+flowchart LR
+  I1[("kafka<br/>telemetry-clean")] --> P
+  I2[("beats<br/>edge-beats")] --> P
+  subgraph P["Logstash Pipeline processor"]
+    direction LR
+    in["input { }"] --> f["filter { } (optional)"] --> out["output { }"]
+  end
+  P --> O[("elasticsearch<br/>alerts")]
 ```
+
+Logstash pipelines run continuously while active and do **not** go through Airflow or a worker: saving the processor regenerates its pipeline file and Logstash reloads within seconds.
+
+## Create one
+
+1. In the **Flow Creator**, drag **Logstash Pipeline** from *Presets* (category *Datacrop Service*).
+2. Connect input resources to it and connect it to output resources — only Logstash-compatible types are accepted (see below).
+3. Double-click it, give it a **Name**, and optionally write a filter (next section).
+4. **Save / Update** the workflow.
+
+<Screenshot src="/img/screens/lab-logstash-active.jpg" caption="An active Logstash pipeline node (green indicator). Hover to pause it." />
+
+## Compatible interface types
+
+| Type | Input | Output |
+|---|:-:|:-:|
+| `elasticsearch` | ✓ | ✓ |
+| `kafka` | ✓ | ✓ |
+| `http` | ✓ | ✓ |
+| `s3` | ✓ | ✓ |
+| `redis` | ✓ | ✓ |
+| `rabbitmq` | ✓ | ✓ |
+| `beats` | ✓ | — |
+| `mongodb` | — | — |
+| `mqtt` | — | — |
+
+The processor form and the backend both enforce this. Administrators can mark custom interface types as Logstash-compatible in [Data interface types](/user-guide/warehouse/data-interface-types/).
+
+## The filter
+
+The **Logstash Filter Configuration** section accepts **filter plugin content only** — no surrounding `filter { }`, and no `input { }` / `output { }` blocks.
+
+<Screenshot src="/img/screens/logstash-filter.jpg" caption="Filter editor (here: an auto-generated observation filter)." />
+
+```ruby
 mutate {
   add_field => { "environment" => "production" }
 }
-grok {
-  match => { "message" => "%{COMMONAPACHELOG}" }
+date {
+  match => ["timestamp", "ISO8601"]
 }
 ```
 
-**Controls:**
+Controls: **Enable Custom Filter** (include the filter in the pipeline), **Reset to Default**, **Collapse**, and **AI Assistant**, which opens the [AI Logstash assistant](/user-guide/logstash-pipelines/ai-assistant/).
 
-- **Enable Custom Filter** toggle — shows the textarea and includes the filter body in the saved processor manifest. If no content is set, turning it off resets the value to the empty default.
-- **Reset to Default** button — clears the filter back to the empty default.
-- **Collapse** control — hides the editor panel while keeping the section available in the form.
-- **AI Assistant** button — opens the [AI Logstash Assistant](/ai-logstash-assistant/) panel for AI-guided filter authoring.
-- **Information panel** — reminds users that the system creates input and output pipeline sections from selected Digital Resources; the filter editor is only for the transformation section between them.
+## Active / paused
 
-The filter section is visible only when the selected Processor Type is **Logstash Pipeline** and the `logstash_filter` parameter exists in that processor definition.
+The pipeline's `active` parameter decides whether Logstash loads it:
 
-## Empty Pipeline Handling
+- Toggle it from the node on the canvas (hover → **Active / Paused**), from the **Logstash Monitor**, or in the processor's parameter table.
+- A paused pipeline keeps its configuration; it is simply left out of `pipelines.yml`. Paused nodes are drawn with a dashed outline.
 
-A pipeline manifest with no eligible inputs, no eligible outputs, and no filter body produces no `.conf` file and is omitted from `pipelines.yml`. This prevents the Logstash startup error "Missing Filter End Vertex" that occurs when a pipeline configuration has no vertices. Once you add at least one eligible input, output, or a non-empty filter body and save, the pipeline file is created and Logstash picks it up on the next reload.
+## Empty pipelines
 
-## How Pipeline Files Are Generated
+A pipeline with no eligible input, no eligible output and no filter produces no file and is left out of `pipelines.yml`, which avoids Logstash's "Missing Filter End Vertex" error. Add an input, an output or a filter and save to create it.
 
-When a Logstash Pipeline manifest is saved or deleted, the backend calls `LogstashManager.reloadLogstash()`. It:
+## Monitor it
 
-1. Fetches all Logstash Pipeline processor manifests.
-2. For each manifest, resolves eligible Digital Resources for each direction using the capability flags.
-3. Renders a `<name>_<id>.conf` from a Jinja2 template — each plugin block uses the type's `logstashPluginName`, falling back to the type display name for backward compatibility.
-4. Regenerates `pipelines.yml`, including only active and non-empty pipelines.
+Open [Logstash Monitor](/user-guide/logstash-monitor/) to check that the pipeline is **Running** and that **Events In / Out** increase.
 
-The generated files land in the folder configured by the `logstash.pipeline.folder` environment variable (default: `/app/logstash/pipeline/`).
+## How the files are generated
 
-## Monitoring Logstash Pipelines
+On every save or delete of a Logstash Pipeline processor the backend:
 
-The **Logstash Monitor** sidebar page shows runtime health for saved Logstash Pipeline processor manifests. Use it after saving or updating a pipeline to confirm whether Logstash picked up the generated pipeline and whether events are moving through it.
+1. loads all Logstash Pipeline processors;
+2. resolves their eligible input and output resources from the interface-type capabilities;
+3. renders `<name>_<id>.conf` from a template, passing only the settings each Logstash plugin supports;
+4. rewrites `pipelines.yml` with the active, non-empty pipelines.
 
-![Logstash Monitor](/img/user-guide/wme/page-logstash-monitor.jpg)
-
-The status cards summarize the current pipeline set:
-
-- **Running**: pipelines currently reporting healthy activity.
-- **Idle**: pipelines found by the monitor but not currently moving events.
-- **Failed**: pipelines reporting failures or error counters.
-
-The table maps each **Processor Manifest** to the generated **Pipeline ID**, then shows:
-
-- **Status** with any failure count or health note.
-- **Events In** and **Events Out** counters from Logstash.
-- **Last Checked** timestamp so you can tell whether the status is fresh.
-- **Details** action for inspecting a specific pipeline row.
+A file monitor next to Logstash detects the change and restarts Logstash. See [Model Repository operations](/developers/model-repository/operations/).
 
 ## Troubleshooting
 
-**No Digital Resources appear in Data Input or Data Output**
-The type of those Digital Resources has `supportsLogstashInput` or `supportsLogstashOutput` set to `false`, or `logstashCompatible` is `false`. An admin can update the capability flags on the Data Interface Type.
-
-**Pipeline does not appear in Logstash after saving**
-Check that **Active** is `true` and that the manifest has at least one eligible input, output, or a non-empty filter body. Also verify that the `logstash.pipeline.folder` environment variable in the backend matches the path Logstash monitors for its pipeline configurations.
-
-**Logstash reports a pipeline error after saving**
-The most common cause is invalid filter syntax. Verify the filter body uses valid Logstash filter plugin syntax, has no outer `filter {}` wrapper, and contains no `input {}` or `output {}` blocks.
-
-**`mqtt` Digital Resources do not appear in the dropdowns**
-MQTT is marked `logstashCompatible = false` and is excluded from both input and output lists by design. There is no built-in Logstash MQTT plugin in standard distributions.
-
-**Pipeline changes not picked up after a backend restart**
-File generation is triggered on save. If the backend restarted without a save event, re-save any Logstash Pipeline manifests or call the `POST /user/v1/initialize-resources` endpoint to trigger a full reload.
-
-
-import DocCardList from '@theme/DocCardList';
-
-<div className="compact-cards">
-<DocCardList />
-</div>
+- **A resource does not appear in Data Input / Output** — its interface type is not Logstash-compatible in that direction (MQTT and MongoDB are not).
+- **The pipeline does not start** — check it is active and has at least one eligible input, output or a filter.
+- **Logstash reports an error after saving** — usually invalid filter syntax; ask the AI assistant to *explain* or *fix* the filter.
