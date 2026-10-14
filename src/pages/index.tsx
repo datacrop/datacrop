@@ -42,7 +42,7 @@ function Hero(): React.JSX.Element {
           <span className="landing-eyebrow__dot" />
           DataCROP&#8482; Maize · Workflow Management Engine
         </span>
-        <h1 className="landing-title">Model. Connect. Deploy. Observe.</h1>
+        <h1 className="landing-title">Workflows Made Easy</h1>
         <p className="landing-lead">
           Describe processing components and data sources once, connect them on a drag-and-drop
           canvas, and run them as Docker containers on your own workers — with Airflow scheduling,
