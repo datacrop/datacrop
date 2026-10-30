@@ -69,7 +69,7 @@ How it is connected:
 | Variable | Default | Meaning |
 |---|---|---|
 | `ASSISTANT_SERVICE_KEY` | — | **Required.** Authenticates runtime → backend calls |
-| `ASSISTANT_CORS_ORIGINS` | `*` | Comma-separated editor origins allowed to call the runtime, e.g. `http://HOST:5173` |
+| `CORS_ALLOWED_ORIGINS` | `*` | Comma-separated editor origins allowed to call the API and the runtime, e.g. `http://HOST,http://HOST:5173` for port 80 and 5173 |
 | `ASSISTANT_RUNTIME_PORT` | `8200` | Host port published for the runtime |
 
 The runtime keeps conversations in MongoDB through the backend, but it holds active agent runs in memory, so run a **single** instance. Check it with `curl http://localhost:8200/healthz`.

@@ -28,7 +28,7 @@ cp .env.example .env
 
 ## 2. Log in
 
-Open `http://<HOST_IP>:5173` and sign in through Keycloak with **admin / admin** (change it afterwards in the Keycloak admin console on port 8180).
+Open `http://<HOST_IP>:5173` (or `http://<HOST_IP>` if you set `UI_PORT=80`) and sign in through Keycloak with **admin / admin** (change it afterwards in the Keycloak admin console on port 8180).
 
 ## 3. Initialize your catalogue
 

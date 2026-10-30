@@ -58,7 +58,7 @@ What the script does:
 
 | Service | URL | Login |
 |---|---|---|
-| Workflow Editor | `http://HOST_IP:5173` | `admin` / `admin` (Keycloak) |
+| Workflow Editor | `http://HOST_IP:5173`, or `http://HOST_IP` with `UI_PORT=80` | `admin` / `admin` (Keycloak) |
 | Keycloak admin | `http://HOST_IP:8180/admin` | `admin` / `admin` |
 | Backend API / Swagger | `http://HOST_IP:9090/swagger-ui/index.html` | Bearer token |
 | Airflow | `http://HOST_IP:8080` | `airflow` / `airflow` |
@@ -94,7 +94,7 @@ docker compose logs -f
 ```
 
 - **Worker Runtime unavailable** — backend and worker must share `WME_SERVICE_TOKEN`, port 8090 must be reachable and the agent needs `/var/run/docker.sock`.
-- **Port conflicts** — 5173, 8080, 8180 and 9090 must be free.
+- **Port conflicts** — the editor port (5173, or 80 with `UI_PORT=80`), 8080, 8180 and 9090 must be free.
 
 ## Tear down
 

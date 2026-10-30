@@ -11,31 +11,45 @@ WME authenticates users with **Keycloak** (OpenID Connect). The editor logs user
 
 ## Option A — the ready-made realm (recommended)
 
-`maize-mvp/Keycloak` runs Keycloak 24 (`start-dev --import-realm`, port **8180**) and imports a complete realm on first start:
+The [Maize MVP](/deploy/maize-mvp/) runs Keycloak 24 (`start-dev --import-realm`, port **8180**) from its `keycloak/` folder and imports a complete realm on first start. `make init` writes every value it needs into the MVP's root `.env`; `make up` starts it with the rest of the platform. To run Keycloak on its own, put these variables in a `.env` in `maize-mvp/keycloak` and run `docker compose up -d` there:
 
-```bash
-cd maize-mvp/Keycloak
-cp .env.example .env      # set HOST_IP
-docker compose up -d --build
-```
+| Variable | Purpose |
+|---|---|
+| `PUBLIC_HOST` | Host in the realm's redirect URIs and in the token issuer (`http://PUBLIC_HOST:8180/realms/datacrop-Platform`) |
+| `KEYCLOAK_ADMIN`, `KEYCLOAK_ADMIN_PASSWORD` | Master realm administrator |
+| `WME_ADMIN_PASSWORD` | Password of the realm's `admin` user (editor login) |
+| `KC_BACK_CLIENT_SECRET`, `KC_AIRFLOW_WRAPPER_SECRET` | Secrets of the confidential `datacrop-back` and `airflow-wrapper` clients |
 
-An init container renders `realm/realm-template.json` with your `HOST_IP` into the imported realm:
+An init container renders `realm/realm-template.json` with these values into the imported realm:
 
 | Item | Value |
 |---|---|
 | Realm | `datacrop-Platform` (registration disabled, SSL not required) |
-| Client `datacrop-front` | Public client for the editor; redirect URIs on `:5173` and `:5114`; client roles `admin`, `user` |
+| Client `datacrop-front` | Public client for the editor. Accepts the editor on port **80** (`http://PUBLIC_HOST/*`) and on **5173** (`http://PUBLIC_HOST:5173/*`); client roles `admin`, `user` |
 | Client `datacrop-back` | Confidential backend client with a service account; client roles `admin`, `user`, `uma_protection` |
 | Client `airflow-wrapper` | Confidential client with a service account (role `admin`) |
 | Groups | `admins` (admin role on front and back clients), `users` |
-| User | `admin` / `admin` in `/admins` |
+| User | `admin` / `WME_ADMIN_PASSWORD` in `/admins` |
 | Mapper | Adds the `userId` claim the backend requires |
 
-Keycloak admin console: `http://HOST_IP:8180/admin` (`KEYCLOAK_ADMIN` / `KEYCLOAK_ADMIN_PASSWORD`, default `admin` / `admin`). Add users there and put administrators in the `admins` group.
+Keycloak admin console: `http://PUBLIC_HOST:8180/admin` (`KEYCLOAK_ADMIN` / `KEYCLOAK_ADMIN_PASSWORD`). Add users there and put administrators in the `admins` group.
 
-:::caution[Backend client secret]
-The backend's `KEYCLOAK_CLIENT_SECRET` is left empty in the MVP and is not synchronized by `setup.sh`. Token validation works without it (the backend validates JWTs through the JWK set). If you need it, copy the `datacrop-back` client secret (`DATACROP_BACK_SECRET` in the Keycloak `.env`) into the backend `.env`.
+Keycloak imports the realm only when it does not exist yet. On every start, the `keycloak-config` container also adds any missing port-80 and 5173 redirect URIs, web origins and post-logout URIs to `datacrop-front`, so realms imported from older templates gain port-80 support on the next `make up`. It never removes entries.
+
+:::note[What the backend needs from Keycloak]
+The backend validates tokens with `KEYCLOAK_ISSUER_URI` (must equal the tokens' `iss`) and `KEYCLOAK_JWK_SET_URI`, and reads API roles from `KEYCLOAK_CLIENT_ID` (`datacrop-back`). It needs no client secret.
 :::
+
+## Serving the editor on port 80, 5173 or another address
+
+The editor's host port is `UI_PORT`: `5173` by default, or `80` so users open `http://PUBLIC_HOST`. Two settings must allow the editor's origin, the exact scheme, host and port the browser shows (port 80 has no `:80`):
+
+1. **Keycloak**, on the `datacrop-front` client:
+   - **Valid redirect URIs** and **Valid post logout redirect URIs**: `http://HOST/*` for port 80, `http://HOST:5173/*` for 5173.
+   - **Web origins**: `http://HOST` for port 80, `http://HOST:5173` for 5173.
+2. **Backend and assistant CORS**: `CORS_ALLOWED_ORIGINS`, a comma-separated list such as `http://HOST,http://HOST:5173`. The assistant runtime uses the same list.
+
+The MVP sets both for port 80 and 5173. For any other port, a domain name or HTTPS, add that origin in both places, for example `https://wme.example.org/*` and `https://wme.example.org`. If either is missing, Keycloak shows *Invalid parameter: redirect_uri* or the editor logs in but its API calls fail with CORS errors.
 
 ## Option B — your own Keycloak
 
@@ -76,29 +90,25 @@ Before starting, ensure you have:
      "adminUrl": "http://YOUR_IP",
      "baseUrl": "http://YOUR_IP",
      ```
-   - Update the **Redirect URIs**:
+   - Update the **Redirect URIs**. Keep the entries for the ports you serve the editor on: `http://YOUR_IP/*` for port 80, `http://YOUR_IP:5173/*` for 5173 (see [Serving the editor](#serving-the-editor-on-port-80-5173-or-another-address)):
      ```json
      "redirectUris": [
-       "http://YOUR_IP:5173/MainPage",
-       "http://YOUR_IP:5173/login",
-       "http://YOUR_IP:5173/*",
-       "http://YOUR_IP:5114/*",
-       "http://YOUR_IP:5173/MainPage/Lab"
+       "http://YOUR_IP/*",
+       "http://YOUR_IP:5173/*"
      ]
      ```
-   - Update the **Web Origins**:
+   - Update the **Web Origins**, without a trailing path:
      ```json
      "webOrigins": [
-       "/*",
-       "http://YOUR_IP:5173",
-       "http://YOUR_IP:5173/*",
-       "http://YOUR_IP:5114/*"
+       "http://YOUR_IP",
+       "http://YOUR_IP:5173"
      ]
      ```
    - For **Post Logout Redirect URIs**, use:
      ```json
-     "post.logout.redirect.uris": "http://YOUR_IP:5173/*##http://YOUR_IP:5173/login##http://YOUR_IP:5114/*"
+     "post.logout.redirect.uris": "http://YOUR_IP/*##http://YOUR_IP:5173/*"
      ```
+   - Add the same origins to the backend's `CORS_ALLOWED_ORIGINS`.
 
 2. **Configure Client Settings**:
    - Disable **Client Authentication** and **Authorization**.

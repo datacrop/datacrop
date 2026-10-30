@@ -34,7 +34,7 @@ docker compose -f docker-compose.registry.yaml pull
 docker compose -f docker-compose.registry.yaml up -d
 ```
 
-The `wme-ui` container serves the app with nginx on host ports **5173** and **80**. Settings are written into `/env-config.js` when the container starts. After editing `.env`, recreate the UI container with `docker compose up -d --force-recreate wme-ui` (include `-f docker-compose.registry.yaml` if using registry images); changing these values does not require rebuilding the image.
+The `wme-ui` container serves the app with nginx on host port `UI_PORT` (default **5173**; set `80` to serve it at `http://HOST`). Keycloak and the backend must allow the editor's origin for that port; see [Keycloak → Serving the editor](/deploy/manual/keycloak/#serving-the-editor-on-port-80-5173-or-another-address). Settings are written into `/env-config.js` when the container starts. After editing `.env`, recreate the UI container with `docker compose up -d --force-recreate wme-ui` (include `-f docker-compose.registry.yaml` if using registry images); changing these values does not require rebuilding the image.
 
 | Variable | Meaning |
 |---|---|
@@ -49,7 +49,7 @@ The `wme-ui` container serves the app with nginx on host ports **5173** and **80
 | `VITE_PROJECT_NAME` | Name shown in the header |
 | `VITE_DEFAULT_PRIMARY_COLOR` | Default theme colour (users can change it in Settings) |
 
-Open `http://HOST:5173`, log in, and run **Settings → Initialize Resources** (once per user).
+Open `http://HOST:5173` (or `http://HOST` with `UI_PORT=80`), log in, and run **Settings → Initialize Resources** (once per user).
 
 ## Workflow Assistant (Preview)
 
@@ -59,6 +59,6 @@ To enable the assistant:
 
 1. Deploy the backend with the runtime, from the `dev/ai-feature` branch of `maize-model-repository`. See [Model Repository → assistant-runtime](/deploy/manual/model-repository/#assistant-runtime-preview).
 2. Leave `VITE_ASSISTANT_URL` blank if the runtime is on the backend host at port 8200. Otherwise, set it to the runtime's public URL.
-3. Make sure the editor's origin (for example `http://HOST:5173`) is allowed by the runtime's `ASSISTANT_CORS_ORIGINS`.
+3. Make sure the editor's origin (for example `http://HOST` on port 80 or `http://HOST:5173`) is in the backend's `CORS_ALLOWED_ORIGINS`, which the runtime also uses.
 
 The assistant uses the AI provider configured in the backend or in each user's settings and needs a model with **tool calling**. See [AI providers](/deploy/ai-providers/) and [Assistant runtime](/developers/assistant-runtime/).
