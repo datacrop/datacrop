@@ -24,10 +24,23 @@ Open **Settings** from the bottom of the rail or by clicking your initials. Chan
 
 - the 9 data interface types and 9 data kinds,
 - the *Worker* asset category,
-- the built-in **Logstash Pipeline** and your own copies of the bundled GitHub processors (plus any `extra-processors.json` the administrator shipped),
+- the built-in **Logstash Pipeline** and the bundled GitHub processors, one shared, WME-managed copy each for the whole instance (plus any `extra-processors.json` the administrator shipped),
 - then imports the Celery workers visible in Flower.
 
 It is safe to run again. Run it once for every user who will build workflows.
+
+## Shared Library
+
+Copies everything shared on this instance to another one, for example to start a new project or deployment from an existing setup.
+
+- **Export shared library** shows how many workflows, templates and other items are shared, and downloads them as one `<host>-library.maize.json` file. Anyone can export.
+  - Workers are left out; each processor remembers its worker's name.
+  - Secret values are left empty.
+  - Two identical items with the same name are written once.
+- **Import library** *(admin only)* reads such a file. Review what will be reused, created or renamed, then pick one of your workers for each worker the file's workflows used. The import then runs in the background and lists each item as it finishes.
+  - Imported items belong to you and are shared with everyone.
+  - Workflows are saved but not deployed.
+  - A workflow or template whose name is already taken is skipped.
 
 ## Registry Credentials
 
