@@ -31,7 +31,7 @@ description: Fixes for the most common problems, grouped by where you notice the
 | **Save** is disabled | Set a workflow name; if **Requires Scheduler** is on, set a schedule. |
 | **Run** is disabled after saving | Airflow is loading the new DAG (short countdown) or a processor is still being provisioned (button shows *Provisioning*; hover for details). |
 | A connection is refused | The processor does not support that resource's interface type, or you tried to link two resources. Check the definition's **Interfaces** step. |
-| The run fails in Airflow | Open **3. Airflow Runs**, select the failed step and read its log. Typical causes: image cannot be pulled (add [registry credentials](/user-guide/settings/#registry-credentials)), worker cannot reach a resource, processor exits on a missing parameter. |
+| The run fails in Airflow | Open **3. Airflow Runs**, select the failed step and read its log. Typical causes: image cannot be pulled (the log says *No registry credentials for …* or *Pull of … failed*: add [registry credentials](/user-guide/settings/#registry-credentials) for that host, or ask the definition's owner to), worker cannot reach a resource, processor exits on a missing parameter. |
 | The DAG does not appear | Check **Airflow Runs** for import errors; DAG files are written by the backend into Airflow's `dags/` folder ([Deploy → Airflow](/deploy/manual/airflow/)). |
 
 ## Running processors

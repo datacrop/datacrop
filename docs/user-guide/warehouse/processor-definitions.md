@@ -35,7 +35,7 @@ Choose how the processor runs:
 
 | Mode | You provide | What WME does |
 |---|---|---|
-| **Single container** | A **container image** reference (e.g. `ghcr.io/acme/detector:1.4`) | Runs it with `docker run -d` on the selected worker, passing parameters and resource settings as `-e` variables. Private registries use the credentials from [Settings → Registry Credentials](/user-guide/settings/#registry-credentials). |
+| **Single container** | A **container image** reference (e.g. `ghcr.io/acme/detector:1.4`) | Runs it with `docker run -d` on the selected worker, passing parameters and resource settings as `-e` variables. Private registries use the credentials from [Settings → Registry Credentials](/user-guide/settings/#registry-credentials): the definition owner's, so sharing the definition lets others pull it. The image field says which registry the image needs. |
 | **Compose application** | A **GitHub repository URL**, **branch or tag** (default `main`), optional **compose directory** (where `docker-compose.yml` / `compose.yaml` lives) and optional **access token** from [Settings → GitHub Tokens](/user-guide/settings/#github-tokens) | Clones the repository onto every worker ("provisioning"), then runs `docker compose up -d` with a generated `.env`. |
 
 <Screenshot src="/img/screens/pd-runtime.jpg" caption="Runtime: single container or Compose application from GitHub." />
