@@ -35,10 +35,15 @@ Choose how the processor runs:
 
 | Mode | You provide | What WME does |
 |---|---|---|
-| **Single container** | A **container image** reference (e.g. `ghcr.io/acme/detector:1.4`) | Runs it with `docker run -d` on the selected worker, passing parameters and resource settings as `-e` variables. Private registries use the credentials from [Settings → Registry Credentials](/user-guide/settings/#registry-credentials): the definition owner's, so sharing the definition lets others pull it. The image field says which registry the image needs. |
+| **Single container** | A **container image** reference (e.g. `ghcr.io/acme/detector:1.4`) | Runs it with `docker run -d` on the selected worker, passing parameters and resource settings as `-e` variables. Private registries use the credentials from [Settings → Registry Credentials](/user-guide/settings/#registry-credentials): the definition owner's, so sharing the definition lets others pull it. The image field says which registry the image needs. You can also pick the credential and list the image's ports; see below. |
 | **Compose application** | A **GitHub repository URL**, **branch or tag** (default `main`), optional **compose directory** (where `docker-compose.yml` / `compose.yaml` lives) and optional **access token** from [Settings → GitHub Tokens](/user-guide/settings/#github-tokens) | Clones the repository onto every worker ("provisioning"), then runs `docker compose up -d` with a generated `.env`. |
 
 <Screenshot src="/img/screens/pd-runtime.jpg" caption="Runtime: single container or Compose application from GitHub." />
+
+For a single container the step has two more settings:
+
+- **Registry credential**: *Automatic (match by registry)* uses your first account for the image's registry. If you keep several accounts for one registry, pick the one this image needs; users you share the definition with pull with it too, without seeing it. Changing the image to another registry resets this to Automatic. If you later delete the account from Settings, runs fall back to automatic matching.
+- **Ports the image listens on**: the port number, `tcp` or `udp`, and an optional name for each. Without any, nothing is reachable from outside the worker. Each processor publishes these on its worker; see [Configuring processors](/user-guide/workflow-lab/configuring-processors/). The container uses Docker's default bridge network, not the Maize network.
 
 For Compose applications the step also shows **Provisioning status** — one row per worker with *Status*, *Last attempt* and *Error*. Use **Refresh** to update it and **Re-provision** to clone again (for example after pushing a fix to the repository).
 
@@ -57,6 +62,8 @@ Definitions created by uploading a compose file (older WME versions) show a *Git
 ### 4. Parameters
 
 The settings your component reads from its environment. For each parameter set a **Display name**, **Environment key** (the variable name, e.g. `WINDOW_SECONDS`), **Help text**, **Data type** (String, Integer, Float, Double, Boolean, Date, Object, List, Map) and a **Default value**. In a workflow, users fill these per processor in the *Processor Parameters* table.
+
+The **Environment key** must be a valid environment variable name: letters, digits and underscores, not starting with a digit. The form warns about any other key, because such a parameter never reaches the container.
 
 <Screenshot src="/img/screens/pd-parameters.jpg" caption="Parameters: display names, environment keys, help text, types and defaults." />
 

@@ -49,8 +49,9 @@ Credentials for pulling **single-container** processor images from private regis
 - Required: registry URL and username; a password/token for new entries.
 - Stored tokens are masked (`********`); leave the field empty when editing to keep the stored value.
 - Images without a registry host (`myorg/app:1.0`) come from Docker Hub, so add them as `docker.io`.
+- You can add several accounts for one registry. A new account needs its own token. A processor definition can [pick one](/user-guide/warehouse/processor-definitions/#2-runtime); otherwise the first listed for that registry is used.
 - Tokens are stored encrypted, copied to Airflow as masked Variables and never written into DAG files. The deployment task logs in with them before pulling the image.
-- When you share a processor definition, other users' runs pull its image with **your** credentials for that registry (they never see the token). For a definition someone shared with you, the owner's credentials are used, and yours only if the owner has none for that registry.
+- When you share a processor definition, other users' runs pull its image with **your** credentials for that registry: the account you picked on the definition, else your first (they never see the token). For a definition someone shared with you, the owner's credentials are used, and yours only if the owner has none for that registry.
 
 ## GitHub Tokens
 

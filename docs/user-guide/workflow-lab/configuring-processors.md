@@ -33,6 +33,15 @@ One row per parameter of the definition: **Name**, **Environment Variable** and 
 
 <Screenshot src="/img/screens/pm-params.jpg" caption="Processor parameters and their environment variable names." />
 
+## Published Ports
+
+Shown when the definition is a single container that lists the [ports its image listens on](/user-guide/warehouse/processor-definitions/#2-runtime). One row per port:
+
+- **Host port**: where it is reachable on the worker's address. It defaults to the same number. A host port can only be used by one processor on a worker, so a second processor of the same definition on that worker needs another one. WME can only check its own processors: if something else on the machine holds the port, the deployment fails when the container starts.
+- **Host address** (optional): an IP address of the worker to bind to, for example `127.0.0.1`. Empty means all interfaces.
+
+The container finds its host port in `WME_PORT_<port>`, for example `WME_PORT_80=18080`. Deploying again replaces the processor's previous container.
+
 ## Derived Environment Variables
 
 A read-only table — tagged *Auto-injected* — of the variables WME will add to the container for every parameter of every connected resource:
