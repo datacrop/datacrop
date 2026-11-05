@@ -17,7 +17,7 @@ Each definition shows an ownership chip:
 
 - **Mine** — you created it (Initialize Resources also creates your own editable copies of the bundled processors).
 - **Shared** — owned by someone else; read-only. **Duplicate** it to get an editable copy.
-- **WME managed** — built into WME (for example **Logstash Pipeline**); read-only.
+- **WME managed** — built into WME (for example **Logstash Pipeline**); read-only. If one comes from a private repository, its owner or an admin can pick its **access token**.
 
 A definition that is used by any processor in a workflow cannot be deleted.
 
